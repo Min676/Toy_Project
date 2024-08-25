@@ -58,5 +58,15 @@ public class ProductController {
 		}
 	}
 
+	public static void productSelectByCategory(int categorySeq){
+		try {
+			List<Products> list = productService.productSelectByCategory(categorySeq);
+			EndView.printProductsList(list);
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+        } catch (NotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+        }
+    }
 
 }
