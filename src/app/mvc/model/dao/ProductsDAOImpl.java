@@ -57,8 +57,24 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public int productDeleteByProductId(int product_id) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement("DELETE FROM products WHERE product_id = ?");
+			ps.setInt(1, product_id);
+
+			int rowsAffected = ps.executeUpdate();
+
+			if (rowsAffected > 0) {
+				result = 1; // 삭제 성공 시 1 반환
+			}
+		} finally {
+			DbManager.close(con, ps, null);
+		}
+		return result;
 	}
 
 	@Override
