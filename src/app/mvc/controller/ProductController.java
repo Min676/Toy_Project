@@ -1,5 +1,6 @@
 package app.mvc.controller;
 
+import app.mvc.exception.ModifyException;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.Products;
 import app.mvc.model.service.ProductService;
@@ -34,6 +35,17 @@ public class ProductController {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
+
+	public static void productUpdateByProductId(int product_id, Products products) {
+		try {
+			productService.productUpdateByProductId(product_id, products);
+			EndView.printMessage("수정되었습니다!");
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+        } catch (ModifyException e) {
+			FailView.errorMessage(e.getMessage());
+        }
+    }
 
 
 }
