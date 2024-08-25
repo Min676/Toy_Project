@@ -12,6 +12,7 @@ import app.mvc.session.SessionSet;
 
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
+	static UserController userController = new UserController();
 
 	public static void menu() {
 		while (true) {
@@ -23,6 +24,7 @@ public class MenuView {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
 			case 1:
+				printUserMenu("user1");
 				// MenuView.register(); // 가입
 				break;
 			case 2:
@@ -89,7 +91,7 @@ public class MenuView {
 		System.out.print("비번 : ");
 		String userPwd = sc.nextLine();
 
-		UserController.login(userId, userPwd);
+		userController.login(userId, userPwd);
 	}
 
 	/**
