@@ -35,8 +35,24 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public Products productSelectByProductId(int product_id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Products products =null;
+		try {
+			con = DbManager.getConnection();
+			ps= con.prepareStatement("select * from products where product_id=?");
+			ps.setInt(1, product_id);
+			rs = ps.executeQuery();
+
+			if(rs.next()) {
+				products  =  new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+
+			}
+		}finally {
+			DbManager.close(con, ps, rs);
+		}
+		return products;
 	}
 
 	@Override
