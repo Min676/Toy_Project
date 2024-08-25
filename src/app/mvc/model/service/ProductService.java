@@ -19,6 +19,14 @@ public class ProductService {
         return list;
     }
 
+    public Products productSelectByProductId(int product_id) throws NotFoundException, SQLException{
+       Products products = productsDAO.productSelectByProductId(product_id);
+        if (products == null) {
+            throw new NotFoundException("상품번호 " + product_id + "에 해당하는 상품이 없습니다");
+        }
+        return products;
+    }
+
 
 
 
