@@ -69,7 +69,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			int rowsAffected = ps.executeUpdate();
 
 			if (rowsAffected > 0) {
-				result = 1; // 삭제 성공 시 1 반환
+				result = 1;
 			}
 		} finally {
 			DbManager.close(con, ps, null);
@@ -78,9 +78,28 @@ public class ProductsDAOImpl implements ProductsDAO {
 	}
 
 	@Override
-	public int productUpdateByProductId(int product_id) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int productUpdateByProductId(int product_id , Products products) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement("UPDATE products SET name = ?, INFO = ? ,PRICE = ? WHERE product_id = ?");
+			ps.setString(1, products.getName());
+			ps.setString(2, products.getInfo());
+			ps.setInt(3, products.getPrice());
+			ps.setInt(4, product_id);
+
+			int rowsAffected = ps.executeUpdate();
+
+			if (rowsAffected > 0) {
+				result = 1;
+			}
+		} finally {
+			DbManager.close(con, ps, null);
+		}
+		return result;
 	}
 
 	@Override
