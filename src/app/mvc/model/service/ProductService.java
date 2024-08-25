@@ -35,6 +35,13 @@ public class ProductService {
         return result;
     }
 
+    public int productDeleteByProductId(int product_id) throws ModifyException , SQLException{
+        int result =0;
+        result = productsDAO.productDeleteByProductId(product_id);
+        if(result == 0) throw new ModifyException("상품이 삭제되지 않았습니다");
+        return result;
+    }
+
 
 
 
