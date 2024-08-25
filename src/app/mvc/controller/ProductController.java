@@ -39,13 +39,24 @@ public class ProductController {
 	public static void productUpdateByProductId(int product_id, Products products) {
 		try {
 			productService.productUpdateByProductId(product_id, products);
-			EndView.printMessage("수정되었습니다!");
+			EndView.printMessage("제품번호 " + product_id + "가 수정되었습니다!");
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
         } catch (ModifyException e) {
 			FailView.errorMessage(e.getMessage());
         }
     }
+
+	public static void productDeleteByProductId(int product_id) {
+		try {
+			productService.productDeleteByProductId(product_id);
+			EndView.printMessage("제품번호 " + product_id + "가 삭제되었습니다!");
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (ModifyException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 
 }
