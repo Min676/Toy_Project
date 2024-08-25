@@ -1,5 +1,6 @@
 package app.mvc.model.service;
 
+import app.mvc.exception.ModifyException;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dao.ProductsDAO;
 import app.mvc.model.dao.ProductsDAOImpl;
@@ -25,6 +26,13 @@ public class ProductService {
             throw new NotFoundException("상품번호 " + product_id + "에 해당하는 상품이 없습니다");
         }
         return products;
+    }
+
+    public int productUpdateByProductId(int product_id,Products products) throws ModifyException,SQLException {
+        int result =0;
+        result = productsDAO.productUpdateByProductId(product_id,products);
+        if(result == 0) throw new ModifyException("상품이 수정되지 않았습니다");
+        return result;
     }
 
 
