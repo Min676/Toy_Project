@@ -42,6 +42,14 @@ public class ProductService {
         return result;
     }
 
+    public List<Products> productSelectByCategory(int categorySeq) throws NotFoundException,SQLException{
+        List<Products> list = productsDAO.productSelectByCategory(categorySeq);
+        if (list.size() == 0) {
+            throw new NotFoundException("카테고리 번호를 확인해주세요");
+        }
+        return list;
+    }
+
 
 
 

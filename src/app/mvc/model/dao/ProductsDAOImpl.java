@@ -103,7 +103,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 	}
 
 	@Override
-	public List<Products> productSeelctByCategory(int categorySeq) throws SQLException {
+	public List<Products> productSelectByCategory(int categorySeq) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;

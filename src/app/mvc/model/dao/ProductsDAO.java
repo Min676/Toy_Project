@@ -31,7 +31,7 @@ public interface ProductsDAO {
 	/**
 	 * categorySeq에 해당하는 상품 전체 검색
 	 */
-	List<Products> productSeelctByCategory(int categorySeq) throws SQLException;
+	List<Products> productSelectByCategory(int categorySeq) throws SQLException;
 	
 	
 
