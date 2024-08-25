@@ -104,8 +104,24 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public List<Products> productSeelctByCategory(int categorySeq) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<Products> list = new ArrayList<>();
+		try {
+			con = DbManager.getConnection();
+			ps= con.prepareStatement("select * from Products where CATEGORY_SEQ = ?");
+			ps.setInt(1, categorySeq);
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				list.add(products);
+			}
+		}finally {
+			DbManager.close(con, ps, rs);
+		}
+		return list;
 	}
 
 }
