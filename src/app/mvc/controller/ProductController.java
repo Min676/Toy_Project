@@ -23,4 +23,17 @@ public class ProductController {
 			FailView.errorMessage(e.getMessage());
         }
     }
+
+	public static void productSelectByProductId(int product_id) {
+		try {
+			Products products = productService.productSelectByProductId(product_id);
+			EndView.printMessage(products.toString());
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (NotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+
 }
