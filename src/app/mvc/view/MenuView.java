@@ -54,7 +54,7 @@ public class MenuView {
 
 			System.out.println("-----" + userId + " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
-			int menu = sc.nextInt();
+			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
 			case 1:
 				logout(userId);//
@@ -149,14 +149,14 @@ public class MenuView {
 	public static void printProduct() {
 		System.out.println("====================== 상품 보기 ===============================");
 		System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기 ");
-		int menu = sc.nextInt();
+		int menu = Integer.parseInt(sc.nextLine());
 		switch (menu) {
 		case 1:
 			ProductController.productSelect();// 전체 상품조회
 			break;
 		case 2:
 			System.out.println("카테고리를 선택해주세요 (1. 커피 2. 음료 3. 디저트 4. 기타 ");
-			int categoryNum = sc.nextInt();
+			int categoryNum = Integer.parseInt(sc.nextLine());
 			ProductController.productSelectByCategory(categoryNum);
 			break;
 		case 3:
@@ -176,7 +176,7 @@ public class MenuView {
 		while (true) {
 			System.out.println("======================ADMIN_MENU===============================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
-			int menu = sc.nextInt();
+			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
 			case 1:
 				menu();
@@ -206,7 +206,7 @@ public class MenuView {
 		while (true) {
 			System.out.println("======================통계===============================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. 메뉴 돌아가기");
-			int menu = sc.nextInt();
+			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
 			case 1:
 				StatisController.selectTotal();
@@ -232,7 +232,7 @@ public class MenuView {
 		System.out.println("\t 2.음료");
 		System.out.println("\t 3.디저트");
 		System.out.print("입력 : ");
-		int selecNum = sc.nextInt();
+		int selecNum = Integer.parseInt(sc.nextLine());
 		
 		switch (selecNum) {
 		case 1:
@@ -255,9 +255,9 @@ public class MenuView {
 		System.out.println("등록할 상품정보를 입력해주세요");
 		String info = sc.next();
 		System.out.println("등록할 상품의 가격을 입력해주세요");
-		int price = sc.nextInt();
+		int price = Integer.parseInt(sc.nextLine());
 		System.out.println("등록할 상품의 카테고리 분류를 입력해주세요(1. 커피 2. 음료 3. 디저트 4. 기타");
-		int category = sc.nextInt();
+		int category = Integer.parseInt(sc.nextLine());
 
 		Products products = new Products(name, info, price, category);
 		ProductController.productInsert(products);
@@ -267,13 +267,13 @@ public class MenuView {
 
 		System.out.println("====================== 상품 수정 ===============================");
 		System.out.println("수정할 상품명ID를 입력해주세요");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(sc.nextLine());
 		System.out.println("등록할 상품명을 입력해주세요");
 		String name = sc.next();
 		System.out.println("등록할 상품정보를 입력해주세요");
 		String info = sc.next();
 		System.out.println("등록할 상품의 가격을 입력해주세요");
-		int price = sc.nextInt();
+		int price = Integer.parseInt(sc.nextLine());
 
 		Products products = new Products(id, name, info, price);
 		ProductController.productUpdateByProductId(products);
@@ -283,7 +283,7 @@ public class MenuView {
 
 		System.out.println("====================== 상품 삭제 ===============================");
 		System.out.println("삭제할 상품명ID를 입력해주세요");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(sc.nextLine());
 		ProductController.productDeleteByProductId(id);
 
 	}
