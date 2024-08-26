@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import app.mvc.model.dto.Statisics;
 
 public class StatisticsDAOImpl implements StatisticsDAO {
-
+	//select (select sum(total_price) from orders)as totalPrice, (select count(*) from orders)as count from orders;
 	@Override
 	public Statisics totalStat() throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
