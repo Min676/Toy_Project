@@ -144,12 +144,52 @@ public class MenuView {
 				
 				break;
 			case 4:
-				StatisController.selectTotal();
+				totalMenu();
 				break;
 			}
 		}
 
 	}
 	
-
+	public static void totalMenu() {
+		while (true) {
+			System.out.println("======================통계===============================");
+			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch (menu) {
+			case 1:
+				StatisController.selectTotal();
+				break; 
+			case 2:
+				cat_selec();
+				break;
+			case 3:
+				
+				break;
+			case 4:
+				StatisController.selectTotal();
+				break;
+			}
+		}
+	}
+	
+	public static void cat_selec() {
+		System.out.println("\t 1.커피");
+		System.out.println("\t 2.음료");
+		System.out.println("\t 3.디저트");
+		System.out.print("입력 : ");
+		int selecNum = sc.nextInt();
+		switch (selecNum) {
+		case 1:
+			StatisController.selectTotal();
+			break; 
+		case 2:
+			StatisController.selectTotal();
+			break;
+		case 3:
+			StatisController.selectTotal();
+			break;
+		}
+		
+	}
 }
