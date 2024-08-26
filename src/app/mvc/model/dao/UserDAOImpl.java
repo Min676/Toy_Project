@@ -36,6 +36,11 @@ public class UserDAOImpl implements UserDAO {
 		   
 	       
 	        result = ps.executeUpdate(); //저장
+	        
+	        if (result > 0) { // 저장이 성공했을 때
+                System.out.println("회원 가입이 성공적으로 완료되었습니다.");
+            }
+	        
     }finally {
     	DbManager.close(con, ps, rs); //자원반환
     }
@@ -83,12 +88,12 @@ public class UserDAOImpl implements UserDAO {
 		  ResultSet rs=null;
 		  Users user=null;
 		 try {
-		   con = DbManager.getConnection();
-		   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?");
-		   ps.setString(1, userId);
-		   ps.setString(2, pw);
+		   con = DbManager.getConnection(); //db연결
+		   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?"); //sql문 입력
+		   ps.setString(1, userId); //userid입력받음
+		   ps.setString(2, pw); 	//pw 입력받음
 		   
-	        rs = ps.executeQuery(); 	
+	        rs = ps.executeQuery(); 	//sql쿼리생성 , rs에 집어넣는줄.
 	        if(rs.next()) {
 	        	user= new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getInt(6),rs.getInt(7));
 	        }
