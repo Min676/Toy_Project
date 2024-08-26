@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import app.mvc.controller.CartController;
 import app.mvc.controller.ProductController;
+import app.mvc.controller.StatisController;
 import app.mvc.controller.UserController;
 import app.mvc.controller.OrderController;
 import app.mvc.model.dto.Orders;
@@ -140,6 +141,7 @@ public class MenuView {
 				ProductController.productSelect();// 전체 상품조회
 				break;
 			case 3:
+				StatisController.selectTotal();
 				break;
 			case 4:
 				break;
