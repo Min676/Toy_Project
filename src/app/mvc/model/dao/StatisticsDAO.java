@@ -13,13 +13,13 @@ public interface StatisticsDAO {
 	/**
 	 * 일별 주문 통계
 	 * */
-	Statisics dayTotalStat(int date)throws SQLException;
+	Statisics dayTotalStat()throws SQLException;
 	
 	
 	/**
 	 * 월별 주문 통계
 	 * */
-	Statisics monthTotalStat(int month)throws SQLException;
+	Statisics monthTotalStat()throws SQLException;
 	
 	
 	/**

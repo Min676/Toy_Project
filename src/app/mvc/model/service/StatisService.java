@@ -13,4 +13,21 @@ public class StatisService {
 		Statisics s= dao.totalStat();
 		return s;
 	}
+	
+	public Statisics selectTotalDay() throws SQLException {
+		Statisics s= dao.dayTotalStat();
+		return s;
+	}
+	
+	public Statisics selectTotalMonth() throws SQLException {
+		Statisics s= dao.monthTotalStat();
+		return s;
+	}
+
+	public Statisics selectCatTotal(int n) throws SQLException {
+		Statisics s= dao.categoryTotalStat(n);
+		return s;
+	}
+	
+	
 }

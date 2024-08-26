@@ -101,7 +101,6 @@ public class UserDAOImpl implements UserDAO {
       	DbManager.close(con, ps, rs);
       }
 		return user;
-
 	}
 	/**
 	 * 회원정보 보기
@@ -152,6 +151,7 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 수정
 	 * */
 	@Override
+<<<<<<< HEAD
 	public int changeInfoUser(String userId, String pw) throws SQLException {
 		Connection con=null;
 		  PreparedStatement ps=null;
@@ -165,6 +165,10 @@ public class UserDAOImpl implements UserDAO {
 		  } finally {
 	            DbManager.close(con, ps, null);
 	        }
+=======
+	public int selectUser(String userId, String pw) throws SQLException {
+
+>>>>>>> 98ac81bb4a4e487594d9294b50f6cecfecfae25b
 		return 0;
 	}
 	/**
@@ -172,6 +176,7 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public int cancleUser(String userId, String pw) throws SQLException {
+<<<<<<< HEAD
 		Connection con=null;
 		  PreparedStatement ps=null;
 		  Users user=null;
@@ -184,6 +189,8 @@ public class UserDAOImpl implements UserDAO {
 		  } finally {
 	            DbManager.close(con, ps, null);
 	        }
+=======
+>>>>>>> 98ac81bb4a4e487594d9294b50f6cecfecfae25b
 		return 0;
 	}
 	
@@ -208,7 +215,6 @@ public class UserDAOImpl implements UserDAO {
 		} finally {
 			DbManager.close(null, ps, rs);
 		}
-		
 		return user;
 	}
 
