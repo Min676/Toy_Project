@@ -136,7 +136,7 @@ public class MenuView {
 		System.out.print("사이즈 : ");
 		int selectSize = Integer.parseInt(sc.nextLine());
 		
-		Orders order = new Orders(0, 0, null, 0, 0);
+		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, goodsId, goodsCnt, selectSize);
 		
 		order.getOrderItemList().add(orderItem);

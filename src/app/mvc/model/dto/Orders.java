@@ -9,16 +9,18 @@ public class Orders {
 	private String orderDate;
 	private int totalPrice;
 	private int status;
+	private String userId;
 	
 	public Orders() {}
 
-	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status) {
+	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status, String userId) {
 		super();
 		this.orderId = orderId;
 		this.userSeq = userSeq;
 		this.orderDate = orderDate;
 		this.totalPrice = totalPrice;
 		this.status = status;
+		this.userId = userId;
 	}
 	
 	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status,
@@ -85,6 +87,14 @@ public class Orders {
     public void setStatus(int status) {
         this.status = status;
     }
+    
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
 	@Override
 	public String toString() {

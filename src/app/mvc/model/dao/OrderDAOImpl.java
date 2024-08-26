@@ -10,27 +10,33 @@ import java.util.List;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
+import app.mvc.model.dto.Users;
 import app.mvc.util.DbManager;
 
 public class OrderDAOImpl implements OrderDAO {
 	
 	ProductsDAO productsDAO = new ProductsDAOImpl();
+	UserDAO userDAO = new UserDAOImpl();
 	
 	@Override
 	public int orderInsert(Orders order) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDERS (ORDER_ID, USER_SEQ, ORDER_DATE, TOTAL_PRICE, STATUS)"
-				+ "VALUES (ORDER_ID.NEXTVAL, USERSEQ.CURRVAL, SYSDATE, ?, 1";
+				+ "VALUES (ORDER_ID.NEXTVAL, ?, SYSDATE, ?, 1)";
 		int result = 0;
 		
 		try {
 			con = DbManager.getConnection();
+			con.setAutoCommit(false); // 자동커밋 해지
 			ps = con.prepareStatement(sql);
 			//ps.setInt(1, 상품가격*개수+상품가격*개수)
 			int totalPrice = this.getTotalPrice(order);
 			order.setTotalPrice(totalPrice);
-			ps.setInt(1, totalPrice);
+			Users user = userDAO.getUserSeq(con, order.getUserId());
+			order.setUserSeq(user.getUserSeq());
+			ps.setInt(1, user.getUserSeq());
+			ps.setInt(2, totalPrice);
 			result = ps.executeUpdate();
 			if (result ==0) { // 트랜잭션 롤백
 				con.rollback();
@@ -46,7 +52,7 @@ public class OrderDAOImpl implements OrderDAO {
 				}
 				// wallet 업데이트
 				result = this.chargeWallet(con, order);
-				if(result ==0) {
+				if(result == 0) {
 					con.rollback();
 					throw new SQLException("지갑에서 주문금액 결제 실패");
 				}
@@ -67,7 +73,7 @@ public class OrderDAOImpl implements OrderDAO {
 	 */
 	public int [] orderItemInsert(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO ORDER_ITEM (ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, QUANTITY, SELECT_SIZE"
+		String sql = "INSERT INTO ORDERS_ITEM (ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, QUANTITY, SELECT_SIZE)"
 				+ "VALUES (ORDER_ITEM_ID_SEQ.NEXTVAL, ORDER_ID.CURRVAL, ?, ?, ?)";
 		int [] result = null;
 		
@@ -112,7 +118,7 @@ public class OrderDAOImpl implements OrderDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Orders orders = new Orders (rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				Orders orders = new Orders (rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
 				
 				List<OrderItem> orderItemList = this.selectOrderItem(orders.getOrderId());
 				
@@ -187,6 +193,8 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return result;
 	}
+	
+
 
 
 }

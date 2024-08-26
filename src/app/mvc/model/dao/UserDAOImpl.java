@@ -81,5 +81,30 @@ public class UserDAOImpl implements UserDAO {
 		
 		return 0;
 	}
+	
+	/**
+	 * user_seq 가져오는 메소드
+	 */
+	public Users getUserSeq(Connection con, String userId) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * FROM USERS WHERE USER_ID = ?";
+		Users user = null;
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, userId);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				user = new Users (rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6), rs.getInt(7));
+			}
+		} finally {
+			DbManager.close(null, ps, rs);
+		}
+		
+		return user;
+	}
 
 }
