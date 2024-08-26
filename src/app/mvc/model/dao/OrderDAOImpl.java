@@ -126,9 +126,10 @@ public class OrderDAOImpl implements OrderDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Orders orders = new Orders (rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+				Orders orders = new Orders (rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), userId);
 				
 				List<OrderItem> orderItemList = this.selectOrderItem(orders.getOrderId());
+				orders.setOrderItemList(orderItemList);
 				
 				list.add(orders);
 			}
