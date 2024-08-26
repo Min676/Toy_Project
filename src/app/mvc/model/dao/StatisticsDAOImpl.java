@@ -15,7 +15,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 	/*
 	 *  select sum(total_price) from orders;--총계(int)
 		select sum(quantity) from orders join orders_item using(order_id); --총 주문(int)
-		select category_seq,count(*) from orders join orders_item using(order_id) join products using(product_id) group by category_seq; --카테고리별 주문(List<int>)
+		select category_seq,count(*) from orders join orders_item using(order_id) join products using(product_id) group by category_seq order by category_seq; --카테고리별 주문(List<int>)
 		select *from max_product_info; --제일 많이 팔린 상품 정보(Products)
 		select name from user_max_info; --제일 많이 주문한 유저(String)
 	 * */
@@ -90,24 +90,25 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 	}
 	
 	
-	public int listCat() throws SQLException{
+	public List<Integer> listCat() throws SQLException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int sum=0;
+		List<Integer> list = null;
+		int catSeq=0;
 		
 		try {
 			con = DbManager.getConnection();
-			ps = con.prepareStatement("select sum(quantity) from orders join orders_item using(order_id)");
+			ps = con.prepareStatement("select category_seq,count(*) from orders join orders_item using(order_id) join products using(product_id) group by category_seq order by category_seq");
 			rs = ps.executeQuery();
-			if(rs.next()) {
-				sum = rs.getInt(1);
+			while(rs.next()) {
+				catSum =rs.getInt(1);
 			}
 		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		
-		return sum;
+		return list;
 	}
 	
 	
