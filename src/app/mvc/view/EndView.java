@@ -40,7 +40,13 @@ public class EndView {
 		   System.out.println(order.getOrderId()+ " | " + order.getOrderDate() +" | " + order.getTotalPrice());
 		   
 		   for(OrderItem orderItem : order.getOrderItemList()) {
-			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId() + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + orderItem.getSelecSize());
+			   String size = null;
+			   if(orderItem.getSelecSize() == 1) {
+				   size = "Tall";
+			   } else {
+				   size = "Grande";
+			   }
+			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId() + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + size);
 		   }
 		   System.out.println();
 	   }

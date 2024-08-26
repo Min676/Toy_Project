@@ -134,18 +134,21 @@ public class MenuView {
 		System.out.print("주문상품번호 : ");
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int goodsCnt = sc.nextInt();
+		int productsCnt = sc.nextInt();
 		System.out.print("사이즈 : ");
 		int selectSize = sc.nextInt();
 		
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
-		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
+		OrderItem orderItem = new OrderItem(0, 0, productsId, productsCnt, selectSize);
 		OrderOptionList orderOptionList = null;
 		int optionCnt = 0;
 		
-		System.out.println("옵션 선택");
+		System.out.println("옵션을 선택해주세요.");
 		while(true) {
-			System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 덜 달게 | 6. 보통 달기 | 7. 달게 | 8. 옵션 선택 종료");
+			System.out.println("=====================커피 옵션=====================");
+			System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가");
+			System.out.println("=====================음료 옵션=====================");
+			System.out.println("5. 덜 달게 | 6. 보통 달기 | 7. 달게 | 8. 옵션 선택 안함");
 			int option = sc.nextInt();
 			if(option != 8) {
 				System.out.print("옵션 수량 선택 : ");
@@ -176,7 +179,7 @@ public class MenuView {
 		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
 		order.getOrderItemList().add(orderItem);
 		
-		// 옵션 정보를 추가로 입력받을지 상품정보로 판별
+		// 옵션 정보를 카트에 어떻게 포함시킬 수 있을지...
 		if(OrderController.selectOption(productsId, orderItem) != null)		
 		CartController.putCart(userId, productsId, goodsCnt, selectSize);
 	}
