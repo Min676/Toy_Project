@@ -6,6 +6,8 @@ import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
 import app.mvc.controller.StatisController;
 import app.mvc.controller.UserController;
+import app.mvc.model.dto.OrderItem;
+import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Users;
 import app.mvc.session.Session;
@@ -160,11 +162,19 @@ public class MenuView {
 	 * 상품 선택
 	 */
 	public static void printInputOrder(String userId) {
-		int breakPoint = 1;
-		while (breakPoint == 1) {
-			System.out.print("주문상품번호 : ");
-			String goodsId = sc.nextLine();
-		}
+		System.out.print("주문상품번호 : ");
+		int goodsId = Integer.parseInt(sc.nextLine());
+		System.out.print("상품 개수 : ");
+		int goodsCnt = Integer.parseInt(sc.nextLine());
+		System.out.print("사이즈 : ");
+		int selectSize = Integer.parseInt(sc.nextLine());
+		
+		Orders order = new Orders(0, 0, null, 0, 0, userId);
+		OrderItem orderItem = new OrderItem(0, 0, goodsId, goodsCnt, selectSize);
+		
+		order.getOrderItemList().add(orderItem);
+		
+		OrderController.orderInsert(order);
 	}
 
 	/**
@@ -193,7 +203,7 @@ public class MenuView {
 	 * 장바구니
 	 */
 	public static void viewCart(String id) {
-
+		
 	}
 
 	public static void printAdminMenu() {
