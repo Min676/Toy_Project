@@ -129,11 +129,11 @@ public class MenuView {
 	 */
 	public static void printInputOrder(String userId) {
 		System.out.print("주문상품번호 : ");
-		int goodsId = Integer.parseInt(sc.nextLine());
+		int goodsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int goodsCnt = Integer.parseInt(sc.nextLine());
+		int goodsCnt = sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize = Integer.parseInt(sc.nextLine());
+		int selectSize = sc.nextInt();
 		
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, goodsId, goodsCnt, selectSize);
