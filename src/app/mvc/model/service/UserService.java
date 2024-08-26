@@ -35,13 +35,14 @@ public class UserService {
 		Users user = userDao.login(userId, userPwd);
 		if (user == null)
 			throw new NotFoundException("유저 정보 못 찾음");
+		if(!userId.equals("admin")) {
+			Session session = new Session(userId);
+
+			SessionSet sessionSet = SessionSet.getInstance();
+
+			sessionSet.add(session);
+		}
 		
-		Session session = new Session(userId);
-
-		SessionSet sessionSet = SessionSet.getInstance();
-
-		sessionSet.add(session);
-
 		return user;
 	}
 

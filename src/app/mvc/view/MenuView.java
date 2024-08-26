@@ -209,7 +209,7 @@ public class MenuView {
 		while (true) {
 			System.out.println("======================ADMIN_MENU===============================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				menu();
@@ -239,7 +239,7 @@ public class MenuView {
 		while (true) {
 			System.out.println("======================통계===============================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. 메뉴 돌아가기");
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				StatisController.selectTotal();
@@ -265,7 +265,7 @@ public class MenuView {
 		System.out.println("\t 2.음료");
 		System.out.println("\t 3.디저트");
 		System.out.print("입력 : ");
-		int selecNum = Integer.parseInt(sc.nextLine());
+		int selecNum = sc.nextInt();
 		
 		switch (selecNum) {
 		case 1:
@@ -316,7 +316,7 @@ public class MenuView {
 
 		System.out.println("====================== 상품 삭제 ===============================");
 		System.out.println("삭제할 상품명ID를 입력해주세요");
-		int id = Integer.parseInt(sc.nextLine());
+		int id = sc.nextInt();
 		ProductController.productDeleteByProductId(id);
 
 	}
