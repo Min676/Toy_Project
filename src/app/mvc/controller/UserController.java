@@ -27,18 +27,25 @@ public class UserController {
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}
+	}
+	public static void changeInfoUser (String id, String pw) {
 		
-		
-	
-		
+		try {
+			userService.changeInfoUser(id,pw);
+		} catch (Exception e) {
+			FailView.errorMessage(e.getMessage());
+		}
 	}
 	
-	public static void selecUser(String userId, String pw) {
-		
-	}
+	
 	
 	public static void cancleUser(String userid, String pw) {
-		
+		try {
+			userService.cencleUser(userid, pw);
+		} catch (Exception e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	
 		
 	}
 	

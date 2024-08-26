@@ -20,12 +20,12 @@ public interface UserDAO {
 	 * 회원 정보 보기
 	 * */
 	
-	Users infoUser(String Id, String pw) throws SQLException;
+	Users infoUser(String userId, String pw) throws SQLException;
 	
 	/**
 	 * 회원 정보 수정
 	 */
-	int selectUser(String userId, String pw) throws SQLException;
+	int changeInfoUser(String userId, String pw) throws SQLException;
 	
 	/**
 	 * 회원 삭제(탈퇴)

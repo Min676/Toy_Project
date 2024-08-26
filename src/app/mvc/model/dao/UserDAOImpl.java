@@ -152,7 +152,7 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 수정
 	 * */
 	@Override
-	public int selectUser(String userId, String pw) throws SQLException {
+	public int changeInfoUser(String userId, String pw) throws SQLException {
 	
 		return 0;
 	}

@@ -24,7 +24,7 @@ public class MenuView {
 
 			MenuView.printMenu();
 
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				MenuView.register(); // 가입
@@ -52,7 +52,7 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			System.out.println(ss.getSet()); // Set객체
 
-			System.out.println("-----" + userId + " 로그인 중 -----");
+			System.out.println("-----" + userId + " 로그인 중 -----\n");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -90,7 +90,7 @@ public class MenuView {
 			break;
 			
 		case 2:
-			UserController.selecUser(userId, userPw);
+			UserController.changeInfoUser(userId, userPw);
 			break;
 		case 3:
 			UserController.cancleUser(userId, userPw);
@@ -122,11 +122,11 @@ public class MenuView {
 	 * 로그인 메뉴
 	 */
 	public static void login() {
-		System.out.print("아이디 : ");
-		String userId = sc.nextLine();
+		System.out.print("아이디 :");
+		String userId = sc.next();
 
-		System.out.print("비번 : ");
-		String userPwd = sc.nextLine();
+		System.out.print("비번 :");
+		String userPwd = sc.next();
 
 		userController.login(userId, userPwd);
 	}
@@ -134,17 +134,17 @@ public class MenuView {
 	/**
 	 * 회원 정보 수정
 	 * */
-	public static void selectUser() {
+	public static void changeInfoUser(String userId, String userPw) {
 		
-		
+		UserController.changeInfoUser(userId, userPw);
 	}
 	
 	/**
 	 * 회원 탈퇴
 	 * */
-	public static void cancleUser() {
+	public static void cancleUser(String userId, String userPw) {
 		
-		
+		UserController.cancleUser(userId, userPw);
 	}
 	
 

@@ -22,7 +22,14 @@ public class UserService {
 		
 		
 	}
-	
+	public void changeInfoUser(String id , String pw) throws SQLException{
+		
+		userDao.cancleUser(id, pw);
+	}
+	public void cencleUser(String id , String pw) throws SQLException{
+		
+		userDao.cancleUser(id, pw);
+	}
 
 	public static Users login(String userId, String userPwd) throws NotFoundException, SQLException {
 		Users user = userDao.login(userId, userPwd);
