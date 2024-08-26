@@ -153,7 +153,18 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public int changeInfoUser(String userId, String pw) throws SQLException {
-	
+		Connection con=null;
+		  PreparedStatement ps=null;
+		  Users user=null;
+		  
+		  try {
+			   con = DbManager.getConnection(); //db연결
+			   ps= con.prepareStatement("Update USERS SET user_id   where userId = ? and pw = ?  "); //sql문 입력
+			   ps.setString(1, userId); //userid입력받음
+			   ps.setString(2, pw);
+		  } finally {
+	            DbManager.close(con, ps, null);
+	        }
 		return 0;
 	}
 	/**
@@ -161,7 +172,18 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public int cancleUser(String userId, String pw) throws SQLException {
-		
+		Connection con=null;
+		  PreparedStatement ps=null;
+		  Users user=null;
+		  
+		  try {
+			   con = DbManager.getConnection(); //db연결
+			   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?"); //sql문 입력
+			   ps.setString(1, userId); //userid입력받음
+			   ps.setString(2, pw);
+		  } finally {
+	            DbManager.close(con, ps, null);
+	        }
 		return 0;
 	}
 	

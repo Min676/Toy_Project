@@ -28,6 +28,26 @@ public class UserController {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
+	
+	
+	public void login(String userId,String userPwd){
+		try {
+			Users u = UserService.login(userId, userPwd);
+			if(userId.equals("admin")) {
+				MenuView.printAdminMenu();
+			}
+			else
+				MenuView.printUserMenu(userId, userPwd);
+			//MenuView.menu();
+		}catch (Exception e) {
+			//e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+			
+		}
+		
+	}
+	
+	
 	public static void changeInfoUser (String id, String pw) {
 		
 		try {
@@ -49,21 +69,6 @@ public class UserController {
 		
 	}
 	
-	public void login(String userId,String userPwd){
-		try {
-			Users u = UserService.login(userId, userPwd);
-			if(userId.equals("admin")) {
-				MenuView.printAdminMenu();
-			}
-			else
-				MenuView.printUserMenu(userId, userPwd);
-			//MenuView.menu();
-		}catch (Exception e) {
-			//e.printStackTrace();
-			FailView.errorMessage(e.getMessage());
-			
-		}
-		
-	}
+
 	
 }
