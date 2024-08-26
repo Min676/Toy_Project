@@ -43,8 +43,9 @@ public class UserController {
 	public void login(String userId,String userPwd){
 		try {
 			Users u = UserService.login(userId, userPwd);
-			if(u!=null && userId=="admin")
+			if(userId.equals("admin")) {
 				MenuView.printAdminMenu();
+			}
 			else
 				MenuView.printUserMenu(userId);
 			//MenuView.menu();

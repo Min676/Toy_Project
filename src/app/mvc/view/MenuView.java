@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
+import app.mvc.controller.StatisController;
 import app.mvc.controller.UserController;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
@@ -143,7 +144,7 @@ public class MenuView {
 	
 	public static void printAdminMenu() {
 		while (true) {
-			System.out.println("=====================================================");
+			System.out.println("======================ADMIN_MENU===============================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록  | 4. 통계  ");
 			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
@@ -154,6 +155,7 @@ public class MenuView {
 				ProductController.productSelect();// 전체 상품조회
 				break;
 			case 3:
+				StatisController.selectTotal();
 				break;
 			case 4:
 				break;
