@@ -19,7 +19,7 @@ public class OrderService {
 	}
 	
 	public void orderInsert(Orders orders) throws SQLException {
-		int result = OrderDAO.orderInsert(orders);
+		int result = orderDAO.orderInsert(orders);
 	}
 
 }

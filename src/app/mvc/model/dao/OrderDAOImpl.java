@@ -37,15 +37,19 @@ public class OrderDAOImpl implements OrderDAO {
 				throw new SQLException("주문 실패");
 			}
 			else { // 주문상세 등록
-				int resultSc [] = this.orderItemInsert(con, order);
-				for (int i : resultSc) {
+				int resultTwo [] = this.orderItemInsert(con, order);
+				for (int i : resultTwo) {
 					if(i != 1) {
 						con.rollback();
 						throw new SQLException("주문 상세 등록 실패");
 					}
 				}
 				// wallet 업데이트
-//				this.chargeWallet(con, order);
+				result = this.chargeWallet(con, order);
+				if(result ==0) {
+					con.rollback();
+					throw new SQLException("지갑에서 주문금액 결제 실패");
+				}
 			}
 			
 			
