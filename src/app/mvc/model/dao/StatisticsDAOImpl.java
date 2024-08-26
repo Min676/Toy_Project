@@ -144,10 +144,12 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			con = DbManager.getConnection();
 
 			total = total(con,
-					"select sum(price * quantity) from orders join orders_item using(order_id) join products using(product_id) where category_seq =?",
+					"select sum(price * quantity) from orders join orders_item using(order_id) "
+					+ "join products using(product_id) where category_seq =?",
 					category_seq);
 			pTotal = pTotal(con,
-					"select sum(quantity) from orders join orders_item using(order_id) join products using(product_id) where category_seq =?",
+					"select sum(quantity) from orders join orders_item using(order_id) "
+					+ "join products using(product_id) where category_seq =?",
 					category_seq);
 			if (category_seq == 1)
 				p = product(con, "select *from max_product_info_cat");
