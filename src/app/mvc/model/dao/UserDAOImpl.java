@@ -44,26 +44,6 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public Users login(String userId, String pw) throws SQLException {
-<<<<<<< HEAD
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Users user = null;
-		try {
-			con = DbManager.getConnection();
-			ps = con.prepareStatement("select * from USERS where user_id= ? and pw=?");
-			ps.setString(1, userId);
-			ps.setString(2, pw);
-
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				user = new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),
-						rs.getInt(6), rs.getInt(7));
-			}
-		} finally {
-			DbManager.close(con, ps, rs);
-		}
-=======
 
 		Connection con=null;
 		  PreparedStatement ps=null;
@@ -82,7 +62,6 @@ public class UserDAOImpl implements UserDAO {
       }finally {
       	DbManager.close(con, ps, rs);
       }
->>>>>>> branch 'Dev' of https://github.com/Min676/Toy_Project.git
 		return user;
 
 	}

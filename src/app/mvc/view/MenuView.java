@@ -86,8 +86,8 @@ public class MenuView {
 
 	/**
 	 * 회원가입 메뉴
-	 * */
-	
+	 */
+
 	private static void register() {
 		System.out.println("아이디 등록 : ");
 		String userId = sc.nextLine();
@@ -95,9 +95,9 @@ public class MenuView {
 		String userName = sc.nextLine();
 		System.out.println("비밀번호 등록: ");
 		String userPwd = sc.nextLine();
-		
+
 		UserController.register(userId, userName, userPwd);
-		
+
 	}
 
 	/**
@@ -127,43 +127,42 @@ public class MenuView {
 	 * 상품 선택
 	 */
 	public static void printInputOrder(String userId) {
-		int breakPoint=1;
-		while (breakPoint==1) {
+		int breakPoint = 1;
+		while (breakPoint == 1) {
 			System.out.print("주문상품번호 : ");
 			String goodsId = sc.nextLine();
 		}
 	}
+
 	/**
 	 * 상품보기
 	 */
-	public static void printProduct(){
+	public static void printProduct() {
 		System.out.println("====================== 상품 보기 ===============================");
 		System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기 ");
 		int menu = sc.nextInt();
 		switch (menu) {
-			case 1:
-				ProductController.productSelect();// 전체 상품조회
-				break;
-			case 2:
-				System.out.println("카테고리를 선택해주세요 (1. 커피 2. 음료 3. 디저트 4. 기타 ");
-				int categoryNum = sc.nextInt();
-				ProductController.productSelectByCategory(categoryNum);
-				break;
-			case 3:
+		case 1:
+			ProductController.productSelect();// 전체 상품조회
+			break;
+		case 2:
+			System.out.println("카테고리를 선택해주세요 (1. 커피 2. 음료 3. 디저트 4. 기타 ");
+			int categoryNum = sc.nextInt();
+			ProductController.productSelectByCategory(categoryNum);
+			break;
+		case 3:
 
-				break;
+			break;
 		}
 	}
 
-
 	/**
-	 * 장바구니 
+	 * 장바구니
 	 */
 	public static void viewCart(String id) {
 
 	}
-	
-	
+
 	public static void printAdminMenu() {
 		while (true) {
 			System.out.println("======================ADMIN_MENU===============================");
@@ -172,7 +171,7 @@ public class MenuView {
 			switch (menu) {
 			case 1:
 				menu();
-				return; 
+				return;
 			case 2:
 				ProductController.productSelect();// 전체 상품조회
 				break;
@@ -193,21 +192,21 @@ public class MenuView {
 		}
 
 	}
-	
+
 	public static void totalMenu() {
 		while (true) {
 			System.out.println("======================통계===============================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  ");
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				StatisController.selectTotal();
-				break; 
+				break;
 			case 2:
 				cat_selec();
 				break;
 			case 3:
-				
+
 				break;
 			case 4:
 				StatisController.selectTotal();
@@ -215,17 +214,18 @@ public class MenuView {
 			}
 		}
 	}
-	
+
 	public static void cat_selec() {
 		System.out.println("\t 1.커피");
 		System.out.println("\t 2.음료");
 		System.out.println("\t 3.디저트");
 		System.out.print("입력 : ");
 		int selecNum = sc.nextInt();
+		
 		switch (selecNum) {
 		case 1:
 			StatisController.selectTotal();
-			break; 
+			break;
 		case 2:
 			StatisController.selectTotal();
 			break;
@@ -233,9 +233,9 @@ public class MenuView {
 			StatisController.selectTotal();
 			break;
 		}
-		
+	}
 
-	public static void productInsert(){
+	public static void productInsert() {
 
 		System.out.println("====================== 상품 등록 ===============================");
 		System.out.println("등록할 상품명을 입력해주세요");
@@ -247,11 +247,11 @@ public class MenuView {
 		System.out.println("등록할 상품의 카테고리 분류를 입력해주세요(1. 커피 2. 음료 3. 디저트 4. 기타");
 		int category = sc.nextInt();
 
-		Products products = new Products(name,info,price,category);
+		Products products = new Products(name, info, price, category);
 		ProductController.productInsert(products);
 	}
 
-	public static void productUpdate(){
+	public static void productUpdate() {
 
 		System.out.println("====================== 상품 수정 ===============================");
 		System.out.println("수정할 상품명ID를 입력해주세요");
@@ -263,11 +263,11 @@ public class MenuView {
 		System.out.println("등록할 상품의 가격을 입력해주세요");
 		int price = sc.nextInt();
 
-		Products products = new Products(id,name,info,price);
+		Products products = new Products(id, name, info, price);
 		ProductController.productUpdateByProductId(products);
 	}
 
-	public static void productDelete(){
+	public static void productDelete() {
 
 		System.out.println("====================== 상품 삭제 ===============================");
 		System.out.println("삭제할 상품명ID를 입력해주세요");
