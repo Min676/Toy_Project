@@ -10,16 +10,16 @@ import app.mvc.view.MenuView;
 public class UserController {
 	static UserService userService = new UserService();
 	
-	public static void register(String userId,String userName,String userPwd) {
+	public static void register(String userId , String userName , String userPwd) {
 		
-		try {
+		try {   
+	        // 사용자 등록 로직 호출
+	        userService.insertUser(null);
+	        
+	        // 성공 시 사용자 메뉴 출력
+	        MenuView.printUserMenu(userId);
 			
-			// 유효성 검사
-            if (userId == null || userId.isEmpty() || userName == null || userName.isEmpty() || userPwd == null || userPwd.isEmpty()) {
-               
-            }
-            
-            
+		    
 		}catch(SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		}
