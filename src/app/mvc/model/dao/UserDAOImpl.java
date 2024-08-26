@@ -15,30 +15,63 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public int insertUser(Users user) throws SQLException { //user인수를 받는다.  예외는 sqlexception으로 던진다.
-		
+
+		  ResultSet rs=null;
 		  Connection con=null;
 		  PreparedStatement ps=null;
 		  int result = 0;	//초기화
+		  
+		  
+		  if (checkId(user.getUserId())) { //아이디가 중복되었을때 SQLException 을 발생시키고, 메세지 출력
+	            throw new SQLException("중복된 아이디 입니다.");
+	        }
+		  
 		 try {
-			 String sql = "inset into USERS (userid, name, pw) values (?,?,?) "; //inset into 로 테이블에 회원가입정보를 입력 하는 지역변수
+			 String sql = "insert into USERS (user_seq, user_id, name, pw, point, MEMBERSHIP_LEVEL,OCOUNT) values (USER_SEQ.NEXTVAL,?,?,?,10000 ,1,0) "; //insert into 로 테이블에 회원가입정보를 입력 하는 지역변수
 		   con = DbManager.getConnection();	//db에 연결
 		   ps= con.prepareStatement(sql);		
-		   ps.setString(1, user.getUserId());	//회원가입 유저 id 인풋
+		   ps.setString(1, user.getUserId());   //회원가입 유저 id 인풋
 		   ps.setString(2, user.getName());		//회원가입 이름 인풋 	
 		   ps.setString(3, user.getPw());		//회원가입 비밀번호 인풋
 		   
+	       
 	        result = ps.executeUpdate(); //저장
-	        
-	        System.out.println("회원가입 try 끝부분 체크용");
-	        
     }finally {
-    	DbManager.close(con, ps, null); //자원반환
+    	DbManager.close(con, ps, rs); //자원반환
     }
 		return result;
 		
 	
 	}
 
+	/**
+	 * 회원ID 중복검사
+	 * */
+    public boolean checkId(String id) throws SQLException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean isDuplicate = false;
+
+        try {
+            String query = "SELECT COUNT(USER_ID) FROM USERS WHERE USER_ID = ?";
+            con = DbManager.getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                isDuplicate = rs.getInt(1) > 0; // 중복되면 true 반환
+            }
+        } finally {
+            DbManager.close(con, ps, rs);
+        }
+        return isDuplicate;
+    }
+
+	
+	
+	
 	/**
 	 * 로그인 구현부
 	 * */
@@ -65,6 +98,9 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 
 	}
+	
+	
+    
 	/**
 	 * 회원정보 수정
 	 * */
@@ -83,3 +119,4 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 }
+

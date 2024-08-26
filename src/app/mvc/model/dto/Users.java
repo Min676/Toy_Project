@@ -21,7 +21,16 @@ public class Users {
 		this.membershipLevel = membershipLevel;
 		this.ocount = ocount;
 	}
+	
+	
 
+	public Users(String userId, String name, String pw) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.pw = pw;
+	}
+	
 	// Getters and Setters
 	public int getUserSeq() {
 		return userSeq;
