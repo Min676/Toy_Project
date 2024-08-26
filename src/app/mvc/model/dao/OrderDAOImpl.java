@@ -11,6 +11,7 @@ import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Users;
+import app.mvc.model.dto.Wallet;
 import app.mvc.util.DbManager;
 
 public class OrderDAOImpl implements OrderDAO {
@@ -50,17 +51,24 @@ public class OrderDAOImpl implements OrderDAO {
 						throw new SQLException("주문 상세 등록 실패");
 					}
 				}
+				
+				
 				// wallet 업데이트
-				result = this.chargeWallet(con, order);
-				if(result == 0) {
-					con.rollback();
-					throw new SQLException("지갑에서 주문금액 결제 실패");
-				}
+				int cash = this.checkWallet(con, order);
+				if(order.getTotalPrice() > cash) throw new SQLException("지갑 잔액이 부족합니다.");
+				
+				result = this.chargeWallet(con, order);					
+				con.commit();
 			}
+				
 			
-			
+		} catch (SQLException e) {
+			if(con != null) {
+				con.rollback();
+			} 
+			throw e;
 		} finally {
-			con.commit();
+			
 			DbManager.close(con, ps, null);
 		}
 
@@ -164,7 +172,7 @@ public class OrderDAOImpl implements OrderDAO {
 		List<OrderItem> orderItemList = orders.getOrderItemList();
 		int total = 0;
 		for(OrderItem item : orderItemList) {
-			Products products = productsDAO.productSelectByProductId(item.getProductId());
+			Products products = productsDAO.productSelectByProductId(item.getProductId()); // 상품정보 검색
 			
 			if(products==null) throw new SQLException();
 			
@@ -179,6 +187,7 @@ public class OrderDAOImpl implements OrderDAO {
 	public int chargeWallet(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 		int result = 0;
+		int cash = 0;
 		String sql = "UPDATE WALLET SET CASH=CASH-? WHERE USER_SEQ = ?";
 		
 		try {
@@ -187,11 +196,41 @@ public class OrderDAOImpl implements OrderDAO {
 			ps.setInt(2, order.getUserSeq());
 			
 			result = ps.executeUpdate();
+			
+			
 		} finally {
 			DbManager.close(null, ps, null);
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * wallet 잔액 확인
+	 */
+	public int checkWallet(Connection con, Orders order) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int result = 0;
+		Wallet wallet = null;
+		
+		String sql = "SELECT * FROM WALLET WHERE USER_SEQ = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, order.getUserSeq());
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				wallet = new Wallet(rs.getInt(1), rs.getInt(2), rs.getInt(3));
+			}
+			System.out.println("checkwallet 실행");
+			
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+		
+		return wallet.getCash();
 	}
 	
 
