@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import app.mvc.model.dto.Users;
+import app.mvc.session.SessionSet;
 import app.mvc.util.DbManager;
 
 public class UserDAOImpl implements UserDAO {
@@ -151,43 +152,63 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 수정
 	 * */
 	@Override
-
-	public void changeInfoUser(String userId, String pw) throws SQLException {
-		Connection con=null;
-		  PreparedStatement ps=null;
-		  Users user=null;
-		  
-		  try {
-			   con = DbManager.getConnection(); //db연결
-			   ps= con.prepareStatement("Update USERS SET user_id   where userId = ? and pw = ?  "); //sql문 입력
-			   ps.setString(1, userId); //userid입력받음
-			   ps.setString(2, pw);
-		  } finally {
-	            DbManager.close(con, ps, null);
+	public int changeInfoUser(String userId, String pw) throws SQLException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    int result = 0;
+	    
+	    try {
+	        con = DbManager.getConnection();  // 데이터베이스 연결 설정
+	        
+	        String sql = "UPDATE USERS SET pw = ? WHERE user_id = ?";  // SQL 업데이트 쿼리
+	        ps = con.prepareStatement(sql);  // PreparedStatement 객체 생성
+	        ps.setString(1, pw);  // 첫 번째 파라미터에 새 비밀번호 설정
+	        ps.setString(2, userId);  // 두 번째 파라미터에 userId 설정
+	        
+	        result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
+	        
+	        if (result > 0) {  // 업데이트된 행이 있는 경우
+	            System.out.println("회원정보가 성공적으로 수정되었습니다.");  // 성공 메시지 출력
+	        } else {  // 업데이트된 행이 없는 경우
+	            System.out.println("회원정보 수정 실패: 일치하는 사용자 정보가 없습니다.");  // 실패 메시지 출력
 	        }
+	    } finally {
+	        DbManager.close(con, ps, null);  // 리소스 해제
+	    }
+	    return result;  // 실행 결과 반환
 	}
-
 	
 	/**
 	 * 회원정보 삭제
 	 * */
 	@Override
 	public int cancleUser(String userId, String pw) throws SQLException {
-		Connection con=null;
-		  PreparedStatement ps=null;
-		  Users user=null;
-		  
-		  try {
-			   con = DbManager.getConnection(); //db연결
-			   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?"); //sql문 입력
-			   ps.setString(1, userId); //userid입력받음
-			   ps.setString(2, pw);
-		  } finally {
-	            DbManager.close(con, ps, null);
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    int result = 0;
+	    
+	    try {
+	        con = DbManager.getConnection();  // 데이터베이스 연결 설정
+	        
+	        String sql = "DELETE FROM USERS WHERE user_id = ? AND pw = ?";
+	        ps = con.prepareStatement(sql);  // PreparedStatement 객체 생성
+	        ps.setString(1, userId);  // 첫 번째 파라미터에 userId 설정
+	        ps.setString(2, pw);  // 두 번째 파라미터에 pw 설정
+	        
+	        result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
+	        
+	        if (result > 0) {  // 삭제된 행이 있는 경우
+	            System.out.println("회원에서 탈퇴 되었습니다.");// 성공 메시지 출력
+	            //이후 로그아웃
+	        } else {  // 삭제된 행이 없는 경우
+	            System.out.println("일치하는 사용자 정보가 없습니다.");  // 실패 메시지 출력
 	        }
-
-		return 0;
+	    } finally {
+	        DbManager.close(con, ps, null);  // 리소스 해제
+	    }
+	    return result;  // 실행 결과 반환
 	}
+
 	
 	/**
 	 * user_seq 가져오는 메소드

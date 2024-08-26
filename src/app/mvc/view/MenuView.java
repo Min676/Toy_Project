@@ -93,7 +93,8 @@ public class MenuView {
 			break;
 		case 3:
 			UserController.cancleUser(userId, userPw);
-			break;	
+			logout(userId);
+			break;
 			
 		case 4:
 			return;
@@ -108,13 +109,14 @@ public class MenuView {
 	private static void register() {
 		System.out.println("아이디 등록 : ");
 		String userId = sc.nextLine();
+		
 		System.out.println("회원성명 등록: ");
 		String userName = sc.nextLine();
+		
 		System.out.println("비밀번호 등록: ");
 		String userPwd = sc.nextLine();
 
 		Users user = new Users(userId, userName, userPwd);
-		
 		UserController.insertUser(user);
 	}
 	/**
@@ -144,6 +146,7 @@ public class MenuView {
 	public static void cancleUser(String userId, String userPw) {
 		
 		UserController.cancleUser(userId, userPw);
+		
 	}
 	
 

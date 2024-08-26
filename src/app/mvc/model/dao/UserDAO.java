@@ -24,8 +24,9 @@ public interface UserDAO {
 	
 	/**
 	 * 회원 정보 수정
+	 * @return 
 	 */
-	void changeInfoUser(String userId, String pw) throws SQLException;
+	int changeInfoUser(String userId, String pw) throws SQLException;
 	
 	/**
 	 * 회원 삭제(탈퇴)
