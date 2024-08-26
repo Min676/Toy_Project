@@ -93,7 +93,7 @@ public class MenuView {
 			break;
 		case 3:
 			UserController.cancleUser(userId, userPw);
-			logout(userId);
+			
 			break;
 			
 		case 4:
@@ -107,6 +107,8 @@ public class MenuView {
 	 */
 
 	private static void register() {
+		sc.nextLine();
+		
 		System.out.println("아이디 등록 : ");
 		String userId = sc.nextLine();
 		
