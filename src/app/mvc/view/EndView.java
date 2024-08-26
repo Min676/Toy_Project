@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import app.mvc.controller.OrderController;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Statisics;
+import app.mvc.session.Session;
+import app.mvc.session.SessionSet;
 
 public class EndView {
 	/**
@@ -76,33 +79,35 @@ public class EndView {
 		}
 		
 		
-//		Scanner sc = new Scanner(System.in);
-//		System.out.println("1.주문하기  |  9.나가기");
-//		switch(sc.nextInt()) {
-//		case 1:
-//			
-//			 Orders orders = new Orders(0, 0, id, 0);
-//			 
-//			 List<OrderItem> orderItemList = orders.getOrderItemList();
-//			 
-//			 for(Goods goodsKey : cart.keySet()) {
-//				 int qty = cart.get(goodsKey); // map에서 key=Goods에 해당하는 value=수량 조회
-//				 OrderLine orderLine = new OrderLine(0, 0, goodsKey.getGoodsId() , 0, qty, 0);
-//				 orderLineList.add(orderLine);
-//			 }
-//			 
-//			 
-//			 System.out.println("orderLineList 개수 : " + orderLineList.size());
-//			 
-//			 OrderController.insertOrders(orders);// 주문 + 주문상세
-//			 
-//			 //장바구니비우기
-//			 SessionSet ss = SessionSet.getInstance();
-//			 Session session = ss.get(id);
-//			 session.removeAttribute("cart");
-//			break;
-//			
-//		case 9:
-//			break;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("1.주문하기  |  9.나가기");
+		switch(sc.nextInt()) {
+		case 1:
+			
+			 Orders orders = new Orders(0, 0, null, 0, 0, id);
+			 
+			 List<OrderItem> orderItemList = orders.getOrderItemList();
+			 
+			 for(Products productsKey : cart.keySet()) {
+				 int qty = cart.get(productsKey); // map에서 key=Products에 해당하는 value=수량 조회
+				 OrderItem orderItem = new OrderItem(0, 0, productsKey.getProduct_id() , qty, 1); // size를 가져올 방법이 필요. 옵션정보에 넣기?
+				 orderItemList.add(orderItem);
+			 }
+			 
+			 
+			 System.out.println("orderItemList 개수 : " + orderItemList.size());
+			 
+			 OrderController.orderInsert(orders);// 주문 + 주문상세
+			 
+			 //장바구니비우기
+			 SessionSet ss = SessionSet.getInstance();
+			 Session session = ss.get(id);
+			 session.removeAttribute("cart");
+			break;
+			
+		case 9:
+			break;
 		}
+	}
 }
+	

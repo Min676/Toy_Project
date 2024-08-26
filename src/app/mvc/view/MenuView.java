@@ -66,7 +66,8 @@ public class MenuView {
 				ProductController.productSelect();// 전체 상품조회
 				break;
 			case 3:
-				printInputOrder(userId);
+//				printInputOrder(userId);
+				putCart(userId);
 				break;
 			case 4:
 				OrderController.selectOrdersByUserId(userId);
@@ -130,19 +131,36 @@ public class MenuView {
 	 */
 	public static void printInputOrder(String userId) {
 		System.out.print("주문상품번호 : ");
-//		int goodsId = Integer.parseInt(sc.nextLine());
-		int goodsId = sc.nextInt();
+		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
 		int goodsCnt = sc.nextInt();
 		System.out.print("사이즈 : ");
 		int selectSize = sc.nextInt();
 		
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
-		OrderItem orderItem = new OrderItem(0, 0, goodsId, goodsCnt, selectSize);
+		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
 		
 		order.getOrderItemList().add(orderItem);
 		
 		OrderController.orderInsert(order);
+	}
+	
+	/**
+	 * 상품 선택해서 장바구니에 넣기
+	 **/
+	public static void putCart(String userId) {
+		System.out.print("주문상품번호 : ");
+		int productsId = sc.nextInt();
+		System.out.print("상품 개수 : ");
+		int goodsCnt = sc.nextInt();
+		System.out.print("사이즈 : ");
+		int selectSize = sc.nextInt();
+		
+		Orders order = new Orders(0, 0, null, 0, 0, userId);
+		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
+		order.getOrderItemList().add(orderItem);
+		
+		CartController.putCart(userId, productsId, goodsCnt, selectSize);
 	}
 
 	/**
@@ -171,7 +189,7 @@ public class MenuView {
 	 * 장바구니
 	 */
 	public static void viewCart(String id) {
-		// 작성하기
+		CartController.viewCart(id);
 	}
 
 	public static void printAdminMenu() {

@@ -3,9 +3,11 @@ package app.mvc.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Users;
+import app.mvc.model.service.OrderService;
 import app.mvc.model.service.ProductService;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
@@ -14,16 +16,18 @@ import app.mvc.view.FailView;
 
 public class CartController {
 	private static ProductService productService = new ProductService();
+	private static OrderService orderService = new OrderService();
 	public Users selectUser(int user_seq) {
 		Users u = null;
 		
 		return u;
 	}
 	
-	public static void putCart(String id, int productId, int quantity) {
+	public static void putCart(String id, int productId, int quantity, int size) {
 		
 		try {
 			Products products = productService.productSelectByProductId(productId);
+			// 카트에 담아야 할 것 : 상품정보와 갯수, 사이즈(옵션?)
 			
 			SessionSet ss = SessionSet.getInstance();
 			Session session = ss.get(id);
