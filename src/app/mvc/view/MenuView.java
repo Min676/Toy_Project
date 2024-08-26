@@ -2,12 +2,10 @@ package app.mvc.view;
 
 import java.util.Scanner;
 
-import app.mvc.controller.CartController;
+import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
 import app.mvc.controller.StatisController;
 import app.mvc.controller.UserController;
-import app.mvc.controller.OrderController;
-import app.mvc.model.dto.Orders;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
 
@@ -25,8 +23,7 @@ public class MenuView {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
 			case 1:
-				printUserMenu("user1");
-				// MenuView.register(); // 가입
+				MenuView.register(); // 가입
 				break;
 			case 2:
 				MenuView.login();// 로그인
@@ -40,6 +37,8 @@ public class MenuView {
 			}
 		}
 	}
+
+
 
 	public static void printMenu() {
 		System.out.println("=================Coffe Shop===============");
@@ -84,6 +83,21 @@ public class MenuView {
 		System.out.println("1. 수정   |  2.탈퇴   | 9. 나가기");
 	}
 
+	/**
+	 * 회원가입 메뉴
+	 * */
+	
+	private static void register() {
+		System.out.println("아이디 등록 : ");
+		String userId = sc.nextLine();
+		System.out.println("회원성명 등록: ");
+		String userName = sc.nextLine();
+		System.out.println("비밀번호 등록: ");
+		String userPwd = sc.nextLine();
+		
+		UserController.register(userId, userName, userPwd);
+		
+	}
 
 	/**
 	 * 로그인 메뉴
