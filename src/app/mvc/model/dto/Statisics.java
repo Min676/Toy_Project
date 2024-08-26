@@ -6,21 +6,29 @@ public class Statisics {
 	private int totalPrice;//총계
 	private int totalOrder;//총 주문
 	private List<Integer> category_oderSum_list;//카테고리별 총주문
-	private String productName;//제일 많이 팔린 상품
+	private Products product;//제일 많이 팔린 상품
 	private String userName;//제일많이 주문한 유저
 	private int increment;//전일/월 대비 증가량
 	
 	public Statisics() {}
 
-	public Statisics(int totalPrice, int totalOrder, List<Integer> category_oderSum_list, String productName,
+	public Statisics(int totalPrice, int totalOrder, List<Integer> category_oderSum_list, Products product,
 			String userName, int increment) {
 		super();
 		this.totalPrice = totalPrice;
 		this.totalOrder = totalOrder;
 		this.category_oderSum_list = category_oderSum_list;
-		this.productName = productName;
+		this.product = product;
 		this.userName = userName;
 		this.increment = increment;
+	}
+
+	public Products getProduct() {
+		return product;
+	}
+
+	public void setProduct(Products product) {
+		this.product = product;
 	}
 
 	public int getTotalPrice() {
@@ -47,13 +55,7 @@ public class Statisics {
 		this.category_oderSum_list = category_oderSum_list;
 	}
 
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
+	
 
 	public String getUserName() {
 		return userName;
@@ -81,7 +83,7 @@ public class Statisics {
 		builder.append(", category_oderSum_list=");
 		builder.append(category_oderSum_list);
 		builder.append(", productName=");
-		builder.append(productName);
+		builder.append(product);
 		builder.append(", userName=");
 		builder.append(userName);
 		builder.append(", increment=");
