@@ -33,7 +33,7 @@ public class EndView {
 	   for(Orders order : orderList) {
 		   System.out.println(order.getOrderId()+ " | " + order.getOrderDate() +" | " + order.getTotalPrice());
 		   
-		   for(OrderItem orderItem : order.getOrderLineList()) {
+		   for(OrderItem orderItem : order.getOrderItemList()) {
 			   System.out.println("  ▶ "+orderItem);
 		   }
 		   System.out.println();
