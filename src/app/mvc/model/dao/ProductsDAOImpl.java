@@ -20,7 +20,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 		List<Products> list = new ArrayList<>();
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select * from Products order by PRODUCTS_ID");
+			ps= con.prepareStatement("select * from Products order by PRODUCT_ID");
 			rs = ps.executeQuery();
 
 			while(rs.next()) {
