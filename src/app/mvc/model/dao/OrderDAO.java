@@ -1,5 +1,6 @@
 package app.mvc.model.dao;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,5 +26,15 @@ public interface OrderDAO {
 	 * 주문 상세 (주문품목) 보기
 	 */
 	List<OrderItem> selectOrderItem(int order_id) throws SQLException;
+	
+	/**
+	 * 주문 상세 등록
+	 */
+	int [] orderItemInsert(Connection con, Orders orders) throws SQLException;
+	
+	/**
+	 * 총 구매금액
+	 */
+	int getTotalPrice(Orders orders) throws SQLException;
 	
 }

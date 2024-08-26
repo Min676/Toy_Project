@@ -28,7 +28,9 @@ public class OrderDAOImpl implements OrderDAO {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			//ps.setInt(1, 상품가격*개수+상품가격*개수)
-			ps.setInt(1, this.getTotalPrice(order));
+			int totalPrice = this.getTotalPrice(order);
+			order.setTotalPrice(totalPrice);
+			ps.setInt(1, totalPrice);
 			result = ps.executeUpdate();
 			if (result ==0) { // 트랜잭션 롤백
 				con.rollback();
@@ -42,7 +44,10 @@ public class OrderDAOImpl implements OrderDAO {
 						throw new SQLException("주문 상세 등록 실패");
 					}
 				}
+				// wallet 업데이트
+//				this.chargeWallet(con, order);
 			}
+			
 			
 		} finally {
 			con.commit();
@@ -56,7 +61,7 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * 주문 상세 등록
 	 */
-	public int [] orderItemInsert(Connection con, Orders orders) throws SQLException {
+	public int [] orderItemInsert(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDER_ITEM (ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, QUANTITY, SELECT_SIZE"
 				+ "VALUES (ORDER_ITEM_ID_SEQ.NEXTVAL, ORDER_ID.CURRVAL, ?, ?, ?)";
@@ -65,7 +70,7 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			ps = con.prepareStatement(sql);
 			
-			for(OrderItem item : orders.getOrderItemList()) {
+			for(OrderItem item : order.getOrderItemList()) {
 				ps.setInt(1, item.getProductId());
 				ps.setInt(2, item.getQuantity());
 				ps.setInt(3, item.getSelecSize());
@@ -157,5 +162,27 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 		return total;
 	}
+	
+	/**
+	 * wallet update
+	 */
+	public int chargeWallet(Connection con, Orders order) throws SQLException {
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "UPDATE WALLET SET CASH=CASH-? WHERE USER_SEQ = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, order.getTotalPrice());
+			ps.setInt(2, order.getUserSeq());
+			
+			result = ps.executeUpdate();
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+		
+		return result;
+	}
+
 
 }
