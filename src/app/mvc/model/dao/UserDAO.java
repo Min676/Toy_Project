@@ -8,7 +8,7 @@ public interface UserDAO {
 	/**
 	 * 회원 가입
 	 */
-	int insertUser(Users usesr) throws SQLException;
+	int insertUser(Users user) throws SQLException;
 	
 	/**
 	 * 로그인하기

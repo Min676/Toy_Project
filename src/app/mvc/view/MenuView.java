@@ -6,6 +6,7 @@ import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
 import app.mvc.controller.StatisController;
 import app.mvc.controller.UserController;
+import app.mvc.model.dto.Users;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
 
@@ -95,7 +96,9 @@ public class MenuView {
 		System.out.println("비밀번호 등록: ");
 		String userPwd = sc.nextLine();
 		
-		UserController.register(userId, userName, userPwd);
+		Users user = new Users(userId, userName, userPwd);
+		
+		UserController.register(user);
 		
 	}
 
