@@ -55,7 +55,7 @@ public class MenuView {
 
 			System.out.println("-----" + userId + " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				logout(userId);//
@@ -63,7 +63,7 @@ public class MenuView {
 			// break;
 
 			case 2:
-				ProductController.productSelect();// 전체 상품조회
+				printProduct();
 				break;
 			case 3:
 				printInputOrder(userId);
@@ -118,6 +118,27 @@ public class MenuView {
 		while (breakPoint==1) {
 			System.out.print("주문상품번호 : ");
 			String goodsId = sc.nextLine();
+		}
+	}
+	/**
+	 * 상품보기
+	 */
+	public static void printProduct(){
+		System.out.println("====================== 상품 보기 ===============================");
+		System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기 ");
+		int menu = sc.nextInt();
+		switch (menu) {
+			case 1:
+				ProductController.productSelect();// 전체 상품조회
+				break;
+			case 2:
+				System.out.println("카테고리를 선택해주세요 (1. 커피 2. 음료 3. 디저트 4. 기타 ");
+				int categoryNum = sc.nextInt();
+				ProductController.productSelectByCategory(categoryNum);
+				break;
+			case 3:
+
+				break;
 		}
 	}
 
