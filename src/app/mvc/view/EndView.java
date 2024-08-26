@@ -78,15 +78,12 @@ public class EndView {
 		
 //		Scanner sc = new Scanner(System.in);
 //		System.out.println("1.주문하기  |  9.나가기");
-//		switch(Integer.parseInt(sc.nextLine())) {
+//		switch(sc.nextInt()) {
 //		case 1:
 //			
-//			 System.out.print("배송주소 : ");
-//			 String address = sc.nextLine();
-//			
-//			 Orders orders = new Orders(0, null, id, address, 0);
+//			 Orders orders = new Orders(0, 0, id, 0);
 //			 
-//			 List<OrderLine> orderLineList = orders.getOrderLineList();
+//			 List<OrderItem> orderItemList = orders.getOrderItemList();
 //			 
 //			 for(Goods goodsKey : cart.keySet()) {
 //				 int qty = cart.get(goodsKey); // map에서 key=Goods에 해당하는 value=수량 조회
@@ -108,5 +105,4 @@ public class EndView {
 //		case 9:
 //			break;
 		}
-
 }
