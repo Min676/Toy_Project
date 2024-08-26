@@ -101,7 +101,6 @@ public class UserDAOImpl implements UserDAO {
       	DbManager.close(con, ps, rs);
       }
 		return user;
-
 	}
 	
 	
@@ -111,7 +110,7 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public int selectUser(String userId, String pw) throws SQLException {
-	
+
 		return 0;
 	}
 	/**
@@ -119,7 +118,6 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	@Override
 	public int cancleUser(String userId, String pw) throws SQLException {
-		
 		return 0;
 	}
 	
@@ -144,7 +142,6 @@ public class UserDAOImpl implements UserDAO {
 		} finally {
 			DbManager.close(null, ps, rs);
 		}
-		
 		return user;
 	}
 

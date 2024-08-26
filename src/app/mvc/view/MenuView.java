@@ -23,8 +23,7 @@ public class MenuView {
 			System.out.println(ss.getSet());
 
 			MenuView.printMenu();
-
-			int menu = Integer.parseInt(sc.nextLine());
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				MenuView.register(); // 가입
@@ -106,10 +105,10 @@ public class MenuView {
 	 */
 	public static void login() {
 		System.out.print("아이디 : ");
-		String userId = sc.nextLine();
+		String userId = sc.next();
 
 		System.out.print("비번 : ");
-		String userPwd = sc.nextLine();
+		String userPwd = sc.next();
 
 		userController.login(userId, userPwd);
 	}
