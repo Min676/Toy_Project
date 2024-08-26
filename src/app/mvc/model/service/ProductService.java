@@ -28,9 +28,9 @@ public class ProductService {
         return products;
     }
 
-    public int productUpdateByProductId(int product_id,Products products) throws ModifyException,SQLException {
+    public int productUpdateByProductId(Products products) throws ModifyException,SQLException {
         int result =0;
-        result = productsDAO.productUpdateByProductId(product_id,products);
+        result = productsDAO.productUpdateByProductId(products);
         if(result == 0) throw new ModifyException("상품이 수정되지 않았습니다");
         return result;
     }

@@ -36,10 +36,10 @@ public class ProductController {
 		}
 	}
 
-	public static void productUpdateByProductId(int product_id, Products products) {
+	public static void productUpdateByProductId(Products products) {
 		try {
-			productService.productUpdateByProductId(product_id, products);
-			EndView.printMessage("제품번호 " + product_id + "가 수정되었습니다!");
+			productService.productUpdateByProductId(products);
+			EndView.printMessage("제품번호 " + products.getProduct_id() + "가 수정되었습니다!");
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
         } catch (ModifyException e) {
