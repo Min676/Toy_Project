@@ -128,7 +128,6 @@ public class OrderDAOImpl implements OrderDAO {
 		try {
 			ps = con.prepareStatement(sql);
 			
-			//(int optionId, int orderItemId, int oiId, int selecCnt)
 			for(OrderOptionList option : orderItem.getOrderOptionList()) {
 				ps.setInt(1, option.getOiId());
 				ps.setInt(2, option.getOrderItemId());
@@ -272,7 +271,4 @@ public class OrderDAOImpl implements OrderDAO {
 		return wallet;
 	}
 	
-
-
-
 }
