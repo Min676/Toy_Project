@@ -12,6 +12,15 @@ public class Orders {
 	
 	public Orders() {}
 
+	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status) {
+		super();
+		this.orderId = orderId;
+		this.userSeq = userSeq;
+		this.orderDate = orderDate;
+		this.totalPrice = totalPrice;
+		this.status = status;
+	}
+	
 	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status,
 			List<OrderItem> orderItemList) {
 		super();
@@ -27,11 +36,11 @@ public class Orders {
 	private List<OrderItem> orderItemList = new ArrayList<OrderItem>();
 
 	
-	public List<OrderItem> getOrderLineList() {
+	public List<OrderItem> getOrderItemList() {
 		return orderItemList;
 	}
 
-	public void setOrderLineList(List<OrderItem> orderItemList) {
+	public void setOrderItemList(List<OrderItem> orderItemList) {
 		this.orderItemList= orderItemList;
 	}
 	

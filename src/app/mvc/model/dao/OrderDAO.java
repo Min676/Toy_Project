@@ -3,6 +3,7 @@ package app.mvc.model.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.Orders;
 
 public interface OrderDAO {
@@ -20,6 +21,9 @@ public interface OrderDAO {
 	 * */
 	List<Orders> selectOrdersByUserId(String userId)throws SQLException;
 	
-	
+	/**
+	 * 주문 상세 (주문품목) 보기
+	 */
+	List<OrderItem> selectOrderItem(int order_id) throws SQLException;
 	
 }
