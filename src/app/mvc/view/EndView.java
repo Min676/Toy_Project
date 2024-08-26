@@ -28,15 +28,14 @@ public class EndView {
 	 * 주문 상세보기
 	 */
 	public static void printOrderByUserId(List<Orders> orderList) {
-		for (Orders order : orderList) {
-			System.out.println(order.getOrderId() + " | " + order.getOrderDate() + " | " + order.getTotalPrice());
-
-			for (OrderItem orderItem : order.getOrderLineList()) {
-				System.out.println("  ▶ " + orderItem);
-			}
-			System.out.println();
-		}
-
+	   for(Orders order : orderList) {
+		   System.out.println(order.getOrderId()+ " | " + order.getOrderDate() +" | " + order.getTotalPrice());
+		   
+		   for(OrderItem orderItem : order.getOrderItemList()) {
+			   System.out.println("  ▶ "+orderItem);
+		   }
+		   System.out.println();
+	   }
 	}
 
 	public static void printTotalMessage(Statisics stat) {
