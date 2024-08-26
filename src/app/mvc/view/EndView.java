@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
 import app.mvc.model.dto.OrderItem;
+import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Statisics;
@@ -13,6 +14,7 @@ import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
 
 public class EndView {
+	private static Scanner sc = new Scanner(System.in);
 	/**
 	 * 상품 전체 출력
 	 */
@@ -33,11 +35,12 @@ public class EndView {
 	 * 주문 상세보기
 	 */
 	public static void printOrderByUserId(List<Orders> orderList) {
+		System.out.println("====================주문 목록====================");
 	   for(Orders order : orderList) {
 		   System.out.println(order.getOrderId()+ " | " + order.getOrderDate() +" | " + order.getTotalPrice());
 		   
 		   for(OrderItem orderItem : order.getOrderItemList()) {
-			   System.out.println("  ▶ "+orderItem);
+			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId() + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + orderItem.getSelecSize());
 		   }
 		   System.out.println();
 	   }
@@ -109,5 +112,7 @@ public class EndView {
 			break;
 		}
 	}
+	
+	
 }
 	

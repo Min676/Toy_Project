@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.mvc.model.dto.OrderItem;
+import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Users;
@@ -94,6 +95,15 @@ public class OrderDAOImpl implements OrderDAO {
 				ps.setInt(3, item.getSelecSize());
 				
 				ps.addBatch();
+				
+				result = this.orderOptionInsert(con, item);
+				for (int i : result) {
+					if(i != 1) {
+						con.rollback();
+						throw new SQLException("주문 옵션 항목 등록 실패");
+					}
+				}
+				
 				ps.clearParameters();
 			}
 			
@@ -105,7 +115,37 @@ public class OrderDAOImpl implements OrderDAO {
 		
 		return result;
 	}
-
+	
+	/**
+	 * 주문 옵션 리스트 등록
+	 */
+	public int [] orderOptionInsert(Connection con, OrderItem orderItem) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "INSERT INTO ORDER_OPTION_LIST (OPTION_ID, ORDER_OPTION_ID, ORDER_ITEM_ID, SELEC_CNT)"
+				+ "VALUES (OPTION_ID_SEQ.NEXTVAL, ?, ?, ?)"; // ORDER_OPTION_ID 가 어떤 항목인지 확인 필요
+		int [] result = null;
+		
+		try {
+			ps = con.prepareStatement(sql);
+			
+			//(int optionId, int orderItemId, int oiId, int selecCnt)
+			for(OrderOptionList option : orderItem.getOrderOptionList()) {
+				ps.setInt(1, option.getOiId());
+				ps.setInt(2, option.getOrderItemId());
+				ps.setInt(3, option.getSelecCnt());
+				
+				ps.addBatch();
+				ps.clearParameters();
+			}
+			
+			result = ps.executeBatch();
+			
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+		
+		return result;
+	}
 	
 
 	/**
