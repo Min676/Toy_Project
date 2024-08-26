@@ -54,8 +54,8 @@ public class OrderDAOImpl implements OrderDAO {
 				
 				
 				// wallet 업데이트
-				int cash = this.checkWallet(con, order);
-				if(order.getTotalPrice() > cash) throw new SQLException("지갑 잔액이 부족합니다.");
+				Wallet wallet = this.checkWallet(con, order);
+				if(order.getTotalPrice() > wallet.getCash()) throw new SQLException("지갑 잔액이 부족합니다.");
 				
 				result = this.chargeWallet(con, order);					
 				con.commit();
@@ -208,10 +208,9 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * wallet 잔액 확인
 	 */
-	public int checkWallet(Connection con, Orders order) throws SQLException {
+	public Wallet checkWallet(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		int result = 0;
 		Wallet wallet = null;
 		
 		String sql = "SELECT * FROM WALLET WHERE USER_SEQ = ?";
@@ -224,13 +223,12 @@ public class OrderDAOImpl implements OrderDAO {
 			if(rs.next()) {
 				wallet = new Wallet(rs.getInt(1), rs.getInt(2), rs.getInt(3));
 			}
-			System.out.println("checkwallet 실행");
 			
 		} finally {
 			DbManager.close(null, ps, null);
 		}
 		
-		return wallet.getCash();
+		return wallet;
 	}
 	
 
