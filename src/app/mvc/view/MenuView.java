@@ -195,7 +195,7 @@ public class MenuView {
 	public static void totalMenu() {
 		while (true) {
 			System.out.println("======================통계===============================");
-			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  ");
+			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. 메뉴 돌아가기");
 			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
@@ -205,10 +205,13 @@ public class MenuView {
 				cat_selec();
 				break;
 			case 3:
-
+				StatisController.selectDayTotal();
 				break;
 			case 4:
-				StatisController.selectTotal();
+				StatisController.selectMonthTotal();
+				break;
+			case 5:
+				printAdminMenu();
 				break;
 			}
 		}
@@ -223,13 +226,13 @@ public class MenuView {
 		
 		switch (selecNum) {
 		case 1:
-			StatisController.selectTotal();
+			StatisController.selectCatTotal(1);
 			break;
 		case 2:
-			StatisController.selectTotal();
+			StatisController.selectCatTotal(2);
 			break;
 		case 3:
-			StatisController.selectTotal();
+			StatisController.selectCatTotal(3);
 			break;
 		}
 	}
