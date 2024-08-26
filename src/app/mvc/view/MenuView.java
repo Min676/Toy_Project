@@ -2,6 +2,7 @@ package app.mvc.view;
 
 import java.util.Scanner;
 
+import app.mvc.controller.CartController;
 import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
 import app.mvc.controller.StatisController;
@@ -43,7 +44,7 @@ public class MenuView {
 	}
 
 	public static void printMenu() {
-		System.out.println("=================Coffe Shop===============");
+		System.out.println("=================Coffee Shop===============");
 		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
 	}
 
@@ -129,11 +130,12 @@ public class MenuView {
 	 */
 	public static void printInputOrder(String userId) {
 		System.out.print("주문상품번호 : ");
-		int goodsId = Integer.parseInt(sc.nextLine());
+//		int goodsId = Integer.parseInt(sc.nextLine());
+		int goodsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int goodsCnt = Integer.parseInt(sc.nextLine());
+		int goodsCnt = sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize = Integer.parseInt(sc.nextLine());
+		int selectSize = sc.nextInt();
 		
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, goodsId, goodsCnt, selectSize);
@@ -169,7 +171,7 @@ public class MenuView {
 	 * 장바구니
 	 */
 	public static void viewCart(String id) {
-		
+		// 작성하기
 	}
 
 	public static void printAdminMenu() {

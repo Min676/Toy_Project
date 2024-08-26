@@ -1,6 +1,8 @@
 package app.mvc.view;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.Orders;
@@ -60,5 +62,51 @@ public class EndView {
 		System.out.println("---------------------------------------");
 
 	}
+	
+	public static void printViewCart(String id , Map<Products,Integer> cart) {
+		System.out.println("장바구니내용....");
+		
+		for(Products products: cart.keySet()) {
+			int productsId = products.getProduct_id();//상품번호
+			String name = products.getName();//상품이름
+			int price = products.getPrice();//상품가격
+			
+			int quantity = cart.get(products);//key에 해당하는 value즉 수량 
+			System.out.println(productsId+" : "+name+" : "+price+" \t "+quantity);
+		}
+		
+		
+//		Scanner sc = new Scanner(System.in);
+//		System.out.println("1.주문하기  |  9.나가기");
+//		switch(Integer.parseInt(sc.nextLine())) {
+//		case 1:
+//			
+//			 System.out.print("배송주소 : ");
+//			 String address = sc.nextLine();
+//			
+//			 Orders orders = new Orders(0, null, id, address, 0);
+//			 
+//			 List<OrderLine> orderLineList = orders.getOrderLineList();
+//			 
+//			 for(Goods goodsKey : cart.keySet()) {
+//				 int qty = cart.get(goodsKey); // map에서 key=Goods에 해당하는 value=수량 조회
+//				 OrderLine orderLine = new OrderLine(0, 0, goodsKey.getGoodsId() , 0, qty, 0);
+//				 orderLineList.add(orderLine);
+//			 }
+//			 
+//			 
+//			 System.out.println("orderLineList 개수 : " + orderLineList.size());
+//			 
+//			 OrderController.insertOrders(orders);// 주문 + 주문상세
+//			 
+//			 //장바구니비우기
+//			 SessionSet ss = SessionSet.getInstance();
+//			 Session session = ss.get(id);
+//			 session.removeAttribute("cart");
+//			break;
+//			
+//		case 9:
+//			break;
+		}
 
 }
