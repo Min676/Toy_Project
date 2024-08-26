@@ -2,7 +2,6 @@ package app.mvc.controller;
 
 import java.sql.SQLException;
 
-import app.mvc.exception.AddException;
 import app.mvc.model.dto.Users;
 import app.mvc.model.service.UserService;
 import app.mvc.view.FailView;
