@@ -42,7 +42,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			listCat = listCat(con, "select category_seq,count(*) from orders join orders_item using(order_id) join "
 					+ "products using(product_id) group by category_seq order by category_seq");//
 			p = product(con, "select *from max_product_info");
-			userName = userName(con, "select name from user_max_info");
+			userName = userName(con, "select name from user_max_info",0);
 			s = new Statisics(total, pTotal, listCat, p, userName, 0);
 
 		} finally {
@@ -76,7 +76,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 					+ "join products using(product_id) where TO_CHAR(order_date, 'MMDD') = TO_CHAR(SYSDATE, 'MMDD')"
 					+ "group by category_seq  order by category_seq");
 			p = product(con, "select *from max_product_info_day");
-			userName = userName(con, "select name from user_max_info_day");
+			userName = userName(con, "select name from user_max_info_day",0);
 			incRes = incDay(con,
 					"SELECT sum(total_price) FROM orders WHERE TO_CHAR(order_date, 'MMDD') = TO_CHAR(SYSDATE, 'MMDD')")
 					- incDay(con,
@@ -115,7 +115,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 					+ "join products using(product_id) where TO_CHAR(order_date, 'YYMM') = TO_CHAR(SYSDATE, 'YYMM')"
 					+ "group by category_seq  order by category_seq");
 			p = product(con, "select *from max_product_info_month");
-			userName = userName(con, "select name from user_max_info_month");
+			userName = userName(con, "select name from user_max_info_month",0);
 			incRes = incDay(con,
 					"SELECT sum(total_price) FROM orders WHERE TO_CHAR(order_date, 'YYMM') = TO_CHAR(SYSDATE, 'YYMM')")
 					- incDay(con,
@@ -156,7 +156,9 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			else if (category_seq == 3)
 				p = product(con, "select *from max_product_info_cat3");
 			
-			userName = userName(con, "select name from user_max_info");
+			userName = userName(con, "select u.name, SUM(oi.QUANTITY) AS TOTAL_QUANTITY FROM ORDERS o join ORDERS_ITEM oi using(order_id) "
+									+ "join PRODUCTS p using(product_id) join USERS u using(user_seq) where p.CATEGORY_SEQ = ?"
+									+ "group BY u.name order BY TOTAL_QUANTITY desc FETCH FIRST 1 ROWS ONLY ",category_seq);
 
 			s = new Statisics(total, pTotal, null, p, userName, 0);
 
@@ -252,14 +254,16 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 		return p;
 	}
 
-	public String userName(Connection con, String sql) throws SQLException {
+	public String userName(Connection con, String sql, int cat) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String name = null;
-
+		
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
+			if(cat>0)
+				ps.setInt(1, cat);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				name = rs.getString(1);
