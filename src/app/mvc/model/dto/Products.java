@@ -19,6 +19,20 @@ public class Products {
 		this.category_seq = category_seq;
 	}
 
+	public Products(String name, String info, int price, int category_seq) {
+		this.name = name;
+		this.info = info;
+		this.price = price;
+		this.category_seq = category_seq;
+	}
+
+	public Products(int product_id, String name, String info, int price) {
+		Product_id = product_id;
+		this.name = name;
+		this.info = info;
+		this.price = price;
+	}
+
 	public int getProduct_id() {
 		return Product_id;
 	}

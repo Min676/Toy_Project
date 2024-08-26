@@ -1,5 +1,9 @@
 package app.mvc.exception;
 
+
+/**
+ *
+ * */
 public class AddException extends Exception {
 	public  AddException() {
 	}
