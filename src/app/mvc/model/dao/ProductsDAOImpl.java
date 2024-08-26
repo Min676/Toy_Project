@@ -124,4 +124,28 @@ public class ProductsDAOImpl implements ProductsDAO {
 		return list;
 	}
 
+	@Override
+	public int productInsert(Products products) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement("INSERT INTO products (name, info, price,CATEGORY_SEQ) VALUES (? ,?, ?, ?,)");
+			ps.setString(1, products.getName());
+			ps.setString(2, products.getInfo());
+			ps.setInt(3, products.getPrice());
+			ps.setInt(4, products.getCategory_seq());
+
+			int rowsAffected = ps.executeUpdate();
+
+			if (rowsAffected > 0) {
+				result = 1; // 삽입 성공 시 1 반환
+			}
+		} finally {
+			DbManager.close(con, ps, null);
+		}
+		return result;
+	}
 }

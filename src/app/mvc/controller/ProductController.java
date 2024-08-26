@@ -69,4 +69,15 @@ public class ProductController {
         }
     }
 
+		public static void  productInsert(Products products){
+			try {
+				productService.productInsert(products);
+				EndView.printMessage("제품명 " + products.getName() + "가 등록되었습니다!");
+			} catch (SQLException e) {
+				FailView.errorMessage(e.getMessage());
+			} catch (ModifyException e) {
+				FailView.errorMessage(e.getMessage());
+			}
+		}
+
 }

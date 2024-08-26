@@ -50,6 +50,13 @@ public class ProductService {
         return list;
     }
 
+    public int productInsert(Products products) throws ModifyException , SQLException{
+        int result =0;
+        result = productsDAO.productInsert(products);
+        if(result == 0) throw new ModifyException("상품이 등록되지 않았습니다");
+        return result;
+    }
+
 
 
 
