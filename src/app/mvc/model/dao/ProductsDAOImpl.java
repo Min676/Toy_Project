@@ -132,7 +132,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 		try {
 			con = DbManager.getConnection();
-			ps = con.prepareStatement("INSERT INTO products (name, info, price,CATEGORY_SEQ) VALUES (? ,?, ?, ?,)");
+			ps = con.prepareStatement("INSERT INTO products (name, info, price,CATEGORY_SEQ) VALUES (? ,?, ?, ?)");
 			ps.setString(1, products.getName());
 			ps.setString(2, products.getInfo());
 			ps.setInt(3, products.getPrice());
