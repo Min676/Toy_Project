@@ -38,5 +38,13 @@ public class StatisController {
 		}
 	}
 	
+	public static void selectTopSellTen() {
+		try {
+			EndView.printTopSell(statisService.selectTopsell());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }

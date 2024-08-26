@@ -43,7 +43,7 @@ public class MenuView {
 
 	public static void printMenu() {
 		System.out.println("=================Coffe Shop===============");
-		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
+		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  |  9. 종료");
 	}
 
 	public static void printUserMenu(String userId, String userPw) {
@@ -238,7 +238,7 @@ public class MenuView {
 	public static void totalMenu() {
 		while (true) {
 			System.out.println("======================통계===============================");
-			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. 메뉴 돌아가기");
+			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. top10 메뉴  | 6. 메뉴 돌아가기");
 			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
@@ -254,6 +254,9 @@ public class MenuView {
 				StatisController.selectMonthTotal();
 				break;
 			case 5:
+				StatisController.selectTopSellTen();
+				break;
+			case 6:
 				printAdminMenu();
 				break;
 			}

@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Statisics;
@@ -27,7 +30,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 
@@ -55,7 +58,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 		int incRes = 0;
@@ -94,7 +97,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 		int incRes = 0;
@@ -133,7 +136,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 
@@ -210,20 +213,19 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 		return sum;
 	}
 
-	public List<Integer> listCat(Connection con, String sql) throws SQLException {
+	public Map<Integer,Integer> listCat(Connection con, String sql) throws SQLException {
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Integer> list = new ArrayList<>();
-		int catSum = 0;
+		Map<Integer,Integer> list = new HashMap<Integer, Integer>();
+		
 
 		try {
 
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				// System.out.println(rs.getInt(1) + ""+rs.getInt(2));
-				list.add(catSum = rs.getInt(2));
+				list.put(rs.getInt(1),rs.getInt(2));
 			}
 		} finally {
 			DbManager.close(null, ps, rs);
@@ -286,6 +288,27 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 		}
 
 		return sum;
+	}
+
+	@Override
+	public Map<String, Integer> topSell() throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Map<String,Integer> map = new LinkedHashMap<String,Integer>();
+		try {
+			con = DbManager.getConnection();
+			ps= con.prepareStatement("select * from (select name, count(*) cnt from orders join orders_item using(order_id) "
+					+ "join products using(product_id)GROUP BY name order by cnt desc) where ROWNUM <= 10");
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				map.put(rs.getString(1),rs.getInt(2));
+			}
+		}finally {
+			DbManager.close(con, ps, rs);
+		}
+		return map;
 	}
 
 }
