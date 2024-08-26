@@ -30,6 +30,9 @@ public class MenuView {
 			case 2:
 				MenuView.login();// 로그인
 				break;
+			case 3:
+				MenuView.printAdminMenu();// 로그인
+				break;
 
 			case 9:
 				System.exit(0);
@@ -38,8 +41,8 @@ public class MenuView {
 	}
 
 	public static void printMenu() {
-		System.out.println("=== Heejung Shopping Mall ===");
-		System.out.println("1. 가입   |   2. 로그인   |  9. 종료");
+		System.out.println("=================Coffe Shop===============");
+		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
 	}
 
 	public static void printUserMenu(String userId) {
@@ -122,5 +125,28 @@ public class MenuView {
 	public static void viewCart(String id) {
 
 	}
+	
+	
+	public static void printAdminMenu() {
+		while (true) {
+			System.out.println("=====================================================");
+			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록  | 4. 통계  ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch (menu) {
+			case 1:
+				menu();
+				return; 
+			case 2:
+				ProductController.productSelect();// 전체 상품조회
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			}
+		}
+
+	}
+	
 
 }

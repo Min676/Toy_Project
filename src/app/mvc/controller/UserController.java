@@ -27,7 +27,10 @@ public class UserController {
 	public void login(String userId,String userPwd){
 		try {
 			Users u = UserService.login(userId, userPwd);
-			MenuView.printUserMenu(userId);
+			if(u!=null && userId=="admin")
+				MenuView.printAdminMenu();
+			else
+				MenuView.printUserMenu(userId);
 			//MenuView.menu();
 		}catch (Exception e) {
 			//e.printStackTrace();
