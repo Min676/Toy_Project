@@ -1,5 +1,7 @@
 package app.mvc.model.dto;
 
+import java.util.List;
+
 public class OrderItem {
 
 	private int orderItemId;
@@ -7,6 +9,8 @@ public class OrderItem {
 	private int productId;
 	private int quantity;
 	private int selecSize;
+	
+	List<OrderOptionList> orderOptionList;
 
 	public OrderItem() {}
 	public OrderItem(int orderItemId, int orderId, int productId, int quantity, int selecSize) {
