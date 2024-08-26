@@ -24,21 +24,14 @@ public class UserDAOImpl implements UserDAO {
 		  Users user=null;
 		 try {
 		   con = DbManager.getConnection();
-		   ps= con.prepareStatement("select * from users where user_id=? and pw=?");
+		   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?");
 		   ps.setString(1, userId);
 		   ps.setString(2, pw);
 		   
-		   System.out.println(userId);
-
-		   System.out.println(pw);
-		   
-	        rs = ps.executeQuery(); 
-	        
+	        rs = ps.executeQuery(); 	
 	        if(rs.next()) {
-	        	System.out.println("check 1 anchor : "+rs.getInt(1));
 	        	user= new Users(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5),rs.getInt(6),rs.getInt(7));
 	        }
-	        System.out.println("this anchor!!");
       }finally {
       	DbManager.close(con, ps, rs);
       }
