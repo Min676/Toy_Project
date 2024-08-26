@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import app.mvc.model.dto.Orders;
 import app.mvc.model.service.OrderService;
+import app.mvc.view.FailView;
 
 public class OrderController {
 	private static OrderService orderService = new OrderService();
@@ -11,7 +12,7 @@ public class OrderController {
 		try {
 			orderService.selectOrdersByUserId(userId);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 	
@@ -19,7 +20,7 @@ public class OrderController {
 		try {
 			orderService.orderInsert(orders);
 		} catch (Exception e) {
-			// TODO: handle exception
+			FailView.errorMessage(e.getMessage());
 		}
 	}
 }
