@@ -78,7 +78,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 	}
 
 	@Override
-	public int productUpdateByProductId(int product_id , Products products) throws SQLException {
+	public int productUpdateByProductId(Products products) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
@@ -89,7 +89,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			ps.setString(1, products.getName());
 			ps.setString(2, products.getInfo());
 			ps.setInt(3, products.getPrice());
-			ps.setInt(4, product_id);
+			ps.setInt(4, products.getProduct_id());
 
 			int rowsAffected = ps.executeUpdate();
 
@@ -132,7 +132,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 		try {
 			con = DbManager.getConnection();
-			ps = con.prepareStatement("INSERT INTO products (name, info, price,CATEGORY_SEQ) VALUES (? ,?, ?, ?,)");
+			ps = con.prepareStatement("INSERT INTO products (name, info, price,CATEGORY_SEQ) VALUES (? ,?, ?, ?)");
 			ps.setString(1, products.getName());
 			ps.setString(2, products.getInfo());
 			ps.setInt(3, products.getPrice());
@@ -141,7 +141,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			int rowsAffected = ps.executeUpdate();
 
 			if (rowsAffected > 0) {
-				result = 1; // 삽입 성공 시 1 반환
+				result = 1;
 			}
 		} finally {
 			DbManager.close(con, ps, null);
