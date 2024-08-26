@@ -7,7 +7,7 @@ public class StatisController {
 	
 	public static void selectTotal() {
 		try {
-			statisService.selectTotal();
+			System.out.println(statisService.selectTotal());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -141,9 +141,10 @@ public class MenuView {
 				ProductController.productSelect();// 전체 상품조회
 				break;
 			case 3:
-				StatisController.selectTotal();
+				
 				break;
 			case 4:
+				StatisController.selectTotal();
 				break;
 			}
 		}
