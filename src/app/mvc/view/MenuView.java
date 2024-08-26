@@ -10,6 +10,7 @@ import app.mvc.session.SessionSet;
 
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
+	static UserController userController = new UserController();
 
 	public static void menu() {
 		while (true) {
@@ -21,10 +22,14 @@ public class MenuView {
 			int menu = Integer.parseInt(sc.nextLine());
 			switch (menu) {
 			case 1:
+				printUserMenu("user1");
 				// MenuView.register(); // 가입
 				break;
 			case 2:
 				MenuView.login();// 로그인
+				break;
+			case 3:
+				MenuView.printAdminMenu();// 로그인
 				break;
 
 			case 9:
@@ -34,8 +39,8 @@ public class MenuView {
 	}
 
 	public static void printMenu() {
-		System.out.println("=== Heejung Shopping Mall ===");
-		System.out.println("1. 가입   |   2. 로그인   |  9. 종료");
+		System.out.println("=================Coffe Shop===============");
+		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
 	}
 
 	public static void printUserMenu(String userId) {
@@ -87,7 +92,7 @@ public class MenuView {
 		System.out.print("비번 : ");
 		String userPwd = sc.nextLine();
 
-		UserController.login(userId, userPwd);
+		userController.login(userId, userPwd);
 	}
 
 	/**
@@ -118,5 +123,28 @@ public class MenuView {
 	public static void viewCart(String id) {
 
 	}
+	
+	
+	public static void printAdminMenu() {
+		while (true) {
+			System.out.println("=====================================================");
+			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록  | 4. 통계  ");
+			int menu = Integer.parseInt(sc.nextLine());
+			switch (menu) {
+			case 1:
+				menu();
+				return; 
+			case 2:
+				ProductController.productSelect();// 전체 상품조회
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			}
+		}
+
+	}
+	
 
 }

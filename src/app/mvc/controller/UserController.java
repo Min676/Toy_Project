@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import app.mvc.model.dto.Users;
 import app.mvc.model.service.UserService;
 import app.mvc.view.FailView;
+import app.mvc.view.MenuView;
 
 public class UserController {
 	static UserService userService = new UserService();
@@ -22,6 +23,20 @@ public class UserController {
 		
 	}
 	
-	public static void login(String userId,String userPwd){}
+	public void login(String userId,String userPwd){
+		try {
+			Users u = UserService.login(userId, userPwd);
+			if(u!=null && userId=="admin")
+				MenuView.printAdminMenu();
+			else
+				MenuView.printUserMenu(userId);
+			//MenuView.menu();
+		}catch (Exception e) {
+			//e.printStackTrace();
+			FailView.errorMessage(e.getMessage());
+			
+		}
+		
+	}
 	
 }
