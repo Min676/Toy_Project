@@ -1,5 +1,6 @@
 package app.mvc.view;
 
+import app.mvc.model.dto.Products;
 import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
@@ -12,6 +13,7 @@ import app.mvc.session.SessionSet;
 public class MenuView {
 	private static Scanner sc = new Scanner(System.in);
 	static UserController userController = new UserController();
+
 
 	public static void menu() {
 		while (true) {
@@ -145,8 +147,8 @@ public class MenuView {
 	public static void printAdminMenu() {
 		while (true) {
 			System.out.println("======================ADMIN_MENU===============================");
-			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록  | 4. 통계  ");
-			int menu = Integer.parseInt(sc.nextLine());
+			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
+			int menu = sc.nextInt();
 			switch (menu) {
 			case 1:
 				menu();
@@ -155,16 +157,56 @@ public class MenuView {
 				ProductController.productSelect();// 전체 상품조회
 				break;
 			case 3:
-
+				productInsert();
 				break;
 			case 4:
+				productUpdate();
 				break;
+			case 5:
+				productDelete();
+			break;
 			}
 		}
 
 	}
 
+	public static void productInsert(){
 
-	
+		System.out.println("====================== 상품 등록 ===============================");
+		System.out.println("등록할 상품명을 입력해주세요");
+		String name = sc.next();
+		System.out.println("등록할 상품정보를 입력해주세요");
+		String info = sc.next();
+		System.out.println("등록할 상품의 가격을 입력해주세요");
+		int price = sc.nextInt();
+		System.out.println("등록할 상품의 카테고리 분류를 입력해주세요(1. 커피 2. 음료 3. 디저트 4. 기타");
+		int category = sc.nextInt();
 
+		Products products = new Products(name,info,price,category);
+		ProductController.productInsert(products);
+	}
+
+	public static void productUpdate(){
+
+		System.out.println("====================== 상품 수정 ===============================");
+		System.out.println("수정할 상품명ID를 입력해주세요");
+		int id = sc.nextInt();
+		System.out.println("등록할 상품명을 입력해주세요");
+		String name = sc.next();
+		System.out.println("등록할 상품정보를 입력해주세요");
+		String info = sc.next();
+		System.out.println("등록할 상품의 가격을 입력해주세요");
+		int price = sc.nextInt();
+
+		Products products = new Products(id,name,info,price);
+		ProductController.productUpdateByProductId(products);
+	}
+
+	public static void productDelete(){
+
+		System.out.println("====================== 상품 삭제 ===============================");
+		System.out.println("삭제할 상품명ID를 입력해주세요");
+		int id = sc.nextInt();
+		ProductController.productDeleteByProductId(id);
+	}
 }
