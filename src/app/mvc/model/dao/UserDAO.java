@@ -14,7 +14,13 @@ public interface UserDAO {
 	 * 로그인하기
 	 */
 	Users login(String userId, String pw) throws SQLException;
-
+	
+	/**
+	 * 회원 정보 보기
+	 * */
+	
+	Users infoUser(String Id, String pw) throws SQLException;
+	
 	/**
 	 * 회원 정보 수정
 	 */

@@ -10,18 +10,6 @@ import app.mvc.view.MenuView;
 public class UserController {
 	static UserService userService = new UserService();
 	
-	public static void register(Users user) {
-	        
-		try {   
-	        // 사용자 등록 로직 호출
-	        userService.insertUser(user);	
-		    
-		}catch(SQLException e) {
-			FailView.errorMessage(e.getMessage());
-		}
-		
-	}
-	
 	
 	public static void insertUser(Users user) {
 		try {
@@ -32,7 +20,25 @@ public class UserController {
 		
 	}
 	
-	public static void selecUser(String userId) {
+	public static void infoUser(String id , String pw) {
+		
+		try {
+			userService.infoUser(id,pw);
+		} catch (Exception e) {
+			FailView.errorMessage(e.getMessage());
+		}
+		
+		
+	
+		
+	}
+	
+	public static void selecUser(String userId, String pw) {
+		
+	}
+	
+	public static void cancleUser(String userid, String pw) {
+		
 		
 	}
 	
@@ -43,7 +49,7 @@ public class UserController {
 				MenuView.printAdminMenu();
 			}
 			else
-				MenuView.printUserMenu(userId);
+				MenuView.printUserMenu(userId, userPwd);
 			//MenuView.menu();
 		}catch (Exception e) {
 			//e.printStackTrace();

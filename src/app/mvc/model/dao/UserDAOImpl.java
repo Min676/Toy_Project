@@ -103,7 +103,49 @@ public class UserDAOImpl implements UserDAO {
 		return user;
 
 	}
-	
+	/**
+	 * 회원정보 보기
+	 * @return 
+	 * */
+	public Users infoUser(String id , String pw) throws SQLException {
+		
+		Connection con=null;
+		  PreparedStatement ps=null;
+		  ResultSet rs=null;
+		  Users user=null;
+		 try {
+		   con = DbManager.getConnection(); //db연결
+		   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?"); //sql문 입력
+		   ps.setString(1, id); //id 입력받음
+		   ps.setString(2, pw); //pw 입력받음
+		   
+		   rs = ps.executeQuery();
+		   
+		   if (rs.next()) { 
+	            // ResultSet에서 데이터 읽어 Users 객체에 담기
+	            user = new Users(
+	                rs.getInt("user_seq"), 
+	                rs.getString("user_id"), 
+	                rs.getString("name"), 
+	                rs.getString("pw"), 
+	                rs.getInt("point"),
+	                rs.getInt("membership_level"),
+	                rs.getInt("ocount")
+	            );
+
+	            // 사용자 정보를 출력
+	            System.out.println("회원 정보: " + user.toString() + "\n");
+	        } else {
+	            System.out.println("회원 정보를 찾을 수 없습니다.");
+	        }
+
+		   
+    }finally {
+    	DbManager.close(con, ps, rs);
+    }
+		return user;
+		
+	}
 	
     
 	/**

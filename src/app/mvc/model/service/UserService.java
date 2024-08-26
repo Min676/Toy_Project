@@ -16,6 +16,13 @@ public class UserService {
 		userDao.insertUser(user);
 
 	}
+	public Users infoUser(String id , String pw) throws SQLException {
+		
+		return userDao.infoUser(id, pw);
+		
+		
+	}
+	
 
 	public static Users login(String userId, String userPwd) throws NotFoundException, SQLException {
 		Users user = userDao.login(userId, userPwd);

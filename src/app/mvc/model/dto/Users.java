@@ -91,21 +91,21 @@ public class Users {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("[userSeq=");
+		builder.append(" [ userSeq= ");
 		builder.append(userSeq);
-		builder.append(", userId=");
+		builder.append(", userId= ");
 		builder.append(userId);
-		builder.append(", name=");
+		builder.append(", name= ");
 		builder.append(name);
-		builder.append(", pw=");
+		builder.append(", pw= ");
 		builder.append(pw);
-		builder.append(", point=");
+		builder.append(", point= ");
 		builder.append(point);
-		builder.append(", membershipLevel=");
+		builder.append(", membershipLevel= ");
 		builder.append(membershipLevel);
-		builder.append(", ocount=");
+		builder.append(", ocount= ");
 		builder.append(ocount);
-		builder.append("]");
+		builder.append(" ] ");
 		return builder.toString();
 	}
 

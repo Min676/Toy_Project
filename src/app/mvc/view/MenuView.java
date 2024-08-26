@@ -45,7 +45,7 @@ public class MenuView {
 		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
 	}
 
-	public static void printUserMenu(String userId) {
+	public static void printUserMenu(String userId, String userPw) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
 			System.out.println(ss.getSet()); // Set객체
@@ -57,8 +57,6 @@ public class MenuView {
 			case 1:
 				logout(userId);//
 				return; // 함수를 빠져나가라.
-			// break;
-
 			case 2:
 				ProductController.productSelect();// 전체 상품조회
 				break;
@@ -72,15 +70,34 @@ public class MenuView {
 				viewCart(userId);
 				break;
 			case 6:
-				UserController.selecUser(userId);
+				MenuView.printSubMenu(userId, userPw);;
 				break;
 			}
 		}
 
 	}
 
-	public static void printSubMenu() {
-		System.out.println("1. 수정   |  2.탈퇴   | 9. 나가기");
+	public static void printSubMenu(String userId, String userPw) {
+		System.out.println("1. 정보확인   |	 2.수정  |  3. 탈퇴   | 9. 나가기");
+		
+		int menu = sc.nextInt();
+		 
+		switch (menu) {
+		case 1:
+			UserController.infoUser(userId, userPw);
+			break;
+			
+		case 2:
+			UserController.selecUser(userId, userPw);
+			break;
+		case 3:
+			UserController.cancleUser(userId, userPw);
+			break;	
+			
+		case 4:
+			return;
+		}
+			
 	}
 
 	/**
@@ -97,7 +114,7 @@ public class MenuView {
 
 		Users user = new Users(userId, userName, userPwd);
 		
-		UserController.register(user);
+		UserController.insertUser(user);
 	}
 	/**
 	 * 로그인 메뉴
@@ -111,6 +128,23 @@ public class MenuView {
 
 		userController.login(userId, userPwd);
 	}
+	
+	/**
+	 * 회원 정보 수정
+	 * */
+	public static void selectUser() {
+		
+		
+	}
+	
+	/**
+	 * 회원 탈퇴
+	 * */
+	public static void cancleUser() {
+		
+		
+	}
+	
 
 	/**
 	 * 로그아웃
