@@ -202,10 +202,10 @@ public class MenuView {
 			OrderOptionList optionList = null;
 			System.out.println("=====================커피 옵션 선택=====================");
 			while(true) {
-				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
+				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 선택 완료");
 				option =sc.nextInt();
-				if(option == 5) break;
-				if (option < 1 || option > 5) {
+				if(option == 4) break;
+				if (option < 1 || option > 4) {
 						System.out.println("다시 선택해 주세요");
 						continue;
 				} 
@@ -224,11 +224,11 @@ public class MenuView {
 			int option = 0;
 			OrderOptionList optionList = null;
 			System.out.println("=====================음료 옵션 선택=====================");
-			while(option != 8) {
-				System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게 | 8. 선택 종료");
+			while(option != 7) {
+				System.out.println("4. 펄 추가 | 5. 망고 추가 | 6. 샷 추가 | 7. 선택 종료");
 				option =sc.nextInt();
 				if(option == 8) break;
-				if (option < 5 || option > 8) {
+				if (option < 4 || option > 7) {
 					System.out.println("다시 선택해 주세요");
 					continue;
 				}
@@ -244,11 +244,11 @@ public class MenuView {
 			int option = 0;
 			OrderOptionList optionList = null;
 			System.out.println("=====================디저트 옵션 선택=====================");
-			while(option != 8) {
-				System.out.println("8. 시럽 추가 | 9. 보통 | 10. 달게 | 11. 선택 종료");
+			while(option != 11) {
+				System.out.println("7. 아이스크림 추가 | 11. 선택 종료");
 				option =sc.nextInt();
 				if(option == 11) break;
-				if (option < 8 || option > 11) {
+				if (option != 7) {
 					System.out.println("다시 선택해 주세요");
 					continue;
 				}
