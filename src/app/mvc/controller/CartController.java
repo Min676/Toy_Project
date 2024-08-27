@@ -23,7 +23,7 @@ public class CartController {
 		return u;
 	}
 	
-	public static void putCart(String id, int productId, int quantity, int size) {
+	public static void putCart(String id, int productId, int quantity, int size, OrderItem orderItem) {
 		
 		try {
 			Products products = productService.productSelectByProductId(productId);
@@ -33,7 +33,7 @@ public class CartController {
 			Session session = ss.get(id);
 			
 			//세션에서 장바구니 찾기
-			Map<Products, Integer> cart = (Map<Products,Integer>)session.getAttribute("cart"); //상품 , 수량 저장 
+			Map<OrderItem, Integer> cart = (Map<OrderItem,Integer>)session.getAttribute("cart"); //상품 , 수량 저장 
 			
 			//장바구니가 없으면 장바구니 생성
 			if(cart == null) { 
@@ -42,12 +42,12 @@ public class CartController {
 			}
 			
 			//장바구니에서 상품찾기
-			Integer oldQuantity = cart.get(products);//goods는 장바구니 Map의 key
+			Integer oldQuantity = cart.get(orderItem);//goods는 장바구니 Map의 key
 			if(oldQuantity != null) { //장바구니에 이미 상품이 있다면
 				quantity += oldQuantity; //수량을 누적
 			}
 			
-			cart.put(products, quantity); //장바구니에 상품 넣기
+			cart.put(orderItem, quantity); //장바구니에 상품 넣기
 			EndView.printMessage("장바구니에 담았습니다");
 			
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class CartController {
 		SessionSet ss = SessionSet.getInstance();
 		Session session = ss.get(id);
 		
-		Map<Products,Integer> cart = (Map<Products, Integer>) session.getAttribute("cart");
+		Map<OrderItem,Integer> cart = (Map<OrderItem, Integer>) session.getAttribute("cart");
 		if(cart == null ) { // 장바구니가 없는 고객
 			FailView.errorMessage("장바구니가 비었습니다");
 		}else {

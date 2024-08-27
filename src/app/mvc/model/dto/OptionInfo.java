@@ -5,7 +5,6 @@ public class OptionInfo {
     private String optionName;
     private int optionPrice;
     private int categorySeq;
-    private int size;
     
     public OptionInfo() {}
 	public OptionInfo(int optionId, String optionname, int optionprice, int categorySeq) {
@@ -14,15 +13,6 @@ public class OptionInfo {
 		this.optionName = optionname;
 		this.optionPrice = optionprice;
 		this.categorySeq = categorySeq;
-	}
-	
-	public OptionInfo(int optionId, String optionname, int optionprice, int categorySeq, int size) {
-		super();
-		this.optionId = optionId;
-		this.optionName = optionname;
-		this.optionPrice = optionprice;
-		this.categorySeq = categorySeq;
-		this.size = size;
 	}
 	
 	public int getOptionId() {
@@ -49,12 +39,7 @@ public class OptionInfo {
 	public void setCategorySeq(int categorySeq) {
 		this.categorySeq = categorySeq;
 	}
-	public int getSelecSize() {
-		return size;
-	}
-	public void setSelecSize(int selecSize) {
-		this.size = selecSize;
-	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

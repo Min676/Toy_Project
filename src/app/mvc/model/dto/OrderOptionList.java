@@ -5,7 +5,6 @@ public class OrderOptionList {
     private int orderItemId;
     private int oiId;
     private int selecCnt;
-    private int selecSize;
     
     public OrderOptionList() {}
     
@@ -15,15 +14,6 @@ public class OrderOptionList {
 		this.orderItemId = orderItemId;
 		this.oiId = oiId;
 		this.selecCnt = selecCnt;
-	}
-    
-    public OrderOptionList(int optonId, int orderItemId, int oiId, int selecCnt, int selecSize) {
-		super();
-		this.optionId = optonId;
-		this.orderItemId = orderItemId;
-		this.oiId = oiId;
-		this.selecCnt = selecCnt;
-		this.selecSize = selecSize;
 	}
 
 	// Getters and Setters
@@ -59,12 +49,20 @@ public class OrderOptionList {
         this.selecCnt = selecCnt;
     }
 
-	public int getSelecSize() {
-		return selecSize;
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OrderOptionList [optionId=");
+		builder.append(optionId);
+		builder.append(", orderItemId=");
+		builder.append(orderItemId);
+		builder.append(", oiId=");
+		builder.append(oiId);
+		builder.append(", selecCnt=");
+		builder.append(selecCnt);
+		builder.append("]");
+		return builder.toString();
 	}
-
-	public void setSelecSize(int selecSize) {
-		this.selecSize = selecSize;
-	}
+    
     
 }
