@@ -1,7 +1,9 @@
 package app.mvc.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
@@ -27,9 +29,9 @@ public class OrderController {
 		}
 	}
 	
-	public static void orderInsert (Orders orders) {
+	public static void orderInsert (Orders orders,int point, int cash, int use) {
 		try {
-			orderService.orderInsert(orders);
+			orderService.orderInsert(orders,point,cash,use);
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}
@@ -61,5 +63,16 @@ public class OrderController {
 			FailView.errorMessage(e.getMessage());
 		}
 		return info;
+	}
+	
+	
+	public Map<Integer, Integer> userWalletInfo(String userId) {
+		Map<Integer, Integer> map =new HashMap<>() ;
+		try {
+			map = orderService.userWalletInfo(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return map;
 	}
 }
