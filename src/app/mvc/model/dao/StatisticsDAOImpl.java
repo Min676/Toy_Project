@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Statisics;
@@ -27,7 +30,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 
@@ -39,7 +42,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			listCat = listCat(con, "select category_seq,count(*) from orders join orders_item using(order_id) join "
 					+ "products using(product_id) group by category_seq order by category_seq");//
 			p = product(con, "select *from max_product_info");
-			userName = userName(con, "select name from user_max_info");
+			userName = userName(con, "select name from user_max_info",0);
 			s = new Statisics(total, pTotal, listCat, p, userName, 0);
 
 		} finally {
@@ -55,7 +58,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 		int incRes = 0;
@@ -73,7 +76,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 					+ "join products using(product_id) where TO_CHAR(order_date, 'MMDD') = TO_CHAR(SYSDATE, 'MMDD')"
 					+ "group by category_seq  order by category_seq");
 			p = product(con, "select *from max_product_info_day");
-			userName = userName(con, "select name from user_max_info_day");
+			userName = userName(con, "select name from user_max_info_day",0);
 			incRes = incDay(con,
 					"SELECT sum(total_price) FROM orders WHERE TO_CHAR(order_date, 'MMDD') = TO_CHAR(SYSDATE, 'MMDD')")
 					- incDay(con,
@@ -94,7 +97,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 		int incRes = 0;
@@ -112,7 +115,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 					+ "join products using(product_id) where TO_CHAR(order_date, 'YYMM') = TO_CHAR(SYSDATE, 'YYMM')"
 					+ "group by category_seq  order by category_seq");
 			p = product(con, "select *from max_product_info_month");
-			userName = userName(con, "select name from user_max_info_month");
+			userName = userName(con, "select name from user_max_info_month",0);
 			incRes = incDay(con,
 					"SELECT sum(total_price) FROM orders WHERE TO_CHAR(order_date, 'YYMM') = TO_CHAR(SYSDATE, 'YYMM')")
 					- incDay(con,
@@ -133,7 +136,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
 		int total = 0;
 		int pTotal = 0;
-		List<Integer> listCat = new ArrayList<>();
+		Map<Integer,Integer> listCat = new HashMap<Integer,Integer>();
 		Products p = null;
 		String userName = null;
 
@@ -141,10 +144,12 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			con = DbManager.getConnection();
 
 			total = total(con,
-					"select sum(price * quantity) from orders join orders_item using(order_id) join products using(product_id) where category_seq =?",
+					"select sum(price * quantity) from orders join orders_item using(order_id) "
+					+ "join products using(product_id) where category_seq =?",
 					category_seq);
 			pTotal = pTotal(con,
-					"select sum(price * quantity) from orders join orders_item using(order_id) join products using(product_id) where category_seq =?",
+					"select sum(quantity) from orders join orders_item using(order_id) "
+					+ "join products using(product_id) where category_seq =?",
 					category_seq);
 			if (category_seq == 1)
 				p = product(con, "select *from max_product_info_cat");
@@ -153,7 +158,9 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			else if (category_seq == 3)
 				p = product(con, "select *from max_product_info_cat3");
 			
-			userName = userName(con, "select name from user_max_info");
+			userName = userName(con, "select u.name, SUM(oi.QUANTITY) AS TOTAL_QUANTITY FROM ORDERS o join ORDERS_ITEM oi using(order_id) "
+									+ "join PRODUCTS p using(product_id) join USERS u using(user_seq) where p.CATEGORY_SEQ = ?"
+									+ "group BY u.name order BY TOTAL_QUANTITY desc FETCH FIRST 1 ROWS ONLY ",category_seq);
 
 			s = new Statisics(total, pTotal, null, p, userName, 0);
 
@@ -210,20 +217,19 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 		return sum;
 	}
 
-	public List<Integer> listCat(Connection con, String sql) throws SQLException {
+	public Map<Integer,Integer> listCat(Connection con, String sql) throws SQLException {
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Integer> list = new ArrayList<>();
-		int catSum = 0;
+		Map<Integer,Integer> list = new HashMap<Integer, Integer>();
+		
 
 		try {
 
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				// System.out.println(rs.getInt(1) + ""+rs.getInt(2));
-				list.add(catSum = rs.getInt(2));
+				list.put(rs.getInt(1),rs.getInt(2));
 			}
 		} finally {
 			DbManager.close(null, ps, rs);
@@ -250,14 +256,16 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 		return p;
 	}
 
-	public String userName(Connection con, String sql) throws SQLException {
+	public String userName(Connection con, String sql, int cat) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String name = null;
-
+		
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
+			if(cat>0)
+				ps.setInt(1, cat);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				name = rs.getString(1);
@@ -286,6 +294,27 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 		}
 
 		return sum;
+	}
+
+	@Override
+	public Map<String, Integer> topSell() throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		Map<String,Integer> map = new LinkedHashMap<String,Integer>();
+		try {
+			con = DbManager.getConnection();
+			ps= con.prepareStatement("select * from (select name, count(*) cnt from orders join orders_item using(order_id) "
+					+ "join products using(product_id)GROUP BY name order by cnt desc) where ROWNUM <= 10");
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				map.put(rs.getString(1),rs.getInt(2));
+			}
+		}finally {
+			DbManager.close(con, ps, rs);
+		}
+		return map;
 	}
 
 }

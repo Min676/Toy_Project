@@ -13,6 +13,15 @@ public class Orders {
 	
 	public Orders() {}
 
+	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status) {
+		super();
+		this.orderId = orderId;
+		this.userSeq = userSeq;
+		this.orderDate = orderDate;
+		this.totalPrice = totalPrice;
+		this.status = status;
+	}
+	
 	public Orders(int orderId, int userSeq, String orderDate, int totalPrice, int status, String userId) {
 		super();
 		this.orderId = orderId;

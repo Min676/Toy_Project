@@ -1,6 +1,7 @@
 package app.mvc.model.service;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import app.mvc.model.dao.StatisticsDAO;
 import app.mvc.model.dao.StatisticsDAOImpl;
@@ -27,6 +28,11 @@ public class StatisService {
 	public Statisics selectCatTotal(int n) throws SQLException {
 		Statisics s= dao.categoryTotalStat(n);
 		return s;
+	}
+
+	public Map<String, Integer> selectTopsell() throws SQLException {
+		Map<String,Integer> map =dao.topSell();
+		return map;
 	}
 	
 	

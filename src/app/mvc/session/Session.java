@@ -33,7 +33,7 @@ public class Session {
 		return attributes.get(name);
 	}
 	
-	//제거(장바구니를 비울대 사용한다)
+	//제거(장바구니를 비울 때 사용한다)
 	public void removeAttribute(String name) {//cart
 		attributes.remove(name);
 	}

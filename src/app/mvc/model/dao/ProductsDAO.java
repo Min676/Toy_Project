@@ -38,6 +38,8 @@ public interface ProductsDAO {
 	 */
 
 	int productInsert(Products products) throws SQLException;
+
+	List<Products> productSelectRec()throws SQLException;
 	
 
 }
