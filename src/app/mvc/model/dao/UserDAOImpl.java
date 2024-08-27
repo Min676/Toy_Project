@@ -186,6 +186,7 @@ public class UserDAOImpl implements UserDAO {
 	 * */
 	   @Override
 	    public int cancleUser(String userId, String pw) throws SQLException {
+		   
 	        Connection con = null;
 	        PreparedStatement psDeleteUser = null;
 	        int result = 0;
@@ -214,6 +215,7 @@ public class UserDAOImpl implements UserDAO {
 
 	            if (result > 0) {  // 삭제된 행이 있는 경우
 	                System.out.println("회원에서 탈퇴 되었습니다.");
+	                
 	               
 	            } else {  // 삭제된 행이 없는 경우
 	                System.out.println("일치하는 사용자 정보가 없습니다.");
@@ -221,8 +223,9 @@ public class UserDAOImpl implements UserDAO {
 	        } finally {
 	            DbManager.close(con, psDeleteUser, null);  // 리소스 해제
 	        }
-	        MenuView.logout(userId);
+	        
 	        return result;  // 실행 결과 반환
+	        
 	    }
 
 	
@@ -249,6 +252,5 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return user;
 	}
-
 
 }

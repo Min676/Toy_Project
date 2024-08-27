@@ -125,11 +125,12 @@ public class MenuView {
 	 * 로그인 메뉴
 	 */
 	public static void login() {
+		sc.nextLine();
 		System.out.print("아이디 : ");
-		String userId = sc.next();
+		String userId = sc.nextLine();
 
 		System.out.print("비번 : ");
-		String userPwd = sc.next();
+		String userPwd = sc.nextLine();
 
 		userController.login(userId, userPwd);
 	}
