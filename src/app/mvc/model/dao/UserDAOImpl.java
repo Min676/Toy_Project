@@ -145,22 +145,24 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 수정
 	 * */
 	@Override
-	public int changeInfoUser(String userId, String pw) throws SQLException {
+	public int changeInfoUser(String userId, String currentPwd, String newPwd) throws SQLException {
 	    Connection con = null;
 	    PreparedStatement ps = null;
+	   
 	    int result = 0;
 	    
 	    try {
 	        con = DbManager.getConnection();  // 데이터베이스 연결 설정
 	        
-	        String sql = "select user_seq from users where  pw like ? and user_id= ? ";  // SQL 업데이트 쿼리
-	        ps = con.prepareStatement(sql);  // PreparedStatement 객체 생성
-	        ps.setString(1, pw); 
-	        ps.setString(2, userId);  
-	        
-	        
-	        
-	        result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
+	     
+	            // 두 번째 쿼리: 비밀번호를 업데이트함
+	            String updateSql = "UPDATE users SET pw = ? WHERE user_seq = ?";
+	           
+	            ps = con.prepareStatement(updateSql);
+	            ps.setString(1, newPwd);  // 새 비밀번호 설정
+	            ps.setInt(2,this.getUserSeq(con, userId).getUserSeq());  // user_seq 설정
+
+	            result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
 	        
 	        
 	    } finally {
@@ -234,5 +236,6 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return user;
 	}
+	
 
 }

@@ -22,9 +22,10 @@ public class UserService {
 	
     }
 	
-	public int changeInfoUser(String id , String pw) throws SQLException{
+	
+	public int changeInfoUser(String id ,String currentPw, String newpwd) throws SQLException{
 		
-		return	userDao.changeInfoUser(id, pw);
+		return	userDao.changeInfoUser(id, currentPw, newpwd);
 	}
 	public int cencleUser(String id , String pw) throws SQLException{
 		

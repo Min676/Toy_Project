@@ -76,7 +76,7 @@ public class MenuView {
 				viewCart(userId);
 				break;
 			case 6:
-				MenuView.printSubMenu(userId, userPw);;
+				MenuView.printSubMenu(userId, userPw);
 				break;
 			}
 		}
@@ -84,7 +84,7 @@ public class MenuView {
 	}
 
 	public static void printSubMenu(String userId, String userPw) {
-		System.out.println("1. 정보확인   |	 2.수정  |  3. 탈퇴   | 9. 나가기");
+		System.out.println("1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴   | 9. 나가기");
 		
 		int menu = sc.nextInt();
 		 
@@ -94,10 +94,10 @@ public class MenuView {
 			break;
 			
 		case 2:
-			UserController.changeInfoUser(userId, userPw);
+			changeInfoUser(userId, userPw);
 			break;
 		case 3:
-			UserController.cancelUser(userId, userPw);
+			cancelUser(userId, userPw);
 			
 			break;
 			
@@ -142,11 +142,15 @@ public class MenuView {
 	}
 	
 	/**
-	 * 회원 정보 수정
+	 * 회원 비밀번호 수정
 	 * */
 	public static void changeInfoUser(String userId, String userPw) {
 		
-		UserController.changeInfoUser(userId, userPw);
+		System.out.println("새로운 비밀번호 : ");
+		sc.nextLine();
+		String newpw = sc.nextLine();
+		
+		UserController.changeInfoUser(userId, userPw, newpw);
 	}
 	
 	/**

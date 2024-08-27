@@ -19,8 +19,6 @@ import app.mvc.model.service.ProductService;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
 
-
-
 public class EndView {
 	private static Scanner sc = new Scanner(System.in);
 	private static ProductService productService = new ProductService();
@@ -176,15 +174,15 @@ public class EndView {
 			 List<OrderItem> orderItemList = orders.getOrderItemList();
 			 List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
 			 
-//			 for(OrderItem item : cart.keySet()) {
-//				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
-//				 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
-//				 for(OrderOptionList optionList : item.getOrderOptionList()) {
-//					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
-//			 	}
-//				item.setOrderOptionList(orderOptionList);
-//			 	orderItemList.add(orderItem);
-//			 }
+			 for(OrderItem item : cart.keySet()) {
+				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+				 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
+				 for(OrderOptionList optionList : item.getOrderOptionList()) {
+					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
+			 	}
+				item.setOrderOptionList(orderOptionList);
+			 	orderItemList.add(orderItem);
+			 }
 			 for(OrderItem item : cart.keySet()) {
 				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
 				 orderItemList.add(item);

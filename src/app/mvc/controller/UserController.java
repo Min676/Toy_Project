@@ -1,6 +1,7 @@
 package app.mvc.controller;
 
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import app.mvc.model.dto.Users;
 import app.mvc.model.service.UserService;
@@ -54,14 +55,16 @@ public class UserController {
 
 	}
 
-	public static void changeInfoUser(String id, String pw) {
+	public static void changeInfoUser(String id, String currentPw,String newpwd) {
+		
+			
 
 		try {
-
-			int user = userService.changeInfoUser(id, pw);
+			
+			int user = userService.changeInfoUser(id, currentPw, newpwd);
 
 			if (user > 0) {
-				MenuView.printUserMenu(id, pw);
+				MenuView.printSubMenu(id, currentPw );
 				EndView.userinfoSucc();
 			} else {
 				FailView.errorMessage("수정에 실패하였습니다.");
@@ -92,5 +95,6 @@ public class UserController {
 		}
 
 	}
+	
 
 }
