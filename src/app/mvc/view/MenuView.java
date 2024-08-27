@@ -291,9 +291,9 @@ public class MenuView {
 		System.out.println("등록할 상품정보를 입력해주세요");
 		String info = sc.next();
 		System.out.println("등록할 상품의 가격을 입력해주세요");
-		int price = Integer.parseInt(sc.nextLine());
+		int price = sc.nextInt();
 		System.out.println("등록할 상품의 카테고리 분류를 입력해주세요(1. 커피 2. 음료 3. 디저트 4. 기타");
-		int category = Integer.parseInt(sc.nextLine());
+		int category = sc.nextInt();
 
 		Products products = new Products(name, info, price, category);
 		ProductController.productInsert(products);

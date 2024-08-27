@@ -148,4 +148,27 @@ public class ProductsDAOImpl implements ProductsDAO {
 		}
 		return result;
 	}
+
+	@Override
+	public List<Products> productSelectRec() throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<Products> list = new ArrayList<>();
+		try {
+			con = DbManager.getConnection();
+			ps= con.prepareStatement("select * from products where products.name in "
+					+ "(select name from (select name, count(*) cnt from orders join orders_item using(order_id)"
+					+ "join products using(product_id)GROUP BY name order by cnt desc) where ROWNUM <= 10)");
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				list.add(products);
+			}
+		}finally {
+			DbManager.close(con, ps, rs);
+		}
+		return list;
+	}
 }

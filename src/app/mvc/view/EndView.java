@@ -96,12 +96,21 @@ public class EndView {
 	
 	public static void printTopSell(Map<String,Integer>map) {
 		System.out.println("---------------------------------------");
-		System.out.println("|상품명\t||   주문수|");
+		System.out.println("|        상품명\t||     주문수    |");
 		System.out.println("---------------------------------------");
 		map.forEach((k,v)-> {
 			 System.out.print("상품명 : "+k);
-			 System.out.println(" "+v+"건");
+			 System.out.println("============="+v+"건");
 		});
+		System.out.println();
+	}
+	
+	public static void printProductsListREC(List<Products> list) {
+		System.out.println("-------------추천 상품 -------------");
+		for (Products p : list) {
+			System.out.println(p);
+		}
+
 		System.out.println();
 	}
 
