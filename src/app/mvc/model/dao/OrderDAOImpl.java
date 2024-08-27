@@ -48,14 +48,6 @@ public class OrderDAOImpl implements OrderDAO {
 			else { // 주문상세 등록
 				this.orderItemInsert(con, order);
 				
-				/*for (int i : resultTwo) {
-					if(i != 1) {
-						con.rollback();
-						throw new SQLException("주문 상세 등록 실패");
-					}
-				}*/
-				
-				
 				// wallet 업데이트
 				Wallet wallet = this.checkWallet(con, order);
 				if(order.getTotalPrice() > wallet.getCash()) throw new SQLException("지갑 잔액이 부족합니다.");
@@ -358,13 +350,14 @@ public class OrderDAOImpl implements OrderDAO {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				optionInfo = new OptionInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+				optionName = optionInfo.getOptionName();
 			}
 			
 		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		
-		return optionInfo.getOptionName();
+		return optionName;
 	}
 	
 }

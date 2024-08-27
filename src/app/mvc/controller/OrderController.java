@@ -53,16 +53,6 @@ public class OrderController {
 		return item;
 	}
 	
-	public OptionInfo getOptionInfo(OrderOptionList orderOptionList) {
-		OptionInfo info = null;
-		try {
-			info = orderService.getOptionInfo(orderOptionList);
-		} catch (SQLException e) {
-			FailView.errorMessage(e.getMessage());
-		}
-		return info;
-	}
-	
 	public static String getOptionName(int optionId) {
 		String optionName = null;
 		try {

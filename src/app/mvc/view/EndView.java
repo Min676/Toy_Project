@@ -147,7 +147,7 @@ public class EndView {
 	
 	public static void printViewCart(String id , Map<OrderItem,Integer> cart) {
 		ProductService productService=new ProductService();
-		System.out.println("========================장바구니========================");
+		System.out.println("===========================장바구니===========================");
 		
 		for(OrderItem orderItem: cart.keySet()) {
 			int productsId = orderItem.getProductId();//상품번호

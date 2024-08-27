@@ -55,11 +55,7 @@ public interface OrderDAO {
 	 */
 	Wallet checkWallet(Connection con, Orders order) throws SQLException;
 	
-	/**
-	 * 옵션 정보 가져오기
-	 */
-	OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException; 
-	
+
 	/**
 	 * 옵션 이름 가져오기
 	 */

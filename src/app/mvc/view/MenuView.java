@@ -108,7 +108,6 @@ public class MenuView {
 	/**
 	 * 회원가입 메뉴
 	 */
-
 	private static void register() {
 		sc.nextLine();
 
@@ -177,7 +176,7 @@ public class MenuView {
 		int goodsCnt =sc.nextInt();
 		int selectSize;
 		while (true) {
-			System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요");
+			System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요 : ");
 			selectSize =sc.nextInt();
 			if(selectSize != 1 && selectSize != 2 ) {
 				System.out.println("다시 선택해 주세요");
@@ -188,7 +187,6 @@ public class MenuView {
 		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
 		order.getOrderItemList().add(orderItem);
 		
-		// 옵션 정보를 카트에 어떻게 포함시킬 수 있을지...
 		orderItem = OrderController.selectOption(productsId, orderItem);
 		if(orderItem != null)
 		CartController.putCart(userId, productsId, goodsCnt, selectSize, orderItem);
@@ -197,7 +195,6 @@ public class MenuView {
 	
 	// 옵션 선택 메뉴 띄워주기
 		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
-			System.out.println("옵션 선택");
 			int option = 0;
 			OrderOptionList optionList = null;
 			System.out.println("=====================커피 옵션 선택=====================");
@@ -220,7 +217,6 @@ public class MenuView {
 		}
 		
 		public static OrderItem printSelectBeverageOption(OrderItem orderItem) {
-			System.out.println("옵션 선택");
 			int option = 0;
 			OrderOptionList optionList = null;
 			System.out.println("=====================음료 옵션 선택=====================");
@@ -232,15 +228,17 @@ public class MenuView {
 					System.out.println("다시 선택해 주세요");
 					continue;
 				}
+
+				System.out.print("옵션 수량 선택 : ");
+				int optionCnt =sc.nextInt();
 				
-				optionList = new OrderOptionList(0, 0, option, 1);
+				optionList = new OrderOptionList(0, 0, option, optionCnt);
 				orderItem.getOrderOptionList().add(optionList);
 			}
 			return orderItem;
 		}
 		
 		public static OrderItem printSelectDessertOption(OrderItem orderItem) {
-			System.out.println("옵션 선택");
 			int option = 0;
 			OrderOptionList optionList = null;
 			System.out.println("=====================디저트 옵션 선택=====================");
