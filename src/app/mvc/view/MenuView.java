@@ -38,13 +38,14 @@ public class MenuView {
 				break;
 
 			case 9:
+				System.out.println("============== 커피 키오스크 종료합니다 ==============");
 				System.exit(0);
 			}
 		}
 	}
 
 	public static void printMenu() {
-		System.out.println("=================Coffee Shop===============");
+		System.out.println("===================Coffee Shop=================");
 		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
 	}
 
@@ -210,7 +211,7 @@ public class MenuView {
 				System.out.print("옵션 수량 선택 : ");
 				int optionCnt =sc.nextInt();
 				
-				optionList = new OrderOptionList(0, 0, option, optionCnt);
+				optionList = new OrderOptionList(0, option, 0, optionCnt);
 				orderItem.getOrderOptionList().add(optionList);
 			}
 			return orderItem;
@@ -232,7 +233,7 @@ public class MenuView {
 				System.out.print("옵션 수량 선택 : ");
 				int optionCnt =sc.nextInt();
 				
-				optionList = new OrderOptionList(0, 0, option, optionCnt);
+				optionList = new OrderOptionList(0, option, 0, optionCnt);
 				orderItem.getOrderOptionList().add(optionList);
 			}
 			return orderItem;
@@ -251,7 +252,7 @@ public class MenuView {
 					continue;
 				}
 				
-				optionList = new OrderOptionList(0, 0, option, 1);
+				optionList = new OrderOptionList(0, option, 0, 1);
 				orderItem.getOrderOptionList().add(optionList);
 			}
 			return orderItem;

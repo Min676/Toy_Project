@@ -130,7 +130,6 @@ public class OrderDAOImpl implements OrderDAO {
 			
 			for(OrderOptionList option : orderItem.getOrderOptionList()) {
 				ps.setInt(1, option.getOiId());
-				ps.setInt(2, orderItem.getOrderItemId());
 				ps.setInt(2, option.getSelecCnt());
 				
 				ps.addBatch();
@@ -186,7 +185,6 @@ public class OrderDAOImpl implements OrderDAO {
 		String sql = "select * from orders_item where order_id = ?";
 		
 		try {
-			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, order_id);
 			rs = ps.executeQuery();
@@ -212,7 +210,6 @@ public class OrderDAOImpl implements OrderDAO {
 		String sql = "select * from order_option_list where order_item_id = ?";
 		
 		try {
-			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, orderItemId);
 			rs = ps.executeQuery();

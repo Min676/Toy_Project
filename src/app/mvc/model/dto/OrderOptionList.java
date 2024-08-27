@@ -2,13 +2,13 @@ package app.mvc.model.dto;
 
 public class OrderOptionList {
     private int optionId;
-    private int orderItemId;
     private int oiId;
+    private int orderItemId;
     private int selecCnt;
     
     public OrderOptionList() {}
     
-    public OrderOptionList(int optionId, int orderItemId, int oiId, int selecCnt) {
+    public OrderOptionList(int optionId, int oiId, int orderItemId, int selecCnt) {
 		super();
 		this.optionId = optionId;
 		this.orderItemId = orderItemId;
