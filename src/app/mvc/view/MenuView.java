@@ -56,7 +56,7 @@ public class MenuView {
 			System.out.println("-----" + userId + " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
-			int menu =sc.nextInt();
+			int menu = sc.nextInt();
 
 			switch (menu) {
 			case 1:
@@ -85,9 +85,9 @@ public class MenuView {
 
 	public static void printSubMenu(String userId, String userPw) {
 		System.out.println("1. 정보확인   |	 2.수정  |  3. 탈퇴   | 9. 나가기");
-		
+
 		int menu = sc.nextInt();
-		 
+
 		switch (menu) {
 		case 1:
 			UserController.infoUser(userId, userPw);
@@ -142,7 +142,7 @@ public class MenuView {
 
 	/**
 	 * 회원 정보 수정
-	 * */
+	 */
 	public static void changeInfoUser(String userId, String userPw) {
 
 		UserController.changeInfoUser(userId, userPw);
@@ -167,27 +167,21 @@ public class MenuView {
 		ss.remove(session);
 	}
 
-	/**
-	 * 상품 선택
-	 */
-	public static void printInputOrder(String userId) {
-		System.out.print("주문상품번호 : ");
-		int productsId = sc.nextInt();
-		System.out.print("상품 개수 : ");
-		int productsCnt =sc.nextInt();
-		System.out.print("사이즈 : ");
-		int selectSize =sc.nextInt();
-		
-		Orders order = new Orders(0, 0, null, 0, 0, userId);
-		OrderItem orderItem = new OrderItem(0, 0, productsId, productsCnt, selectSize);
-		OrderOptionList orderOptionList = null;
-		int optionCnt = 0;
-		
-		OrderController.selectOption(productsCnt, orderItem);
-		
-		order.getOrderItemList().add(orderItem);
-		OrderController.orderInsert(order);
-	}
+	/*
+		 * public static void printInputOrder(String userId) {
+		 * System.out.print("주문상품번호 : "); int productsId = sc.nextInt();
+		 * System.out.print("상품 개수 : "); int productsCnt =sc.nextInt();
+		 * System.out.print("사이즈 : "); int selectSize =sc.nextInt();
+		 * 
+		 * Orders order = new Orders(0, 0, null, 0, 0, userId); OrderItem orderItem =
+		 * new OrderItem(0, 0, productsId, productsCnt, selectSize); OrderOptionList
+		 * orderOptionList = null; int optionCnt = 0;
+		 * 
+		 * OrderController.selectOption(productsCnt, orderItem);
+		 * 
+		 * order.getOrderItemList().add(orderItem); OrderController.orderInsert(order);
+		 * }
+		 */
 
 	/**
 	 * 상품 선택해서 장바구니에 넣기
@@ -196,79 +190,82 @@ public class MenuView {
 		System.out.print("주문상품번호 : ");
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int goodsCnt =sc.nextInt();
+		int goodsCnt = sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize =sc.nextInt();
-		
-			
+		int selectSize = sc.nextInt();
+
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
 		order.getOrderItemList().add(orderItem);
-		
+
 		// 옵션 정보를 카트에 어떻게 포함시킬 수 있을지...
 		orderItem = OrderController.selectOption(productsId, orderItem);
-		if(orderItem != null)
-		CartController.putCart(userId, productsId, goodsCnt, selectSize, orderItem);
+		if (orderItem != null)
+			CartController.putCart(userId, productsId, goodsCnt, selectSize, orderItem);
 	}
-	
+
 	// 옵션 선택 메뉴 띄워주기
-		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
-			System.out.println("옵션 선택");
-			int option = 0;
-			OrderOptionList optionList = null;
-			System.out.println("=====================커피 옵션 선택=====================");
-			while(true) {
-				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
-				option =sc.nextInt();
-				if(option == 5) break;
-				System.out.print("옵션 수량 선택 : ");
-				int optionCnt =sc.nextInt();
-				
-				optionList = new OrderOptionList(0, 0, option, optionCnt);
-				orderItem.getOrderOptionList().add(optionList);
-			}
-			return orderItem;
+	public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
+		System.out.println("옵션 선택");
+		int option = 0;
+		OrderOptionList optionList = null;
+		System.out.println("=====================커피 옵션 선택=====================");
+		while (true) {
+			System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
+			option = sc.nextInt();
+			if (option == 5)
+				break;
+			System.out.print("옵션 수량 선택 : ");
+			int optionCnt = sc.nextInt();
+
+			optionList = new OrderOptionList(0, 0, option, optionCnt);
+			orderItem.getOrderOptionList().add(optionList);
 		}
-		
-		public static OrderItem printSelectBeverageOption(OrderItem orderItem) {
-			System.out.println("옵션 선택");
-			int option = 0;
-			OrderOptionList optionList = null;
-			System.out.println("=====================음료 옵션 선택=====================");
-			while(option != 8) {
-				System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게 | 8. 선택 종료");
-				option =sc.nextInt();
-				if(option == 8) break;
-				
-				optionList = new OrderOptionList(0, 0, option, 1);
-				orderItem.getOrderOptionList().add(optionList);
-			}
-			return orderItem;
+		return orderItem;
+	}
+
+	public static OrderItem printSelectBeverageOption(OrderItem orderItem) {
+		System.out.println("옵션 선택");
+		int option = 0;
+		OrderOptionList optionList = null;
+		System.out.println("=====================음료 옵션 선택=====================");
+		while (option != 8) {
+			System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게 | 8. 선택 종료");
+			option = sc.nextInt();
+			if (option == 8)
+				break;
+
+			optionList = new OrderOptionList(0, 0, option, 1);
+			orderItem.getOrderOptionList().add(optionList);
 		}
-		
-		public static OrderItem printSelectDessertOption(OrderItem orderItem) {
-			System.out.println("옵션 선택");
-			int option = 0;
-			OrderOptionList optionList = null;
-			System.out.println("=====================디저트 옵션 선택=====================");
-			while(option != 8) {
-				System.out.println("8. 시럽 추가 | 9. 보통 | 10. 달게 | 11. 선택 종료");
-				option =sc.nextInt();
-				if(option == 11) break;
-				
-				optionList = new OrderOptionList(0, 0, option, 1);
-				orderItem.getOrderOptionList().add(optionList);
-			}
-			return orderItem;
+		return orderItem;
+	}
+
+	public static OrderItem printSelectDessertOption(OrderItem orderItem) {
+		System.out.println("옵션 선택");
+		int option = 0;
+		OrderOptionList optionList = null;
+		System.out.println("=====================디저트 옵션 선택=====================");
+		while (option != 8) {
+			System.out.println("8. 시럽 추가 | 9. 보통 | 10. 달게 | 11. 선택 종료");
+			option = sc.nextInt();
+			if (option == 11)
+				break;
+
+			optionList = new OrderOptionList(0, 0, option, 1);
+			orderItem.getOrderOptionList().add(optionList);
 		}
+		return orderItem;
+	}
 
 	/**
 	 * 상품보기
 	 */
 	public static void printProduct(String userId) {
 		while (true) {
-			System.out.println("============================================ 상품 보기 =====================================================   ");
-			if(!userId.equals("admin"))
+			System.out.println(
+					"============================================ 상품 보기 =====================================================   ");
+			if (!userId.equals("admin"))
 				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  4.나의 주문 추천  |  5.돌아가기");
 			else
 				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  5.돌아가기");
@@ -280,14 +277,14 @@ public class MenuView {
 			case 2:
 				System.out.println("카테고리를 선택해주세요 || 1. 커피 2. 음료 3. 디저트 ");
 				int categoryNum = sc.nextInt();
-				
+
 				ProductController.productSelectByCategory(categoryNum);
 				break;
 			case 3:
 				ProductController.productSelectByRec();// 판매순
-				break;	
+				break;
 			case 4:
-				if(!userId.equals("admin"))
+				if (!userId.equals("admin"))
 					ProductController.productSelectUser(userId);// 나의 주문 추천
 				break;
 			case 5:
@@ -306,7 +303,8 @@ public class MenuView {
 
 	public static void printAdminMenu(String userId) {
 		while (true) {
-			System.out.println("============================================ADMIN_MENU============================================");
+			System.out.println(
+					"============================================ADMIN_MENU============================================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -335,7 +333,8 @@ public class MenuView {
 
 	public static void totalMenu(String userId) {
 		while (true) {
-			System.out.println("============================================통계============================================");
+			System.out.println(
+					"============================================통계============================================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. top10 메뉴  | 6. 메뉴 돌아가기");
 			int menu = sc.nextInt();
 			switch (menu) {
