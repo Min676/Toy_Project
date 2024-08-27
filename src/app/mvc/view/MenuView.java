@@ -53,7 +53,7 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			// System.out.println(ss.getSet()); // Set객체
 
-			System.out.println("-----" + userId + " 로그인 중 -----");
+			System.out.println("-----" + userId + "님 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
 			int menu =sc.nextInt();
@@ -168,28 +168,6 @@ public class MenuView {
 	}
 
 	/**
-	 * 상품 선택
-	 */
-	public static void printInputOrder(String userId) {
-		System.out.print("주문상품번호 : ");
-		int productsId = sc.nextInt();
-		System.out.print("상품 개수 : ");
-		int productsCnt =sc.nextInt();
-		System.out.print("사이즈 : ");
-		int selectSize =sc.nextInt();
-		
-		Orders order = new Orders(0, 0, null, 0, 0, userId);
-		OrderItem orderItem = new OrderItem(0, 0, productsId, productsCnt, selectSize);
-		OrderOptionList orderOptionList = null;
-		int optionCnt = 0;
-		
-		OrderController.selectOption(productsCnt, orderItem);
-		
-		order.getOrderItemList().add(orderItem);
-		OrderController.orderInsert(order);
-	}
-
-	/**
 	 * 상품 선택해서 장바구니에 넣기
 	 **/
 	public static void putCart(String userId) {
@@ -197,9 +175,14 @@ public class MenuView {
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
 		int goodsCnt =sc.nextInt();
-		System.out.print("사이즈 : ");
-		int selectSize =sc.nextInt();
-		
+		int selectSize;
+		while (true) {
+			System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요");
+			selectSize =sc.nextInt();
+			if(selectSize != 1 && selectSize != 2 ) {
+				System.out.println("다시 선택해 주세요");
+			} else { break;}
+		}
 			
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
@@ -222,6 +205,11 @@ public class MenuView {
 				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
 				option =sc.nextInt();
 				if(option == 5) break;
+				if (option < 1 || option > 5) {
+						System.out.println("다시 선택해 주세요");
+						continue;
+				} 
+				
 				System.out.print("옵션 수량 선택 : ");
 				int optionCnt =sc.nextInt();
 				

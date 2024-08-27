@@ -147,7 +147,7 @@ public class EndView {
 	
 	public static void printViewCart(String id , Map<OrderItem,Integer> cart) {
 		ProductService productService=new ProductService();
-		System.out.println("장바구니내용....");
+		System.out.println("========================장바구니========================");
 		
 		for(OrderItem orderItem: cart.keySet()) {
 			int productsId = orderItem.getProductId();//상품번호
@@ -161,7 +161,7 @@ public class EndView {
 			int price = products.getPrice();//상품가격
 			
 			int quantity = cart.get(orderItem);//key에 해당하는 value즉 수량 
-			System.out.println(productsId+" : "+name+" : "+price+" \t "+quantity);
+			System.out.println("상품번호 : " + productsId+" | 상품명 : "+name+"\t | 가격 : "+price+" \t| 수량 : "+quantity);
 		}
 		
 		
@@ -172,6 +172,7 @@ public class EndView {
 			
 			 Orders orders = new Orders(0, 0, null, 0, 0, id);
 			 
+			 int quantity = 0;
 			 List<OrderItem> orderItemList = orders.getOrderItemList();
 			 List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
 			 
@@ -187,11 +188,12 @@ public class EndView {
 			 for(OrderItem item : cart.keySet()) {
 				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
 				 orderItemList.add(item);
+				 quantity += qty;
 			 }
 			 
 			 
 			 orders.setOrderItemList(orderItemList);
-			 System.out.println("orderItemList 개수 : " + orderItemList.size());
+			 System.out.println("주문 메뉴 개수 : " + quantity);
 			 
 			 OrderController.orderInsert(orders);// 주문 + 주문상세
 			 
