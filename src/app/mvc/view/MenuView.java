@@ -107,6 +107,7 @@ public class MenuView {
 
 	private static void register() {
 		System.out.println("아이디 등록 : ");
+		sc.nextLine();
 		String userId = sc.nextLine();
 		System.out.println("회원성명 등록: ");
 		String userName = sc.nextLine();
@@ -182,14 +183,14 @@ public class MenuView {
 	public static void printProduct() {
 		System.out.println("====================== 상품 보기 ===============================");
 		System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기 ");
-		int menu = Integer.parseInt(sc.nextLine());
+		int menu = sc.nextInt();
 		switch (menu) {
 		case 1:
 			ProductController.productSelect();// 전체 상품조회
 			break;
 		case 2:
 			System.out.println("카테고리를 선택해주세요 (1. 커피 2. 음료 3. 디저트 4. 기타 ");
-			int categoryNum = Integer.parseInt(sc.nextLine());
+			int categoryNum = sc.nextInt();
 			ProductController.productSelectByCategory(categoryNum);
 			break;
 		case 3:
@@ -287,9 +288,10 @@ public class MenuView {
 
 		System.out.println("====================== 상품 등록 ===============================");
 		System.out.println("등록할 상품명을 입력해주세요");
-		String name = sc.next();
+		sc.nextLine();  // 버퍼 비우기
+		String name = sc.nextLine();
 		System.out.println("등록할 상품정보를 입력해주세요");
-		String info = sc.next();
+		String info = sc.nextLine();
 		System.out.println("등록할 상품의 가격을 입력해주세요");
 		int price = sc.nextInt();
 		System.out.println("등록할 상품의 카테고리 분류를 입력해주세요(1. 커피 2. 음료 3. 디저트 4. 기타");
