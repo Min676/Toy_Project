@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
+import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
+import app.mvc.model.dto.Wallet;
 
 public interface OrderDAO {
   /**
@@ -16,25 +19,45 @@ public interface OrderDAO {
    * */
 	int orderInsert(Orders order)throws SQLException;
 	
-	
-	/**
-	 * 주문내역보기
-	 * */
-	List<Orders> selectOrdersByUserId(String userId)throws SQLException;
-	
-	/**
-	 * 주문 상세 (주문품목) 보기
-	 */
-	List<OrderItem> selectOrderItem(int order_id) throws SQLException;
-	
 	/**
 	 * 주문 상세 등록
 	 */
 	int [] orderItemInsert(Connection con, Orders orders) throws SQLException;
 	
 	/**
-	 * 총 구매금액
+	 * 주문 옵션 리스트 등록
+	 */
+	int [] orderOptionInsert(Connection con, OrderItem orderItem) throws SQLException;
+	
+	/**
+	 * 사용자별 주문내역보기
+	 */
+	List<Orders> selectOrdersByUserId(String userId) throws SQLException;
+	
+	/**
+	 * 주문 상세 (주문품목) 보기
+	 */
+	List<OrderItem> selectOrderItem(int order_id) throws SQLException;
+	
+
+	/**
+	 * 총 구매금액 구하기
 	 */
 	int getTotalPrice(Orders orders) throws SQLException;
+	
+	/**
+	 * wallet update
+	 */
+	int chargeWallet(Connection con, Orders order) throws SQLException;
+	
+	/**
+	 * wallet 잔액 확인
+	 */
+	Wallet checkWallet(Connection con, Orders order) throws SQLException;
+	
+	/**
+	 * 옵션 정보 가져오기
+	 */
+	OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException; 
 	
 }

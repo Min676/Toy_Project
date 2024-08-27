@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
@@ -45,13 +46,14 @@ public class OrderDAOImpl implements OrderDAO {
 				throw new SQLException("주문 실패");
 			}
 			else { // 주문상세 등록
-				int resultTwo [] = this.orderItemInsert(con, order);
-				for (int i : resultTwo) {
+				this.orderItemInsert(con, order);
+				
+				/*for (int i : resultTwo) {
 					if(i != 1) {
 						con.rollback();
 						throw new SQLException("주문 상세 등록 실패");
 					}
-				}
+				}*/
 				
 				
 				// wallet 업데이트
@@ -82,19 +84,27 @@ public class OrderDAOImpl implements OrderDAO {
 	 */
 	public int [] orderItemInsert(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
+		
+		
 		String sql = "INSERT INTO ORDERS_ITEM (ORDER_ITEM_ID, ORDER_ID, PRODUCT_ID, QUANTITY, SELECT_SIZE)"
 				+ "VALUES (ORDER_ITEM_ID_SEQ.NEXTVAL, ORDER_ID.CURRVAL, ?, ?, ?)";
 		int [] result = null;
+		int re = 0;
 		
 		try {
 			ps = con.prepareStatement(sql);
+			
 			
 			for(OrderItem item : order.getOrderItemList()) {
 				ps.setInt(1, item.getProductId());
 				ps.setInt(2, item.getQuantity());
 				ps.setInt(3, item.getSelecSize());
 				
-				ps.addBatch();
+				re = ps.executeUpdate();
+				if (re != 1) {
+					con.rollback();
+					throw new SQLException("주문 상세 등록 실패");
+				}
 				
 				result = this.orderOptionInsert(con, item);
 				for (int i : result) {
@@ -104,10 +114,8 @@ public class OrderDAOImpl implements OrderDAO {
 					}
 				}
 				
-				ps.clearParameters();
 			}
 			
-			result = ps.executeBatch();
 			
 		} finally {
 			DbManager.close(null, ps, null);
@@ -122,7 +130,7 @@ public class OrderDAOImpl implements OrderDAO {
 	public int [] orderOptionInsert(Connection con, OrderItem orderItem) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDER_OPTION_LIST (OPTION_ID, ORDER_OPTION_ID, ORDER_ITEM_ID, SELEC_CNT)"
-				+ "VALUES (OPTION_ID_SEQ.NEXTVAL, ?, ?, ?)"; // ORDER_OPTION_ID 가 어떤 항목인지 확인 필요
+				+ "VALUES (OPTION_ID_SEQ.NEXTVAL, ?, ORDER_ITEM_ID_SEQ.CURRVAL, ?)";
 		int [] result = null;
 		
 		try {
@@ -130,8 +138,8 @@ public class OrderDAOImpl implements OrderDAO {
 			
 			for(OrderOptionList option : orderItem.getOrderOptionList()) {
 				ps.setInt(1, option.getOiId());
-				ps.setInt(2, option.getOrderItemId());
-				ps.setInt(3, option.getSelecCnt());
+				ps.setInt(2, orderItem.getOrderItemId());
+				ps.setInt(2, option.getSelecCnt());
 				
 				ps.addBatch();
 				ps.clearParameters();
@@ -148,7 +156,7 @@ public class OrderDAOImpl implements OrderDAO {
 	
 
 	/**
-	 * select * from orders where user_seq = (select user_seq from users where user_id = ?) order by order_id desc
+	 * 사용자별 주문내역보기
 	 */
 	@Override
 	public List<Orders> selectOrdersByUserId(String userId) throws SQLException {
@@ -205,18 +213,24 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	
-	/**
-	 * 총 구매금액 구하는 메소드
-	 */
 	public int getTotalPrice(Orders orders) throws SQLException {
 		List<OrderItem> orderItemList = orders.getOrderItemList();
+		List<OrderOptionList> orderOptionList = null;
+		OptionInfo optionInfo = null;
 		int total = 0;
 		for(OrderItem item : orderItemList) {
 			Products products = productsDAO.productSelectByProductId(item.getProductId()); // 상품정보 검색
 			
 			if(products==null) throw new SQLException();
 			
-			total += item.getQuantity() * products.getPrice(); // 주문수량 * 가격 합계
+			for(OrderOptionList option : item.getOrderOptionList()) {
+				optionInfo = this.getOptionInfo(option);
+				if(optionInfo != null) {
+					int optionPrice = optionInfo.getOptionPrice() * option.getSelecCnt();
+					total += optionPrice;
+				}
+			}
+			total += item.getQuantity() * products.getPrice();
 		}
 		return total;
 	}
@@ -269,6 +283,34 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 		
 		return wallet;
+	}
+	
+	/**
+	 * 옵션 정보 가져오기
+	 */
+	public OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		OptionInfo optionInfo = null;
+		
+		String sql = "SELECT * FROM OPTION_INFO WHERE OPTION_ID = ?";
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, orderOptionList.getOiId());
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				optionInfo = new OptionInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+			}
+			
+		} finally {
+			DbManager.close(con, ps, rs);
+		}
+		
+		return optionInfo;
 	}
 	
 }

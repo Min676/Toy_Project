@@ -5,6 +5,7 @@ import java.util.List;
 
 import app.mvc.model.dao.OrderDAO;
 import app.mvc.model.dao.OrderDAOImpl;
+import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
 
@@ -22,6 +23,12 @@ public class OrderService {
 	public void orderInsert(Orders orders) throws SQLException {
 		int result =  orderDAO.orderInsert(orders);
 		if (result == 0) throw new SQLException("주문에 실패하였습니다.");
+	}
+	
+	public OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException {
+		OptionInfo info = orderDAO.getOptionInfo(orderOptionList);
+		if (info == null) throw new SQLException("옵션 정보를 가져오는데 실패하였습니다.");
+		return info;
 	}
 
 }
