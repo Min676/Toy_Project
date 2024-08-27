@@ -64,6 +64,14 @@ public class ProductService {
         }
         return list;
     }
+    
+    public List<Products> productSelectUserRec(String userId) throws NotFoundException, SQLException{
+        List<Products> list = productsDAO.productSelectUserRec(userId);
+        if (list.size() == 0) {
+            throw new NotFoundException("상품이 없습니다 다음을 기약해주세요 ㅠㅠ");
+        }
+        return list;
+    }
 
 
 }

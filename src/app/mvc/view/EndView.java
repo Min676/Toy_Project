@@ -132,13 +132,23 @@ public class EndView {
 	}
 	
 	public static void printProductsListREC(List<Products> list) {
-		System.out.println("-------------추천 상품 -------------");
+		System.out.println("-------------판매순 추천 상품 -------------");
 		for (Products p : list) {
 			System.out.println(p);
 		}
 
 		System.out.println();
 	}
+	
+	public static void printProductsListUserREC(List<Products> list) {
+		System.out.println("-----------나의 주문 추천-------------");
+		for (Products p : list) {
+			System.out.println(p);
+		}
+
+		System.out.println();
+	}
+	
 	
 	public static void printViewCart(String id , Map<Products,Integer> cart) {
 		System.out.println("장바구니내용....");
