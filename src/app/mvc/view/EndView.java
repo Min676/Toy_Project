@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
+import app.mvc.controller.ProductController;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
@@ -146,17 +147,11 @@ public class EndView {
 	
 	
 	public static void printViewCart(String id , Map<OrderItem,Integer> cart) {
-		ProductService productService=new ProductService();
 		System.out.println("===========================장바구니===========================");
 		
 		for(OrderItem orderItem: cart.keySet()) {
 			int productsId = orderItem.getProductId();//상품번호
-			Products products = null;
-			try {
-				products = productService.productSelectByProductId(productsId);
-			} catch (Exception e) {
-				FailView.errorMessage("장바구니에 들어있는 상품 조회 실패");
-			}
+			Products products = ProductController.productName(orderItem.getProductId());
 			String name = products.getName();//상품이름
 			int price = products.getPrice();//상품가격
 			
