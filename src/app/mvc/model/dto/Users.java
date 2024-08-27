@@ -8,6 +8,8 @@ public class Users {
 	private int point;
 	private int membershipLevel;
 	private int ocount;
+	private int walletseq;
+	private int cash;
 	
 	public Users() {}
 	public Users(int userSeq, String userId, String name, String pw, int point, int membershipLevel,
@@ -22,6 +24,17 @@ public class Users {
 		this.ocount = ocount;
 	}
 	
+    public Users(int userSeq, String userId, String name, String pw, int point, int membershipLevel, int ocount, int walletseq, int cash) {
+        this.userSeq = userSeq;
+        this.userId = userId;
+        this.name = name;
+        this.pw = pw;
+        this.point = point;
+        this.membershipLevel = membershipLevel;
+        this.ocount = ocount;
+        this.walletseq = walletseq;
+        this.cash = cash;
+    }
 	
 
 	public Users(String userId, String name, String pw) {
@@ -88,6 +101,20 @@ public class Users {
 		this.ocount = ocount;
 	}
 
+	public int getWalletseq() {
+		return walletseq;
+	}
+	public void setWalletseq(int walletseq) {
+		this.walletseq = walletseq;
+	}
+	public int getCash() {
+		return cash;
+	}
+	public void setCash(int cash) {
+		this.cash = cash;
+	}
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

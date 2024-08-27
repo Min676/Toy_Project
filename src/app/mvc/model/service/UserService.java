@@ -17,14 +17,20 @@ public class UserService {
 
 	}
 	public Users infoUser(String id , String pw) throws SQLException {
+		return userDao.infoUser(id, pw); 
 		
-		return userDao.infoUser(id, pw);
-		
-		
-	}
+	    if (user != null) {
+            // 사용자 정보를 출력
+            System.out.println("회원 정보: " + Users.toString() + "\n");
+        } else {
+            // 사용자 정보가 없는 경우
+            System.out.println("회원 정보 없음.");
+        }
+    }
+	
 	public void changeInfoUser(String id , String pw) throws SQLException{
 		
-		userDao.cancleUser(id, pw);
+		userDao.changeInfoUser(id, pw);
 	}
 	public void cencleUser(String id , String pw) throws SQLException{
 		

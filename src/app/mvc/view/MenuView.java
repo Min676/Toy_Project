@@ -97,7 +97,7 @@ public class MenuView {
 			break;
 		case 3:
 			UserController.cancleUser(userId, userPw);
-			
+			menu();
 			break;
 			
 		case 4:

@@ -118,7 +118,7 @@ public class UserDAOImpl implements UserDAO {
 		  Users user=null;
 		 try {
 		   con = DbManager.getConnection(); //db연결
-		   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?"); //sql문 입력
+		   ps= con.prepareStatement("select U.* , W.* from USERS U JOIN WALLET W ON U.USER_SEQ = W.USER_SEQ WHERE U.USER_ID = ? AND U.PW = ?"); //sql문 입력
 		   ps.setString(1, id); //id 입력받음
 		   ps.setString(2, pw); //pw 입력받음
 		   
@@ -133,15 +133,12 @@ public class UserDAOImpl implements UserDAO {
 	                rs.getString("pw"), 
 	                rs.getInt("point"),
 	                rs.getInt("membership_level"),
-	                rs.getInt("ocount")
+	                rs.getInt("ocount"),
+	                rs.getInt("wallet_seq"),
+	                rs.getInt("cash")
 	            );
-
-	            // 사용자 정보를 출력
-	            System.out.println("회원 정보: " + user.toString() + "\n");
-	        } else {
-	            System.out.println("회원 정보 없음.");
-	        }
-
+	           
+		   }
 		   
     }finally {
     	DbManager.close(con, ps, rs);
@@ -170,11 +167,7 @@ public class UserDAOImpl implements UserDAO {
 	        
 	        result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
 	        
-	        if (result > 0) {  // 업데이트된 행이 있는 경우
-	            System.out.println("회원정보가 성공적으로 수정되었습니다.");  // 성공 메시지 출력
-	        } else {  // 업데이트된 행이 없는 경우
-	            System.out.println("일치하는 사용자 정보가 없습니다.");  // 실패 메시지 출력
-	        }
+	        
 	    } finally {
 	        DbManager.close(con, ps, null);  // 리소스 해제
 	    }
@@ -215,7 +208,9 @@ public class UserDAOImpl implements UserDAO {
 
 	            if (result > 0) {  // 삭제된 행이 있는 경우
 	                System.out.println("회원에서 탈퇴 되었습니다.");
-	                
+	                Session session = new Session(userId);
+	        		SessionSet ss = SessionSet.getInstance();
+	        		ss.remove(session);
 	               
 	            } else {  // 삭제된 행이 없는 경우
 	                System.out.println("일치하는 사용자 정보가 없습니다.");
