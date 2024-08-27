@@ -184,7 +184,11 @@ public class EndView {
 		}
 	}
 	
-	
+	public static void userPrintSucc() {
+		
+		System.out.println("성공적으로 완료되었습니다.");
+		
+	}
 	
 	
 }

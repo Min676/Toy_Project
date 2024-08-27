@@ -96,8 +96,8 @@ public class MenuView {
 			UserController.changeInfoUser(userId, userPw);
 			break;
 		case 3:
-			UserController.cancleUser(userId, userPw);
-			menu();
+			UserController.cancelUser(userId, userPw);
+			menu()
 			break;
 			
 		case 4:

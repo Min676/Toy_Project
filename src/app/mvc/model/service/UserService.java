@@ -12,29 +12,23 @@ import app.mvc.session.SessionSet;
 public class UserService {
 	static UserDAO userDao = new UserDAOImpl();
 
-	public void insertUser(Users user) throws SQLException {
-		userDao.insertUser(user);
+	public int insertUser(Users user) throws SQLException {
+		return	userDao.insertUser(user);
 
 	}
 	public Users infoUser(String id , String pw) throws SQLException {
-		return userDao.infoUser(id, pw); 
 		
-	    if (user != null) {
-            // 사용자 정보를 출력
-            System.out.println("회원 정보: " + Users.toString() + "\n");
-        } else {
-            // 사용자 정보가 없는 경우
-            System.out.println("회원 정보 없음.");
-        }
+		return userDao.infoUser(id, pw); 
+	
     }
 	
-	public void changeInfoUser(String id , String pw) throws SQLException{
+	public int changeInfoUser(String id , String pw) throws SQLException{
 		
-		userDao.changeInfoUser(id, pw);
+		return	userDao.changeInfoUser(id, pw);
 	}
-	public void cencleUser(String id , String pw) throws SQLException{
+	public int cencleUser(String id , String pw) throws SQLException{
 		
-		userDao.cancleUser(id, pw);
+		return	userDao.cancelUser(id, pw);
 	}
 
 	public static Users login(String userId, String userPwd) throws NotFoundException, SQLException {

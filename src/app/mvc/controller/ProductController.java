@@ -17,7 +17,7 @@ public class ProductController {
 	public static void productSelect() {
 		try {
 			List<Products> list = productService.productSelect();
-			List<Products> list2 = productService.productSelect();
+			List<Products> list2 = productService.productSelectRec();
 			EndView.printProductsList(list);
 			EndView.printProductsListREC(list2);
 		} catch (SQLException e) {

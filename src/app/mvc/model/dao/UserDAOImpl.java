@@ -41,9 +41,6 @@ public class UserDAOImpl implements UserDAO {
 	       
 	        result = ps.executeUpdate(); //저장
 	        
-	        if (result > 0) { // 저장이 성공했을 때
-                System.out.println("회원 가입이 성공적으로 완료되었습니다.");
-            }
 	        
     }finally {
     	DbManager.close(con, ps, rs); //자원반환
@@ -178,7 +175,7 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 삭제
 	 * */
 	   @Override
-	    public int cancleUser(String userId, String pw) throws SQLException {
+	    public int cancelUser(String userId, String pw) throws SQLException {
 		   
 	        Connection con = null;
 	        PreparedStatement psDeleteUser = null;
@@ -206,15 +203,7 @@ public class UserDAOImpl implements UserDAO {
 
 	            result = psDeleteUser.executeUpdate();
 
-	            if (result > 0) {  // 삭제된 행이 있는 경우
-	                System.out.println("회원에서 탈퇴 되었습니다.");
-	                Session session = new Session(userId);
-	        		SessionSet ss = SessionSet.getInstance();
-	        		ss.remove(session);
-	               
-	            } else {  // 삭제된 행이 없는 경우
-	                System.out.println("일치하는 사용자 정보가 없습니다.");
-	            }
+	           
 	        } finally {
 	            DbManager.close(con, psDeleteUser, null);  // 리소스 해제
 	        }

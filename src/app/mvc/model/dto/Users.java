@@ -132,6 +132,10 @@ public class Users {
 		builder.append(membershipLevel);
 		builder.append(", ocount= ");
 		builder.append(ocount);
+		builder.append(", walletseq= ");
+		builder.append(walletseq);
+		builder.append(", cash= ");
+		builder.append(cash);
 		builder.append(" ] ");
 		return builder.toString();
 	}
