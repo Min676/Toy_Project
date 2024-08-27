@@ -114,7 +114,7 @@ public class MenuView {
 		sc.nextLine();
 		
 		System.out.println("아이디 등록 : ");
-		sc.nextLine();
+		
 		String userId = sc.nextLine();
 		
 		System.out.println("회원성명 등록: ");
