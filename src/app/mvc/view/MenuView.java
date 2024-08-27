@@ -55,7 +55,8 @@ public class MenuView {
 
 			System.out.println("-----" + userId + " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
-			int menu = sc.nextInt();
+
+			int menu =sc.nextInt();
 
 			switch (menu) {
 			case 1:
@@ -65,8 +66,8 @@ public class MenuView {
 				printProduct(userId);
 				break;
 			case 3:
-				printInputOrder(userId);
-//				putCart(userId);
+//				printInputOrder(userId);
+				putCart(userId);
 				break;
 			case 4:
 				OrderController.selectOrdersByUserId(userId);
@@ -76,7 +77,6 @@ public class MenuView {
 				break;
 			case 6:
 				MenuView.printSubMenu(userId, userPw);
-				;
 				break;
 			}
 		}
@@ -85,9 +85,9 @@ public class MenuView {
 
 	public static void printSubMenu(String userId, String userPw) {
 		System.out.println("1. 정보확인   |	 2.수정  |  3. 탈퇴   | 9. 나가기");
-
+		
 		int menu = sc.nextInt();
-
+		 
 		switch (menu) {
 		case 1:
 			UserController.infoUser(userId, userPw);
@@ -142,7 +142,7 @@ public class MenuView {
 
 	/**
 	 * 회원 정보 수정
-	 */
+	 * */
 	public static void changeInfoUser(String userId, String userPw) {
 
 		UserController.changeInfoUser(userId, userPw);
@@ -174,31 +174,17 @@ public class MenuView {
 		System.out.print("주문상품번호 : ");
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int productsCnt = sc.nextInt();
+		int productsCnt =sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize = sc.nextInt();
-
+		int selectSize =sc.nextInt();
+		
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, productsId, productsCnt, selectSize);
 		OrderOptionList orderOptionList = null;
 		int optionCnt = 0;
-
-		System.out.println("옵션을 선택해주세요.");
-		while (true) {
-			System.out.println("=====================커피 옵션=====================");
-			System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가");
-			System.out.println("=====================음료 옵션=====================");
-			System.out.println("5. 덜 달게 | 6. 보통 달기 | 7. 달게 | 8. 옵션 선택 안함");
-			int option = sc.nextInt();
-			if (option != 8) {
-				System.out.print("옵션 수량 선택 : ");
-				optionCnt = sc.nextInt();
-				orderOptionList = new OrderOptionList(0, 0, option, optionCnt, selectSize);
-				orderItem.getOrderOptionList().add(orderOptionList);
-			} else if (option == 8)
-				break;
-		}
-
+		
+		OrderController.selectOption(productsCnt, orderItem);
+		
 		order.getOrderItemList().add(orderItem);
 		OrderController.orderInsert(order);
 	}
@@ -210,51 +196,71 @@ public class MenuView {
 		System.out.print("주문상품번호 : ");
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int goodsCnt = sc.nextInt();
+		int goodsCnt =sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize = sc.nextInt();
-
+		int selectSize =sc.nextInt();
+		
+			
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
 		order.getOrderItemList().add(orderItem);
-
+		
 		// 옵션 정보를 카트에 어떻게 포함시킬 수 있을지...
-		if (OrderController.selectOption(productsId, orderItem) != null)
-			CartController.putCart(userId, productsId, goodsCnt, selectSize);
+		orderItem = OrderController.selectOption(productsId, orderItem);
+		if(orderItem != null)
+		CartController.putCart(userId, productsId, goodsCnt, selectSize, orderItem);
 	}
-
+	
 	// 옵션 선택 메뉴 띄워주기
-	public static OrderOptionList printSelectCoffeeOption(OrderItem orderItem) {
-		System.out.println("옵션 선택");
-		int option = 0;
-		OrderOptionList optionList = null;
-		while (true) {
-			System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
-			option = sc.nextInt();
-			if (option == 5)
-				break;
-			System.out.print("옵션 수량 선택 : ");
-			int optionCnt = sc.nextInt();
-
-			optionList = new OrderOptionList(0, 0, option, optionCnt);
+		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
+			System.out.println("옵션 선택");
+			int option = 0;
+			OrderOptionList optionList = null;
+			System.out.println("=====================커피 옵션 선택=====================");
+			while(true) {
+				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
+				option =sc.nextInt();
+				if(option == 5) break;
+				System.out.print("옵션 수량 선택 : ");
+				int optionCnt =sc.nextInt();
+				
+				optionList = new OrderOptionList(0, 0, option, optionCnt);
+				orderItem.getOrderOptionList().add(optionList);
+			}
+			return orderItem;
 		}
-		return optionList;
-	}
-
-	public static OrderOptionList printSelectBeverageOption(OrderItem orderItem) {
-		System.out.println("옵션 선택");
-		int option = 0;
-		OrderOptionList optionList = null;
-		while (option != 8) {
-			System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게");
-			option = sc.nextInt();
-			if (option == 7)
-				break;
-
-			optionList = new OrderOptionList(0, 0, option, 1);
+		
+		public static OrderItem printSelectBeverageOption(OrderItem orderItem) {
+			System.out.println("옵션 선택");
+			int option = 0;
+			OrderOptionList optionList = null;
+			System.out.println("=====================음료 옵션 선택=====================");
+			while(option != 8) {
+				System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게 | 8. 선택 종료");
+				option =sc.nextInt();
+				if(option == 8) break;
+				
+				optionList = new OrderOptionList(0, 0, option, 1);
+				orderItem.getOrderOptionList().add(optionList);
+			}
+			return orderItem;
 		}
-		return optionList;
-	}
+		
+		public static OrderItem printSelectDessertOption(OrderItem orderItem) {
+			System.out.println("옵션 선택");
+			int option = 0;
+			OrderOptionList optionList = null;
+			System.out.println("=====================디저트 옵션 선택=====================");
+			while(option != 8) {
+				System.out.println("8. 시럽 추가 | 9. 보통 | 10. 달게 | 11. 선택 종료");
+				option =sc.nextInt();
+				if(option == 11) break;
+				
+				optionList = new OrderOptionList(0, 0, option, 1);
+				orderItem.getOrderOptionList().add(optionList);
+			}
+			return orderItem;
+		}
 
 	/**
 	 * 상품보기

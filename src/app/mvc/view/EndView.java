@@ -3,15 +3,18 @@ package app.mvc.view;
 import app.mvc.model.dao.ProductsDAO;
 import app.mvc.model.dao.ProductsDAOImpl;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
 import app.mvc.model.dto.OrderItem;
+import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Statisics;
+import app.mvc.model.service.ProductService;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
 
@@ -132,7 +135,7 @@ public class EndView {
 	}
 	
 	public static void printProductsListREC(List<Products> list) {
-		System.out.println("-------------판매순 추천 상품 -------------");
+		System.out.println("-------------추천 상품 -------------");
 		for (Products p : list) {
 			System.out.println(p);
 		}
@@ -141,7 +144,7 @@ public class EndView {
 	}
 	
 	public static void printProductsListUserREC(List<Products> list) {
-		System.out.println("-----------나의 주문 추천-------------");
+		System.out.println("-------------주문 기반 추천 상품 -------------");
 		for (Products p : list) {
 			System.out.println(p);
 		}
@@ -150,15 +153,22 @@ public class EndView {
 	}
 	
 	
-	public static void printViewCart(String id , Map<Products,Integer> cart) {
+	public static void printViewCart(String id , Map<OrderItem,Integer> cart) {
+		ProductService productService=new ProductService();
 		System.out.println("장바구니내용....");
 		
-		for(Products products: cart.keySet()) {
-			int productsId = products.getProduct_id();//상품번호
+		for(OrderItem orderItem: cart.keySet()) {
+			int productsId = orderItem.getProductId();//상품번호
+			Products products = null;
+			try {
+				products = productService.productSelectByProductId(productsId);
+			} catch (Exception e) {
+				FailView.errorMessage("장바구니에 들어있는 상품 조회 실패");
+			}
 			String name = products.getName();//상품이름
 			int price = products.getPrice();//상품가격
 			
-			int quantity = cart.get(products);//key에 해당하는 value즉 수량 
+			int quantity = cart.get(orderItem);//key에 해당하는 value즉 수량 
 			System.out.println(productsId+" : "+name+" : "+price+" \t "+quantity);
 		}
 		
@@ -171,14 +181,24 @@ public class EndView {
 			 Orders orders = new Orders(0, 0, null, 0, 0, id);
 			 
 			 List<OrderItem> orderItemList = orders.getOrderItemList();
+			 List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
 			 
-			 for(Products productsKey : cart.keySet()) {
-				 int qty = cart.get(productsKey); // map에서 key=Products에 해당하는 value=수량 조회
-				 OrderItem orderItem = new OrderItem(0, 0, productsKey.getProduct_id() , qty, 1); // size를 가져올 방법이 필요. 옵션정보에 넣기?
-				 orderItemList.add(orderItem);
+//			 for(OrderItem item : cart.keySet()) {
+//				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+//				 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
+//				 for(OrderOptionList optionList : item.getOrderOptionList()) {
+//					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
+//			 	}
+//				item.setOrderOptionList(orderOptionList);
+//			 	orderItemList.add(orderItem);
+//			 }
+			 for(OrderItem item : cart.keySet()) {
+				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+				 orderItemList.add(item);
 			 }
 			 
 			 
+			 orders.setOrderItemList(orderItemList);
 			 System.out.println("orderItemList 개수 : " + orderItemList.size());
 			 
 			 OrderController.orderInsert(orders);// 주문 + 주문상세
