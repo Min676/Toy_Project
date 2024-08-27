@@ -338,4 +338,33 @@ public class OrderDAOImpl implements OrderDAO {
 		return optionInfo;
 	}
 	
+	/**
+	 * 옵션 이름 가져오기
+	 */
+	public String getOptionName(int optionId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String optionName = null;
+		OptionInfo optionInfo = null;
+		
+		String sql = "SELECT * FROM OPTION_INFO WHERE OPTION_ID = ?";
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, optionId);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				optionInfo = new OptionInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+			}
+			
+		} finally {
+			DbManager.close(con, ps, rs);
+		}
+		
+		return optionInfo.getOptionName();
+	}
+	
 }

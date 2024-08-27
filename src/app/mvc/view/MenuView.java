@@ -53,7 +53,7 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			// System.out.println(ss.getSet()); // Set객체
 
-			System.out.println("-----" + userId + "님 로그인 중 -----");
+			System.out.println("----------" + userId + "님 로그인 중 ----------");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
 			int menu =sc.nextInt();
@@ -228,6 +228,10 @@ public class MenuView {
 				System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게 | 8. 선택 종료");
 				option =sc.nextInt();
 				if(option == 8) break;
+				if (option < 5 || option > 8) {
+					System.out.println("다시 선택해 주세요");
+					continue;
+				}
 				
 				optionList = new OrderOptionList(0, 0, option, 1);
 				orderItem.getOrderOptionList().add(optionList);
@@ -244,6 +248,10 @@ public class MenuView {
 				System.out.println("8. 시럽 추가 | 9. 보통 | 10. 달게 | 11. 선택 종료");
 				option =sc.nextInt();
 				if(option == 11) break;
+				if (option < 8 || option > 11) {
+					System.out.println("다시 선택해 주세요");
+					continue;
+				}
 				
 				optionList = new OrderOptionList(0, 0, option, 1);
 				orderItem.getOrderOptionList().add(optionList);

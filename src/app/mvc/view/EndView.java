@@ -50,7 +50,7 @@ public class EndView {
 			   }
 			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId() + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + size);
 			   for(OrderOptionList optionList : orderItem.getOrderOptionList()) {
-				   System.out.println("      ▶ 주문옵션 : " + optionList.getOiId() + " | 옵션 수량 : " + optionList.getSelecCnt() + " | 옵션메뉴 : " + optionList.getOptonId());
+				   System.out.println("      ▶ 주문옵션 : " + optionList.getOiId() + " | 옵션 수량 : " + optionList.getSelecCnt() + " | 옵션메뉴 : " + OrderController.getOptionName(optionList.getOiId()));
 			   }
 		   }
 		   System.out.println();

@@ -30,5 +30,11 @@ public class OrderService {
 		if (info == null) throw new SQLException("옵션 정보를 가져오는데 실패하였습니다.");
 		return info;
 	}
+	
+	public String getOptionName(int optionId) throws SQLException {
+		String optionName = orderDAO.getOptionName(optionId);
+		if (optionName == null) throw new SQLException("옵션 정보를 가져오는데 실패하였습니다.");
+		return optionName;
+	}
 
 }

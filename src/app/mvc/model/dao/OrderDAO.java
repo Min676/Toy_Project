@@ -60,4 +60,9 @@ public interface OrderDAO {
 	 */
 	OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException; 
 	
+	/**
+	 * 옵션 이름 가져오기
+	 */
+	public String getOptionName(int optionId) throws SQLException;
+	
 }

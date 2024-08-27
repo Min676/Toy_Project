@@ -62,4 +62,14 @@ public class OrderController {
 		}
 		return info;
 	}
+	
+	public static String getOptionName(int optionId) {
+		String optionName = null;
+		try {
+			optionName = orderService.getOptionName(optionId);
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+		return optionName;
+	}
 }
