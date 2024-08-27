@@ -22,7 +22,7 @@ public class MenuView {
 	public static void menu() {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+			// System.out.println(ss.getSet());
 
 			MenuView.printMenu();
 			int menu = sc.nextInt();
@@ -34,7 +34,7 @@ public class MenuView {
 				MenuView.login();// 로그인
 				break;
 			case 3:
-				MenuView.printAdminMenu();// 로그인
+				MenuView.printAdminMenu("admin");// 로그인
 				break;
 
 			case 9:
@@ -51,19 +51,19 @@ public class MenuView {
 	public static void printUserMenu(String userId, String userPw) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet()); // Set객체
+			// System.out.println(ss.getSet()); // Set객체
 
 			System.out.println("-----" + userId + " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
-			int menu = sc.nextInt();
+			int menu =sc.nextInt();
 
 			switch (menu) {
 			case 1:
 				logout(userId);//
 				return; // 함수를 빠져나가라.
 			case 2:
-				ProductController.productSelect();// 전체 상품조회
+				printProduct(userId);
 				break;
 			case 3:
 //				printInputOrder(userId);
@@ -92,7 +92,7 @@ public class MenuView {
 		case 1:
 			UserController.infoUser(userId, userPw);
 			break;
-			
+
 		case 2:
 			changeInfoUser(userId, userPw);
 			break;
@@ -100,11 +100,10 @@ public class MenuView {
 			cancelUser(userId, userPw);
 			
 			break;
-			
 		case 4:
 			return;
 		}
-			
+
 	}
 
 	/**
@@ -113,20 +112,21 @@ public class MenuView {
 
 	private static void register() {
 		sc.nextLine();
-		
+
 		System.out.println("아이디 등록 : ");
-		
+
 		String userId = sc.nextLine();
-		
+
 		System.out.println("회원성명 등록: ");
 		String userName = sc.nextLine();
-		
+
 		System.out.println("비밀번호 등록: ");
 		String userPwd = sc.nextLine();
 
 		Users user = new Users(userId, userName, userPwd);
 		UserController.insertUser(user);
 	}
+
 	/**
 	 * 로그인 메뉴
 	 */
@@ -140,7 +140,7 @@ public class MenuView {
 
 		userController.login(userId, userPwd);
 	}
-	
+
 	/**
 	 * 회원 비밀번호 수정
 	 * */
@@ -152,7 +152,7 @@ public class MenuView {
 		
 		UserController.changeInfoUser(userId, userPw, newpw);
 	}
-	
+
 	/**
 	 * 회원 탈퇴
 	 * */
@@ -161,7 +161,6 @@ public class MenuView {
 		UserController.cancelUser(userId, userPw);
 		
 	}
-	
 
 	/**
 	 * 로그아웃
@@ -178,11 +177,11 @@ public class MenuView {
 	 */
 	public static void printInputOrder(String userId) {
 		System.out.print("주문상품번호 : ");
-		int productsId = Integer.parseInt(sc.nextLine());
+		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int productsCnt = Integer.parseInt(sc.nextLine());
+		int productsCnt =sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize = Integer.parseInt(sc.nextLine());
+		int selectSize =sc.nextInt();
 		
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, productsId, productsCnt, selectSize);
@@ -194,17 +193,17 @@ public class MenuView {
 		order.getOrderItemList().add(orderItem);
 		OrderController.orderInsert(order);
 	}
-	
+
 	/**
 	 * 상품 선택해서 장바구니에 넣기
 	 **/
 	public static void putCart(String userId) {
 		System.out.print("주문상품번호 : ");
-		int productsId = Integer.parseInt(sc.nextLine());
+		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
-		int goodsCnt = Integer.parseInt(sc.nextLine());
+		int goodsCnt =sc.nextInt();
 		System.out.print("사이즈 : ");
-		int selectSize = Integer.parseInt(sc.nextLine());
+		int selectSize =sc.nextInt();
 		
 			
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
@@ -225,10 +224,10 @@ public class MenuView {
 			System.out.println("=====================커피 옵션 선택=====================");
 			while(true) {
 				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 펄 추가 | 5. 선택 완료");
-				option = Integer.parseInt(sc.nextLine());
+				option =sc.nextInt();
 				if(option == 5) break;
 				System.out.print("옵션 수량 선택 : ");
-				int optionCnt = Integer.parseInt(sc.nextLine());
+				int optionCnt =sc.nextInt();
 				
 				optionList = new OrderOptionList(0, 0, option, optionCnt);
 				orderItem.getOrderOptionList().add(optionList);
@@ -243,7 +242,7 @@ public class MenuView {
 			System.out.println("=====================음료 옵션 선택=====================");
 			while(option != 8) {
 				System.out.println("5. 덜 달게 | 6. 보통 | 7. 달게 | 8. 선택 종료");
-				option = Integer.parseInt(sc.nextLine());
+				option =sc.nextInt();
 				if(option == 8) break;
 				
 				optionList = new OrderOptionList(0, 0, option, 1);
@@ -259,7 +258,7 @@ public class MenuView {
 			System.out.println("=====================디저트 옵션 선택=====================");
 			while(option != 8) {
 				System.out.println("8. 시럽 추가 | 9. 보통 | 10. 달게 | 11. 선택 종료");
-				option = Integer.parseInt(sc.nextLine());
+				option =sc.nextInt();
 				if(option == 11) break;
 				
 				optionList = new OrderOptionList(0, 0, option, 1);
@@ -271,23 +270,36 @@ public class MenuView {
 	/**
 	 * 상품보기
 	 */
-	public static void printProduct() {
-		System.out.println("====================== 상품 보기 ===============================");
-		System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기 ");
-		int menu = sc.nextInt();
-		switch (menu) {
-		case 1:
-			ProductController.productSelect();// 전체 상품조회
-			break;
-		case 2:
-			System.out.println("카테고리를 선택해주세요 (1. 커피 2. 음료 3. 디저트 4. 기타 ");
-			int categoryNum = sc.nextInt();
-			ProductController.productSelectByCategory(categoryNum);
-			break;
-		case 3:
-
-			break;
+	public static void printProduct(String userId) {
+		while (true) {
+			System.out.println("============================================ 상품 보기 =====================================================   ");
+			if(!userId.equals("admin"))
+				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  4.나의 주문 추천  |  5.돌아가기");
+			else
+				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  5.돌아가기");
+			int menu = sc.nextInt();
+			switch (menu) {
+			case 1:
+				ProductController.productSelect(userId);// 전체 상품조회
+				break;
+			case 2:
+				System.out.println("카테고리를 선택해주세요 || 1. 커피 2. 음료 3. 디저트 ");
+				int categoryNum = sc.nextInt();
+				
+				ProductController.productSelectByCategory(categoryNum);
+				break;
+			case 3:
+				ProductController.productSelectByRec();// 판매순
+				break;	
+			case 4:
+				if(!userId.equals("admin"))
+					ProductController.productSelectUser(userId);// 나의 주문 추천
+				break;
+			case 5:
+				return;
+			}
 		}
+
 	}
 
 	/**
@@ -297,9 +309,9 @@ public class MenuView {
 		CartController.viewCart(id);
 	}
 
-	public static void printAdminMenu() {
+	public static void printAdminMenu(String userId) {
 		while (true) {
-			System.out.println("======================ADMIN_MENU===============================");
+			System.out.println("============================================ADMIN_MENU============================================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -307,29 +319,28 @@ public class MenuView {
 				menu();
 				return;
 			case 2:
-				ProductController.productSelect();// 전체 상품조회
+				printProduct(userId);
 				break;
 			case 3:
 				productInsert();
 				break;
 			case 4:
-				totalMenu();
 				productUpdate();
 				break;
 			case 5:
 				productDelete();
 				break;
 			case 6:
-				totalMenu();
+				totalMenu(userId);
 				break;
 			}
 		}
 
 	}
 
-	public static void totalMenu() {
+	public static void totalMenu(String userId) {
 		while (true) {
-			System.out.println("======================통계===============================");
+			System.out.println("============================================통계============================================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. top10 메뉴  | 6. 메뉴 돌아가기");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -349,7 +360,7 @@ public class MenuView {
 				StatisController.selectTopSellTen();
 				break;
 			case 6:
-				printAdminMenu();
+				printAdminMenu(userId);
 				break;
 			}
 		}
@@ -361,7 +372,7 @@ public class MenuView {
 		System.out.println("\t 3.디저트");
 		System.out.print("입력 : ");
 		int selecNum = sc.nextInt();
-		
+
 		switch (selecNum) {
 		case 1:
 			StatisController.selectCatTotal(1);
@@ -379,7 +390,7 @@ public class MenuView {
 
 		System.out.println("====================== 상품 등록 ===============================");
 		System.out.println("등록할 상품명을 입력해주세요");
-		sc.nextLine();  // 버퍼 비우기
+		sc.nextLine(); // 버퍼 비우기
 		String name = sc.nextLine();
 		System.out.println("등록할 상품정보를 입력해주세요");
 		String info = sc.nextLine();
@@ -396,13 +407,13 @@ public class MenuView {
 
 		System.out.println("====================== 상품 수정 ===============================");
 		System.out.println("수정할 상품명ID를 입력해주세요");
-		int id = Integer.parseInt(sc.nextLine());
+		int id = sc.nextInt();
 		System.out.println("등록할 상품명을 입력해주세요");
 		String name = sc.next();
 		System.out.println("등록할 상품정보를 입력해주세요");
 		String info = sc.next();
 		System.out.println("등록할 상품의 가격을 입력해주세요");
-		int price = Integer.parseInt(sc.nextLine());
+		int price = sc.nextInt();
 
 		Products products = new Products(id, name, info, price);
 		ProductController.productUpdateByProductId(products);

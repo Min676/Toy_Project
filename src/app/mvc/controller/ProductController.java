@@ -14,12 +14,12 @@ public class ProductController {
 
 	static ProductService productService = new ProductService();
 
-	public static void productSelect() {
+	public static void productSelect(String userId) {
 		try {
 			List<Products> list = productService.productSelect();
 			List<Products> list2 = productService.productSelectRec();
 			EndView.printProductsList(list);
-			EndView.printProductsListREC(list2);
+			
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
         } catch (NotFoundException e) {
@@ -81,5 +81,32 @@ public class ProductController {
 				FailView.errorMessage(e.getMessage());
 			}
 		}
+		
+		
+		public static void productSelectByRec(){
+			try {
+				List<Products> list2 = productService.productSelectRec();
+				EndView.printProductsListREC(list2);
+				
+			} catch (SQLException e) {
+				FailView.errorMessage(e.getMessage());
+	        } catch (NotFoundException e) {
+				FailView.errorMessage(e.getMessage());
+	        }
+	    }
+		
+		
+		public static void productSelectUser(String userId) {
+			try {
+				if(!userId.equals("admin")) {
+					List<Products> list3 = productService.productSelectUserRec(userId);
+					EndView.printProductsListUserREC(list3);
+				}
+			} catch (SQLException e) {
+				FailView.errorMessage(e.getMessage());
+	        } catch (NotFoundException e) {
+				FailView.errorMessage(e.getMessage());
+	        }
+	    }
 
 }

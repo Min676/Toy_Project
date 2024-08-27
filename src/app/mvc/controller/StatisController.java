@@ -8,22 +8,22 @@ import app.mvc.view.EndView;
 import app.mvc.view.FailView;
 
 public class StatisController {
-	static StatisService statisService = new StatisService();
-	
-	public static void selectTotal() {
-		try {
-			EndView.printTotalMessage(statisService.selectTotal());
-		} catch (SQLException e) {
-			FailView.errorMessage(e.getMessage());
-        } 
-	}
-	
+static StatisService statisService = new StatisService();
+
+public static void selectTotal() {
+	try {
+		EndView.printTotalMessage(statisService.selectTotal());
+	} catch (SQLException e) {
+		FailView.errorMessage(e.getMessage());
+    }
+}
+
 	public static void selectDayTotal() {
 		try {
 			EndView.printTotalMessageDate(statisService.selectTotalDay(),"일");
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } 
+	    }
 	}
 	
 	public static void selectMonthTotal() {
@@ -31,7 +31,7 @@ public class StatisController {
 			EndView.printTotalMessageDate(statisService.selectTotalMonth(),"월");
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } 
+	    }
 	}
 	
 	public static void selectCatTotal(int n) {
@@ -39,7 +39,7 @@ public class StatisController {
 			EndView.printTotalMessage(statisService.selectCatTotal(n));
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } 
+	    }
 	}
 	
 	public static void selectTopSellTen() {
@@ -47,8 +47,7 @@ public class StatisController {
 			EndView.printTopSell(statisService.selectTopsell());
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } 
+	    }
 	}
-	
-	
+
 }

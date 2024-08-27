@@ -36,10 +36,16 @@ public interface ProductsDAO {
 	/**
 	 * Product 등록하기
 	 */
-
 	int productInsert(Products products) throws SQLException;
 
+	
+	/**
+	 * 주문량 기반 판매 상품 10건
+	 */
 	List<Products> productSelectRec()throws SQLException;
 	
-
+	/**
+	 * login User 주문 기반 판매 상품 5건
+	 */
+	List<Products> productSelectUserRec(String userId)throws SQLException;
 }

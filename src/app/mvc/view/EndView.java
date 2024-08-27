@@ -1,14 +1,11 @@
 package app.mvc.view;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
-import app.mvc.model.dao.ProductsDAO;
-import app.mvc.model.dao.ProductsDAOImpl;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
@@ -21,7 +18,6 @@ import app.mvc.session.SessionSet;
 
 public class EndView {
 	private static Scanner sc = new Scanner(System.in);
-	private static ProductService productService = new ProductService();
 	/**
 	 * 상품 전체 출력
 	 */
@@ -45,26 +41,18 @@ public class EndView {
 		System.out.println("====================주문 목록====================");
 	   for(Orders order : orderList) {
 		   System.out.println(order.getOrderId()+ " | " + order.getOrderDate() +" | " + order.getTotalPrice());
-
-
-			 ProductsDAO productsDAO = new ProductsDAOImpl();
-
+		   
 		   for(OrderItem orderItem : order.getOrderItemList()) {
-				 String productName = null;
 			   String size = null;
-				 try {
-					 Products product = productsDAO.productSelectByProductId(orderItem.getProductId());
-					 productName = product != null ? product.getName() : "상품명 없음";
-				 } catch (SQLException e) {
-					 e.printStackTrace();
-					 productName = "상품명 조회 실패";
-				 }
 			   if(orderItem.getSelecSize() == 1) {
 				   size = "Tall";
 			   } else {
 				   size = "Grande";
 			   }
-			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId() + " | 상품명 : " + productName + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + size);
+			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId() + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + size);
+			   for(OrderOptionList optionList : orderItem.getOrderOptionList()) {
+				   //System.out.println("      ▶ 주문옵션 : " + optionList.getOiId() + " | 옵션 수량 : " + optionList.getSelecCnt() + " | 옵션메뉴 : " + OrderController.getOptionInfo( optionList);
+			   }
 		   }
 		   System.out.println();
 	   }
@@ -96,7 +84,7 @@ public class EndView {
 			System.out.println("주문데이터 없음!!");
 		}
 	}
-
+	
 	public static void printTotalMessageDate(Statisics stat, String date) {
 		if (stat.getProduct() != null) {
 			System.out.println("-------------------" + date + "간 판매 통계----------------------");
@@ -120,6 +108,7 @@ public class EndView {
 			System.out.println(stat.getUserName());
 			System.out.println("------------------------------------------------------------");
 
+
 		} else {
 			System.out.println("주문데이터 없음!!");
 		}
@@ -142,10 +131,23 @@ public class EndView {
 			System.out.println(p);
 		}
 
+
 		System.out.println();
 	}
 	
+	public static void printProductsListUserREC(List<Products> list) {
+		System.out.println("-------------주문 기반 추천 상품 -------------");
+		for (Products p : list) {
+			System.out.println(p);
+		}
+
+
+		System.out.println();
+	}
+	
+	
 	public static void printViewCart(String id , Map<OrderItem,Integer> cart) {
+		ProductService productService=new ProductService();
 		System.out.println("장바구니내용....");
 		
 		for(OrderItem orderItem: cart.keySet()) {
