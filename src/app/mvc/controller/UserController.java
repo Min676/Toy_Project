@@ -33,6 +33,7 @@ public class UserController {
 
 		try {
 			EndView.userSelectAll(userService.infoUser(id, pw));
+			MenuView.printSubMenu(id, pw);
 
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
