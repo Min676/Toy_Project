@@ -22,7 +22,7 @@ public class MenuView {
 	public static void menu() {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet());
+			//System.out.println(ss.getSet());
 
 			MenuView.printMenu();
 			int menu = sc.nextInt();
@@ -51,7 +51,7 @@ public class MenuView {
 	public static void printUserMenu(String userId, String userPw) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet()); // Set객체
+			//System.out.println(ss.getSet()); // Set객체
 
 			System.out.println("-----" + userId + " 로그인 중 -----");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
