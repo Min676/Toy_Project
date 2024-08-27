@@ -211,6 +211,7 @@ public class MenuView {
 		CartController.putCart(userId, productsId, goodsCnt, selectSize, orderItem);
 	}
 	
+	
 	// 옵션 선택 메뉴 띄워주기
 		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
 			System.out.println("옵션 선택");

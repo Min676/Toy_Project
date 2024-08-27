@@ -175,7 +175,7 @@ public class OrderDAOImpl implements OrderDAO {
 			while(rs.next()) {
 				Orders orders = new Orders (rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5),userId);
 
-				List<OrderItem> orderItemList = this.selectOrderItem(orders.getOrderId());
+				List<OrderItem> orderItemList = this.selectOrderItem(orders.getOrderId(), con);
 				orders.setOrderItemList(orderItemList);
 				
 				list.add(orders);
@@ -187,11 +187,10 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 	
-	public List<OrderItem> selectOrderItem (int order_id) throws SQLException {
-		Connection con = null;
+	public List<OrderItem> selectOrderItem (int order_id, Connection con) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<OrderItem> list = new ArrayList<>();
+		List<OrderItem> list = new ArrayList<OrderItem>();
 		String sql = "select * from orders_item where order_id = ?";
 		
 		try {
@@ -203,7 +202,33 @@ public class OrderDAOImpl implements OrderDAO {
 			while(rs.next()) {
 				OrderItem orderItem = new OrderItem (rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
 				
+				List<OrderOptionList> orderOptionList = this.selectOrderOptionList(orderItem.getOrderItemId(), con);
+				orderItem.setOrderOptionList(orderOptionList);
 				list.add(orderItem);
+			}
+		} finally {
+			DbManager.close(null, ps, rs);
+		}
+		
+		return list;
+	}
+	
+	public List<OrderOptionList> selectOrderOptionList(int orderItemId, Connection con) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<OrderOptionList> list = new ArrayList<OrderOptionList>();
+		String sql = "select * from order_option_list where order_item_id = ?";
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, orderItemId);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				OrderOptionList orderOptionList = new OrderOptionList (rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+				
+				list.add(orderOptionList);
 			}
 		} finally {
 			DbManager.close(null, ps, rs);

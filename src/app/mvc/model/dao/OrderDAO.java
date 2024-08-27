@@ -37,7 +37,7 @@ public interface OrderDAO {
 	/**
 	 * 주문 상세 (주문품목) 보기
 	 */
-	List<OrderItem> selectOrderItem(int order_id) throws SQLException;
+	List<OrderItem> selectOrderItem(int order_id, Connection con) throws SQLException;
 	
 
 	/**
