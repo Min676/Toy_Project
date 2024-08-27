@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import app.mvc.model.dto.Users;
-import app.mvc.session.Session;
-import app.mvc.session.SessionSet;
 import app.mvc.util.DbManager;
-import app.mvc.view.MenuView;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -115,7 +112,7 @@ public class UserDAOImpl implements UserDAO {
 		  Users user=null;
 		 try {
 		   con = DbManager.getConnection(); //db연결
-		   ps= con.prepareStatement("select U.* , W.* from USERS U JOIN WALLET W ON U.USER_SEQ = W.USER_SEQ WHERE U.USER_ID = ? AND U.PW = ?"); //sql문 입력
+		   ps= con.prepareStatement("select * from USERS U JOIN WALLET W ON U.USER_SEQ = W.USER_SEQ WHERE U.USER_ID like ? AND U.PW = ?"); //sql문 입력
 		   ps.setString(1, id); //id 입력받음
 		   ps.setString(2, pw); //pw 입력받음
 		   
@@ -134,7 +131,6 @@ public class UserDAOImpl implements UserDAO {
 	                rs.getInt("wallet_seq"),
 	                rs.getInt("cash")
 	            );
-	           
 		   }
 		   
     }finally {
@@ -157,10 +153,12 @@ public class UserDAOImpl implements UserDAO {
 	    try {
 	        con = DbManager.getConnection();  // 데이터베이스 연결 설정
 	        
-	        String sql = "UPDATE USERS SET pw = ? WHERE user_id = ?";  // SQL 업데이트 쿼리
+	        String sql = "select user_seq from users where  pw like ? and user_id= ? ";  // SQL 업데이트 쿼리
 	        ps = con.prepareStatement(sql);  // PreparedStatement 객체 생성
-	        ps.setString(1, pw);  // 첫 번째 파라미터에 새 비밀번호 설정
-	        ps.setString(2, userId);  // 두 번째 파라미터에 userId 설정
+	        ps.setString(1, pw); 
+	        ps.setString(2, userId);  
+	        
+	        
 	        
 	        result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
 	        
@@ -188,7 +186,7 @@ public class UserDAOImpl implements UserDAO {
 	        String confirmation = scanner.nextLine().trim().toLowerCase();
 
 	        if (!confirmation.equals("y")) {
-	            System.out.println("회원 탈퇴가 취소되었습니다.");
+	            
 	            return 0;
 	        }
 

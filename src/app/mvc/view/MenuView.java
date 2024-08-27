@@ -97,7 +97,7 @@ public class MenuView {
 			break;
 		case 3:
 			UserController.cancelUser(userId, userPw);
-			menu()
+			
 			break;
 			
 		case 4:
@@ -151,9 +151,9 @@ public class MenuView {
 	/**
 	 * 회원 탈퇴
 	 * */
-	public static void cancleUser(String userId, String userPw) {
+	public static void cancelUser(String userId, String userPw) {
 		
-		UserController.cancleUser(userId, userPw);
+		UserController.cancelUser(userId, userPw);
 		
 	}
 	
