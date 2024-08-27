@@ -118,25 +118,25 @@ public class Users {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(" [ userSeq= ");
+		builder.append("회원 번호 = ");
 		builder.append(userSeq);
-		builder.append(", userId= ");
+		builder.append("\n 회원 ID = ");
 		builder.append(userId);
-		builder.append(", name= ");
+		builder.append("\n 회원 이름 = ");
 		builder.append(name);
-		builder.append(", pw= ");
+		builder.append("\n 회원 비밀번호= ");
 		builder.append(pw);
-		builder.append(", point= ");
+		builder.append("\n 포인트 잔액 = ");
 		builder.append(point);
-		builder.append(", membershipLevel= ");
+		builder.append("\n 멤버쉽 레벨 = ");
 		builder.append(membershipLevel);
-		builder.append(", ocount= ");
+		builder.append("\n 멤버쉽 카운트= ");
 		builder.append(ocount);
-		builder.append(", walletseq= ");
+		builder.append("\n 지갑 번호 = ");
 		builder.append(walletseq);
-		builder.append(", cash= ");
+		builder.append("\n 지갑 잔액 = ");
 		builder.append(cash);
-		builder.append(" ] ");
+		
 		return builder.toString();
 	}
 

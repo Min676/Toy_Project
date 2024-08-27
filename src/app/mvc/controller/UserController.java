@@ -64,8 +64,9 @@ public class UserController {
 			int user = userService.changeInfoUser(id, currentPw, newpwd);
 
 			if (user > 0) {
-				MenuView.printSubMenu(id, currentPw );
 				EndView.userinfoSucc();
+				MenuView.printSubMenu(id, newpwd);
+				
 			} else {
 				FailView.errorMessage("수정에 실패하였습니다.");
 			}

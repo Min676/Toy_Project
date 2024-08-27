@@ -221,9 +221,11 @@ public class EndView {
 		System.out.println("성공적으로 회원탈퇴가 완료되었습니다.");
 		
 	}
-	public static void userSelectAll(Users user) {
+	public static Users userSelectAll(Users user) {
 		System.out.println("---------------유저정보--------------");
 		System.out.println(user);
+		
+		return user;
 	}
 	
 	
