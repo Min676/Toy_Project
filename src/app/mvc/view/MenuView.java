@@ -47,8 +47,8 @@ public class MenuView {
 
 	public static void printUserMenu(String userId, String userPw) {
 		while (true) {
-			SessionSet ss = SessionSet.getInstance();
-			System.out.println(ss.getSet()); // Set객체
+			//SessionSet ss = SessionSet.getInstance();
+			//System.out.println(ss.getSet()); // Set객체
 
 			System.out.println("\n--------------" + userId + "님 로그인 중 --------------");
 

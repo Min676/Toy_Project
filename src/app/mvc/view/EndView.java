@@ -27,10 +27,10 @@ public class EndView {
 	public static void printProductsList(List<Products> list) {
 		System.out.println("-------------상품 -------------");
 		for (Products p : list) {
-			if(p.getBlock() == 1)
+			if (p.getBlock() == 1)
 				System.out.println(p);
 			else
-				System.out.println("[X]"+p+" [SOLD OUT!!!]");
+				System.out.println("[X]" + p + " [SOLD OUT!!!]");
 		}
 
 		System.out.println();
@@ -66,32 +66,32 @@ public class EndView {
 			System.out.println();
 		}
 	}
-	
+
 	/**
 	 * 마지막 주문 상품 보기
 	 */
 	public static void printRecentOrderByUserId(Orders order) {
 		System.out.println("====================주문 목록====================");
 
-			System.out.println(order.getOrderId() + " | " + order.getOrderDate() + " | " + order.getTotalPrice());
+		System.out.println(order.getOrderId() + " | " + order.getOrderDate() + " | " + order.getTotalPrice());
 
-			for (OrderItem orderItem : order.getOrderItemList()) {
-				String size = null;
-				if (orderItem.getSelecSize() == 1) {
-					size = "Tall";
-				} else {
-					size = "Grande";
-				}
-				System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 메뉴명 : "
-						+ ProductController.productName(orderItem.getProductId()).getName() + " | 개수 : "
-						+ orderItem.getQuantity() + " | 사이즈 : " + size);
-				for (OrderOptionList optionList : orderItem.getOrderOptionList()) {
-					System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(optionList.getOiId())
-							+ " | 옵션 수량 : " + optionList.getSelecCnt());
-				}
+		for (OrderItem orderItem : order.getOrderItemList()) {
+			String size = null;
+			if (orderItem.getSelecSize() == 1) {
+				size = "Tall";
+			} else {
+				size = "Grande";
 			}
-			System.out.println();
-		
+			System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 메뉴명 : "
+					+ ProductController.productName(orderItem.getProductId()).getName() + " | 개수 : "
+					+ orderItem.getQuantity() + " | 사이즈 : " + size);
+			for (OrderOptionList optionList : orderItem.getOrderOptionList()) {
+				System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(optionList.getOiId())
+						+ " | 옵션 수량 : " + optionList.getSelecCnt());
+			}
+		}
+		System.out.println();
+
 	}
 
 	public static void printTotalMessage(Statisics stat) {
@@ -179,94 +179,94 @@ public class EndView {
 	}
 
 	public static void printViewCart(String id, Map<OrderItem, Integer> cart) {
-		System.out.println("===========================장바구니===========================");
+		while (true) {
+			System.out.println("===========================장바구니===========================");
 
-		for (OrderItem orderItem : cart.keySet()) {
-			int productsId = orderItem.getProductId();// 상품번호
-			Products products = ProductController.productName(orderItem.getProductId());
-			String name = products.getName();// 상품이름
-			int price = products.getPrice();// 상품가격
+			for (OrderItem orderItem : cart.keySet()) {
+				int productsId = orderItem.getProductId();// 상품번호
+				Products products = ProductController.productName(orderItem.getProductId());
+				String name = products.getName();// 상품이름
+				int price = products.getPrice();// 상품가격
 
-			int quantity = cart.get(orderItem);// key에 해당하는 value즉 수량
-			System.out.println(
-					"상품번호 : " + productsId + " | 상품명 : " + name + "\t | 가격 : " + price + " \t| 수량 : " + quantity);
-		}
-
-		Scanner sc = new Scanner(System.in);
-		System.out.println("1.주문하기 |  2.삭제  |  9.나가기");
-		switch (sc.nextInt()) {
-		case 1:
-            Orders orders = new Orders(0, 0, null, 0, 0, id);
-            
-            int quantity = 0;
-            List<OrderItem> orderItemList = orders.getOrderItemList();
-            List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
-			
-			 for(OrderItem item : cart.keySet()) {
-				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
-				 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
-				 for(OrderOptionList optionList : item.getOrderOptionList()) {
-					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
-			 	}
-				quantity += qty;
-				item.setOrderOptionList(orderOptionList);
-			 	orderItemList.add(orderItem);
-			 }
-			 
-			orders.setOrderItemList(orderItemList);
-			System.out.println("주문 메뉴 개수 : " + quantity);
-			
-			
-			OrderController oc = new OrderController();
-			Map<Integer, Integer> map = oc.userWalletInfo(id);
-			Iterator<Integer> iter = map.keySet().iterator();
-			int point = iter.next();
-			int cash = map.get(point);
-
-			int use = isPointUse(point);
-			
-			int result = OrderController.orderInsert(orders, point, cash, use,id);// 주문 + 주문상세
-			
-
-			// 장바구니비우기
-			SessionSet ss = SessionSet.getInstance();
-			Session session = ss.get(id);
-			session.removeAttribute("cart");
-			if(result == 1) {
-				System.out.println("주문 완료되었습니다!^^");
+				int quantity = cart.get(orderItem);// key에 해당하는 value즉 수량
+				System.out.println(
+						"상품번호 : " + productsId + " | 상품명 : " + name + "\t | 가격 : " + price + " \t| 수량 : " + quantity);
 			}
-			break;
-			
 
-		case 2:
-		    System.out.print("삭제할 상품 번호 : ");
-		    int num = sc.nextInt(); // 삭제할 상품 번호 입력 받음
-		    ss = SessionSet.getInstance();
-		    session = ss.get(id);
-		    
-		    Map<OrderItem, Integer> cart1 = (Map<OrderItem, Integer>) session.getAttribute("cart");
-		    
-		    if (cart1 != null) {
-		        OrderItem itemToRemove = null;
-		        
-		        for (OrderItem orderItem : cart1.keySet()) {
-		            int productsId = orderItem.getProductId();
-		            if (num == productsId) {
-		                itemToRemove = orderItem;
-		                break;
-		            }
-		        }
-		        
-		        if (itemToRemove != null) {
-		            session.removeItem(itemToRemove);
-		        } else {
-		            System.out.println("해당 상품을 찾을 수 없습니다.");
-		        }
-		    }
-		    break;
-							
-		case 9:
-			break;
+			Scanner sc = new Scanner(System.in);
+			System.out.println("1.주문하기 |  2.삭제  |  9.나가기");
+			switch (sc.nextInt()) {
+			case 1:
+				Orders orders = new Orders(0, 0, null, 0, 0, id);
+
+				int quantity = 0;
+				List<OrderItem> orderItemList = orders.getOrderItemList();
+				List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
+
+				for (OrderItem item : cart.keySet()) {
+					int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+					OrderItem orderItem = new OrderItem(0, 0, item.getProductId(), qty, item.getSelecSize());
+					for (OrderOptionList optionList : item.getOrderOptionList()) {
+						orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
+					}
+					quantity += qty;
+					item.setOrderOptionList(orderOptionList);
+					orderItemList.add(orderItem);
+				}
+
+				orders.setOrderItemList(orderItemList);
+				System.out.println("주문 메뉴 개수 : " + quantity);
+
+				OrderController oc = new OrderController();
+				Map<Integer, Integer> map = oc.userWalletInfo(id);
+				Iterator<Integer> iter = map.keySet().iterator();
+				int point = iter.next();
+				int cash = map.get(point);
+
+				int use = isPointUse(point);
+
+				int result = OrderController.orderInsert(orders, point, cash, use, id);// 주문 + 주문상세
+
+				// 장바구니비우기
+				SessionSet ss = SessionSet.getInstance();
+				Session session = ss.get(id);
+				session.removeAttribute("cart");
+				if (result == 1) {
+					System.out.println("주문 완료되었습니다!^^");
+				}
+				return;
+
+			case 2:
+				System.out.print("삭제할 상품 번호 : ");
+				int num = sc.nextInt();
+
+				ss = SessionSet.getInstance();
+				session = ss.get(id);
+
+				Map<OrderItem, Integer> cart1 = (Map<OrderItem, Integer>) session.getAttribute("cart");
+
+				if (cart1 != null) {
+					OrderItem itemToRemove = null;
+
+					for (OrderItem orderItem : cart1.keySet()) {
+						int productsId = orderItem.getProductId();
+						if (num == productsId) {
+							itemToRemove = orderItem;
+							break;
+						}
+					}
+
+					if (itemToRemove != null) {
+						session.removeItem(itemToRemove);
+					} else {
+						System.out.println("해당 상품을 찾을 수 없습니다.");
+					}
+				}
+				break;
+
+			case 9:
+				return;
+			}
 		}
 
 	}
@@ -319,7 +319,7 @@ public class EndView {
 
 		return user;
 	}
-	
+
 	public static void SuccesMessage(String str) {
 		System.out.println(str);
 	}
