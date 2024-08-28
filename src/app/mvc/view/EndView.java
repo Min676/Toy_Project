@@ -120,7 +120,7 @@ public class EndView {
 	}
 
 	public static void printTopSell(Map<String, Integer> map) {
-		System.out.println("---------------------------------------");
+		System.out.println("-----------------판매Top10------------------");
 		System.out.println("|        상품명\t||     주문수    |");
 		System.out.println("---------------------------------------");
 		map.forEach((k, v) -> {
