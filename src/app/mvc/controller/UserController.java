@@ -3,6 +3,7 @@ package app.mvc.controller;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.Users;
 import app.mvc.model.service.UserService;
 import app.mvc.session.Session;
@@ -99,6 +100,20 @@ public class UserController {
 			FailView.errorMessage(e.getMessage());
 		}
 
+	}
+
+	public static int cashCharge(String userId, int money, int selec) {
+		int chk=0;
+		try {
+			chk=userService.cashCharge(userId, money, selec);
+			if(chk>0)
+				EndView.SuccesMessage("충전 성공");
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return chk;
 	}
 	
 
