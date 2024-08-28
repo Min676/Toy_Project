@@ -38,14 +38,14 @@ public class MenuView {
 				break;
 
 			case 9:
-				System.out.println("============== 커피 키오스크 종료합니다 ==============");
+				System.out.println("\n============== 커피 키오스크 종료합니다 ==============");
 				System.exit(0);
 			}
 		}
 	}
 
 	public static void printMenu() {
-		System.out.println("===================Coffee Shop=================");
+		System.out.println("\n===================Coffee Shop=================");
 		System.out.println("1. 가입   |   2. 로그인   | 3.바로가기  9. 종료");
 	}
 
@@ -54,7 +54,7 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			//System.out.println(ss.getSet()); // Set객체
 
-			System.out.println("----------" + userId + "님 로그인 중 ----------");
+			System.out.println("\n----------" + userId + "님 로그인 중 ----------");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
 			int menu = sc.nextInt();
@@ -86,7 +86,7 @@ public class MenuView {
 
 	public static void printSubMenu(String userId, String userPw) {
 
-		System.out.println("1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴   | 9. 나가기");
+		System.out.println("\n1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴   | 9. 나가기");
 		
 		int menu = sc.nextInt();
 
@@ -114,14 +114,13 @@ public class MenuView {
 	private static void register() {
 		sc.nextLine();
 
-		System.out.println("아이디 등록 : ");
-
+		System.out.print("아이디 등록 : ");
 		String userId = sc.nextLine();
 
-		System.out.println("회원성명 등록: ");
+		System.out.print("회원성명 등록: ");
 		String userName = sc.nextLine();
 
-		System.out.println("비밀번호 등록: ");
+		System.out.print("비밀번호 등록: ");
 		String userPwd = sc.nextLine();
 
 		Users user = new Users(userId, userName, userPwd);
@@ -133,10 +132,10 @@ public class MenuView {
 	 */
 	public static void login() {
 		sc.nextLine();
-		System.out.print("아이디 : ");
+		System.out.print("아이디 입력 : ");
 		String userId = sc.nextLine();
 
-		System.out.print("비번 : ");
+		System.out.print("비밀번호 입력 : ");
 		String userPwd = sc.nextLine();
 
 		userController.login(userId, userPwd);
@@ -149,7 +148,7 @@ public class MenuView {
 
 	public static void changeInfoUser(String userId, String userPw) {
 		
-		System.out.println("새로운 비밀번호 : ");
+		System.out.print("\n새로운 비밀번호 : ");
 		sc.nextLine();
 		String newpw = sc.nextLine();
 		
@@ -205,7 +204,7 @@ public class MenuView {
 		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
 			int option = 0;
 			OrderOptionList optionList = null;
-			System.out.println("=====================커피 옵션 선택=====================");
+			System.out.println("\n=====================커피 옵션 선택=====================");
 			while(true) {
 				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 선택 완료");
 				option =sc.nextInt();
@@ -227,7 +226,7 @@ public class MenuView {
 		public static OrderItem printSelectBeverageOption(OrderItem orderItem) {
 			int option = 0;
 			OrderOptionList optionList = null;
-			System.out.println("=====================음료 옵션 선택=====================");
+			System.out.println("\n=====================음료 옵션 선택=====================");
 			while(option != 7) {
 				System.out.println("4. 펄 추가 | 5. 망고 추가 | 6. 샷 추가 | 7. 선택 종료");
 				option =sc.nextInt();
@@ -249,7 +248,7 @@ public class MenuView {
 		public static OrderItem printSelectDessertOption(OrderItem orderItem) {
 			int option = 0;
 			OrderOptionList optionList = null;
-			System.out.println("=====================디저트 옵션 선택=====================");
+			System.out.println("\n=====================디저트 옵션 선택=====================");
 			while(option != 11) {
 				System.out.println("7. 아이스크림 추가 | 11. 선택 종료");
 				option =sc.nextInt();
@@ -271,7 +270,7 @@ public class MenuView {
 	public static void printProduct(String userId) {
 		while (true) {
 			System.out.println(
-					"============================================ 상품 보기 =====================================================   ");
+					"\n============================================ 상품 보기 =====================================================   ");
 			if (!userId.equals("admin"))
 				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  4.나의 주문 추천  |  5.돌아가기");
 			else
@@ -311,7 +310,7 @@ public class MenuView {
 	public static void printAdminMenu(String userId) {
 		while (true) {
 			System.out.println(
-					"============================================ADMIN_MENU============================================");
+					"\n============================================ADMIN_MENU============================================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -341,7 +340,7 @@ public class MenuView {
 	public static void totalMenu(String userId) {
 		while (true) {
 			System.out.println(
-					"============================================통계============================================");
+					"\n============================================통계============================================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. top10 메뉴  | 6. 메뉴 돌아가기");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -389,7 +388,7 @@ public class MenuView {
 
 	public static void productInsert() {
 
-		System.out.println("====================== 상품 등록 ===============================");
+		System.out.println("\n====================== 상품 등록 ===============================");
 		System.out.println("등록할 상품명을 입력해주세요");
 		sc.nextLine(); // 버퍼 비우기
 		String name = sc.nextLine();
@@ -406,7 +405,7 @@ public class MenuView {
 
 	public static void productUpdate() {
 
-		System.out.println("====================== 상품 수정 ===============================");
+		System.out.println("\n====================== 상품 수정 ===============================");
 		System.out.println("수정할 상품명ID를 입력해주세요");
 		int id = sc.nextInt();
 		System.out.println("등록할 상품명을 입력해주세요");
@@ -422,7 +421,7 @@ public class MenuView {
 
 	public static void productDelete() {
 
-		System.out.println("====================== 상품 삭제 ===============================");
+		System.out.println("\n====================== 상품 삭제 ===============================");
 		System.out.println("삭제할 상품명ID를 입력해주세요");
 		int id = sc.nextInt();
 		ProductController.productDeleteByProductId(id);

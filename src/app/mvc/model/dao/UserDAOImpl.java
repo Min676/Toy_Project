@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
 		  
 		  
 		  if (checkId(user.getUserId())) { //아이디가 중복되었을때 SQLException 을 발생시키고, 메세지 출력
-	            throw new SQLException("중복된 아이디 입니다.");
+	            throw new SQLException("중복된 아이디 입니다. \n회원가입이 불가능합니다.\n");
 	        }
 		  
 		 try {
@@ -184,7 +184,7 @@ public class UserDAOImpl implements UserDAO {
 	        
 	        // 탈퇴 여부 확인
 	       
-	        System.out.print("정말 회원 탈퇴를 하시겠습니까? (Y/N): ");
+	        System.out.print("\n정말 회원 탈퇴를 하시겠습니까? (Y/N): ");
 	        String confirmation = scanner.nextLine().trim().toLowerCase();
 
 	        if (!confirmation.equals("y")) {

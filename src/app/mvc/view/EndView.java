@@ -234,24 +234,24 @@ public class EndView {
 
 	public static void userPrintSucc() {
 
-		System.out.println("성공적으로 회원가입이 완료되었습니다.");
+		System.out.println("\n성공적으로 회원가입이 완료되었습니다.");
 
 	}
 
 	public static void userinfoSucc() {
 
-		System.out.println("성공적으로 수정이 완료되었습니다.");
+		System.out.println("\n성공적으로 수정이 완료되었습니다.");
 
 	}
 
 	public static void userDelSucc() {
 
-		System.out.println("성공적으로 회원탈퇴가 완료되었습니다.");
+		System.out.println("\n성공적으로 회원탈퇴가 완료되었습니다.");
 
 	}
 
 	public static Users userSelectAll(Users user) {
-		System.out.println("---------------유저정보--------------");
+		System.out.println("\n---------------유저정보--------------");
 		System.out.println(user);
 
 		return user;
