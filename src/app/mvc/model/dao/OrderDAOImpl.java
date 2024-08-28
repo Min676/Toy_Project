@@ -57,7 +57,6 @@ public class OrderDAOImpl implements OrderDAO {
 					throw new SQLException("지갑 잔액이 부족합니다.");
 
 				if (use > 0) {
-					System.out.println(order);
 					order.setTotalPrice(totalPrice - use);
 					chargePoint(con, order, use);
 					
