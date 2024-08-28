@@ -57,7 +57,6 @@ public class OrderDAOImpl implements OrderDAO {
 					throw new SQLException("지갑 잔액이 부족합니다.");
 
 				if (use > 0) {
-					System.out.println(order);
 					order.setTotalPrice(totalPrice - use);
 					chargePoint(con, order, use);
 					
@@ -84,9 +83,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
-	/**
-	 * 주문 상세 등록
-	 */
+	@Override 
 	public int[] orderItemInsert(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 
@@ -126,9 +123,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
-	/**
-	 * 주문 옵션 리스트 등록
-	 */
+	@Override 
 	public int[] orderOptionInsert(Connection con, OrderItem orderItem) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDER_OPTION_LIST (OPTION_ID, ORDER_OPTION_ID, ORDER_ITEM_ID, SELEC_CNT)"
@@ -155,9 +150,8 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
-	/**
-	 * 사용자별 주문내역보기
-	 */
+	
+	//사용자별 주문내역보기
 	@Override
 	public List<Orders> selectOrdersByUserId(String userId) throws SQLException {
 		Connection con = null;
@@ -188,6 +182,8 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 	
+	// 주문 상세 보기
+	@Override 
 	public List<OrderItem> selectOrderItem (int order_id, Connection con) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -213,6 +209,8 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 	
+	// 주문 옵션 리스트 받아오기
+	@Override
 	public List<OrderOptionList> selectOrderOptionList(int orderItemId, Connection con) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -236,6 +234,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return list;
 	}
 	
+	// 총 구매금액
 	public int getTotalPrice(Orders orders) throws SQLException {
 		List<OrderItem> orderItemList = orders.getOrderItemList();
 		List<OrderOptionList> orderOptionList = null;
@@ -445,6 +444,7 @@ public class OrderDAOImpl implements OrderDAO {
 	/**
 	 * 옵션 이름 가져오기
 	 */
+	@Override
 	public String getOptionName(int optionId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;

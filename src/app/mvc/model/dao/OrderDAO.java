@@ -58,7 +58,7 @@ public interface OrderDAO {
 	
 
 	/**
-	 * 옵션 이름 가져오기
+	 * 옵션 정보 가져오기
 	 */
 	OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException;
 	
@@ -67,7 +67,15 @@ public interface OrderDAO {
 	 */
 	Map<Integer, Integer> selectUserWalletInfo(String userId)throws SQLException; 
 	
-	
+	/**
+	 * 옵션 이름 가져오기
+	 */
 	public String getOptionName(int optionId) throws SQLException;
+	
+	
+	/**
+	 * 주문 옵션 리스트 받아오기
+	 */
+	public List<OrderOptionList> selectOrderOptionList(int orderItemId, Connection con) throws SQLException;
 	
 }

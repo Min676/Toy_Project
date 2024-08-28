@@ -182,30 +182,32 @@ public class MenuView {
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
 		int goodsCnt =sc.nextInt();
-		int selectSize;
-		while (true) {
-			System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요 : ");
-			selectSize =sc.nextInt();
-			if(selectSize != 1 && selectSize != 2 ) {
-				System.out.println("다시 선택해 주세요");
-			} else { break;}
-		}
 			
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
-		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, selectSize);
+		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, 0);
 		order.getOrderItemList().add(orderItem);
 		
 		orderItem = OrderController.selectOption(productsId, orderItem);
-		if (orderItem != null)
-			CartController.putCart(userId, productsId, goodsCnt, selectSize, orderItem);
+		if(orderItem != null)
+		CartController.putCart(userId, productsId, goodsCnt, orderItem.getSelecSize(), orderItem);
+
 	}
 	
 	// 옵션 선택 메뉴 띄워주기
 		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
 			int option = 0;
+			int selectSize = 0;
 			OrderOptionList optionList = null;
 			System.out.println("\n=====================커피 옵션 선택=====================");
 			while(true) {
+				while(selectSize == 0) {
+					System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요 : ");
+					selectSize =sc.nextInt();
+					if(selectSize != 1 && selectSize != 2 ) {
+						System.out.println("다시 선택해 주세요");
+					} else { break;}
+				}
+				
 				System.out.println("1. 샷 추가 | 2. 시럽 추가 | 3. 아이스크림 토핑 추가 | 4. 선택 완료");
 				option =sc.nextInt();
 				if(option == 4) break;
@@ -217,6 +219,7 @@ public class MenuView {
 				System.out.print("옵션 수량 선택 : ");
 				int optionCnt =sc.nextInt();
 				
+				orderItem.setSelecSize(selectSize);
 				optionList = new OrderOptionList(0, option, 0, optionCnt);
 				orderItem.getOrderOptionList().add(optionList);
 			}
@@ -225,12 +228,20 @@ public class MenuView {
 		
 		public static OrderItem printSelectBeverageOption(OrderItem orderItem) {
 			int option = 0;
+			int selectSize = 0;
 			OrderOptionList optionList = null;
 			System.out.println("\n=====================음료 옵션 선택=====================");
 			while(option != 7) {
+				while(selectSize == 0) {
+					System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요 : ");
+					selectSize =sc.nextInt();
+					if(selectSize != 1 && selectSize != 2 ) {
+						System.out.println("다시 선택해 주세요");
+					} else { break;}
+				}
 				System.out.println("4. 펄 추가 | 5. 망고 추가 | 6. 샷 추가 | 7. 선택 종료");
 				option =sc.nextInt();
-				if(option == 8) break;
+				if(option == 7) break;
 				if (option < 4 || option > 7) {
 					System.out.println("다시 선택해 주세요");
 					continue;
@@ -239,6 +250,7 @@ public class MenuView {
 				System.out.print("옵션 수량 선택 : ");
 				int optionCnt =sc.nextInt();
 				
+				orderItem.setSelecSize(selectSize);
 				optionList = new OrderOptionList(0, option, 0, optionCnt);
 				orderItem.getOrderOptionList().add(optionList);
 			}
