@@ -17,6 +17,8 @@ import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Users;
 import app.mvc.model.dto.Wallet;
 import app.mvc.util.DbManager;
+import app.mvc.view.FailView;
+import app.mvc.view.MenuView;
 
 public class OrderDAOImpl implements OrderDAO {
 
@@ -24,7 +26,7 @@ public class OrderDAOImpl implements OrderDAO {
 	UserDAO userDAO = new UserDAOImpl();
 
 	@Override
-	public int orderInsert(Orders order, int point, int cash, int use,String id) throws SQLException {
+	public int orderInsert(Orders order, int point, int cash, int use, String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDERS (ORDER_ID, USER_SEQ, ORDER_DATE, TOTAL_PRICE, STATUS)"
@@ -49,7 +51,6 @@ public class OrderDAOImpl implements OrderDAO {
 			} else { // 주문상세 등록
 				this.orderItemInsert(con, order);
 
-				
 				// wallet 업데이트
 
 				Wallet wallet = this.checkWallet(con, order);
@@ -59,15 +60,19 @@ public class OrderDAOImpl implements OrderDAO {
 				if (use > 0) {
 					order.setTotalPrice(totalPrice - use);
 					chargePoint(con, order, use);
-					
+
 				}
+
+				
 				
 				result = this.chargeWallet(con, order);
-				updateMembershipLevel(con,user);
-				chargeAddPoint(con,order);
-				userCountUpdate(con,order);
-				con.commit();
+				updateMembershipLevel(con, user);
+				chargeAddPoint(con, order);
+				userCountUpdate(con, order);
+				OrderPermit(con, order);
 				
+				con.commit();
+
 			}
 
 		} catch (SQLException e) {
@@ -83,7 +88,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
-	@Override 
+	@Override
 	public int[] orderItemInsert(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 
@@ -123,7 +128,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
-	@Override 
+	@Override
 	public int[] orderOptionInsert(Connection con, OrderItem orderItem) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDER_OPTION_LIST (OPTION_ID, ORDER_OPTION_ID, ORDER_ITEM_ID, SELEC_CNT)"
@@ -150,8 +155,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return result;
 	}
 
-	
-	//사용자별 주문내역보기
+	// 사용자별 주문내역보기
 	@Override
 	public List<Orders> selectOrdersByUserId(String userId) throws SQLException {
 		Connection con = null;
@@ -181,10 +185,10 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return list;
 	}
-	
+
 	// 주문 상세 보기
-	@Override 
-	public List<OrderItem> selectOrderItem (int order_id, Connection con) throws SQLException {
+	@Override
+	public List<OrderItem> selectOrderItem(int order_id, Connection con) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<OrderItem> list = new ArrayList<OrderItem>();
@@ -194,10 +198,11 @@ public class OrderDAOImpl implements OrderDAO {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, order_id);
 			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				OrderItem orderItem = new OrderItem (rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
-				
+
+			while (rs.next()) {
+				OrderItem orderItem = new OrderItem(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
+						rs.getInt(5));
+
 				List<OrderOptionList> orderOptionList = this.selectOrderOptionList(orderItem.getOrderItemId(), con);
 				orderItem.setOrderOptionList(orderOptionList);
 				list.add(orderItem);
@@ -208,7 +213,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return list;
 	}
-	
+
 	// 주문 옵션 리스트 받아오기
 	@Override
 	public List<OrderOptionList> selectOrderOptionList(int orderItemId, Connection con) throws SQLException {
@@ -216,24 +221,25 @@ public class OrderDAOImpl implements OrderDAO {
 		ResultSet rs = null;
 		List<OrderOptionList> list = new ArrayList<OrderOptionList>();
 		String sql = "select * from order_option_list where order_item_id = ?";
-		
+
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, orderItemId);
 			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				OrderOptionList orderOptionList = new OrderOptionList (rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
-				
+
+			while (rs.next()) {
+				OrderOptionList orderOptionList = new OrderOptionList(rs.getInt(1), rs.getInt(2), rs.getInt(3),
+						rs.getInt(4));
+
 				list.add(orderOptionList);
 			}
 		} finally {
 			DbManager.close(null, ps, rs);
 		}
-		
+
 		return list;
 	}
-	
+
 	// 총 구매금액
 	public int getTotalPrice(Orders orders) throws SQLException {
 		List<OrderItem> orderItemList = orders.getOrderItemList();
@@ -379,17 +385,17 @@ public class OrderDAOImpl implements OrderDAO {
 		return 0;
 
 	}
-	
+
 	/**
 	 * point add update
 	 */
 	public int chargeAddPoint(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 		String sql = "UPDATE users SET point =point+? WHERE USER_SEQ = ?";
-		int add = getPointRateInfo(con,order);
+		int add = getPointRateInfo(con, order);
 		try {
 			ps = con.prepareStatement(sql);
-			ps.setDouble(1, (order.getTotalPrice()*(add*0.01)));
+			ps.setDouble(1, (order.getTotalPrice() * (add * 0.01)));
 			ps.setInt(2, order.getUserSeq());
 			ps.executeUpdate();
 
@@ -399,6 +405,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return 0;
 
 	}
+
 	/**
 	 * point 적립률 확인
 	 */
@@ -406,25 +413,25 @@ public class OrderDAOImpl implements OrderDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql = "select point_rate from  users join membership using(membership_level)where user_seq=?";
-		int rate=0;
+		int rate = 0;
 		try {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, order.getUserSeq());
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				rate =rs.getInt(1);
+				rate = rs.getInt(1);
 			}
-			
+
 		} finally {
 			DbManager.close(null, ps, null);
 		}
 		return rate;
 
 	}
-	//멤버쉽 레벨 증가
+
+	// 멤버쉽 레벨 증가
 	public void updateMembershipLevel(Connection con, Users user) throws SQLException {
-		String sql = "UPDATE USERS SET MEMBERSHIP_LEVEL = MEMBERSHIP_LEVEL + 1 "
-				+ "WHERE USER_SEQ = ? "
+		String sql = "UPDATE USERS SET MEMBERSHIP_LEVEL = MEMBERSHIP_LEVEL + 1 " + "WHERE USER_SEQ = ? "
 				+ "AND MOD((SELECT OCOUNT FROM USERS WHERE USER_SEQ = ?), ?) = 0";
 		PreparedStatement ps = null;
 		try {
@@ -438,9 +445,7 @@ public class OrderDAOImpl implements OrderDAO {
 			DbManager.close(null, ps, null);
 		}
 	}
-	
 
-	
 	/**
 	 * 옵션 이름 가져오기
 	 */
@@ -451,28 +456,27 @@ public class OrderDAOImpl implements OrderDAO {
 		ResultSet rs = null;
 		String optionName = null;
 		OptionInfo optionInfo = null;
-		
+
 		String sql = "SELECT * FROM OPTION_INFO WHERE OPTION_ID = ?";
-		
+
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, optionId);
-			
+
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				optionInfo = new OptionInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
 				optionName = optionInfo.getOptionName();
 			}
-			
+
 		} finally {
 			DbManager.close(con, ps, rs);
 		}
-		
+
 		return optionName;
 	}
-	
-	
+
 	/**
 	 * Orders count add update
 	 */
@@ -490,5 +494,14 @@ public class OrderDAOImpl implements OrderDAO {
 		return 0;
 
 	}
-	
+
+	private void OrderPermit(Connection con, Orders order) throws SQLException {
+		int chk = MenuView.inputPermitOrder();
+		if (chk == 0) {
+			con.rollback();
+			throw new SQLException("주문이 취소되었습니다.");
+		}
+		
+	}
+
 }
