@@ -418,6 +418,23 @@ public class OrderDAOImpl implements OrderDAO {
 		return rate;
 
 	}
+	//멤버쉽 레벨 증가
+	public void updateMembershipLevel(Connection con, Users user) throws SQLException {
+		String sql = "UPDATE USERS SET MEMBERSHIP_LEVEL = MEMBERSHIP_LEVEL + 1 "
+				+ "WHERE USER_SEQ = ? "
+				+ "AND MOD((SELECT OCOUNT FROM USERS WHERE USER_SEQ = ?), ?) = 0";
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, user.getUserSeq());
+			ps.setInt(2, user.getUserSeq());
+			ps.setInt(3, 10); // 10개 주문마다 레벨업
+			ps.executeUpdate();
+
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+	}
 	
 
 	
