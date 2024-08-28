@@ -65,6 +65,7 @@ public class OrderDAOImpl implements OrderDAO {
 				
 				result = this.chargeWallet(con, order);
 				chargeAddPoint(con,order);
+				userCountUpdate(con,order);
 				con.commit();
 				
 			}
@@ -398,7 +399,9 @@ public class OrderDAOImpl implements OrderDAO {
 		return 0;
 
 	}
-	
+	/**
+	 * point 적립률 확인
+	 */
 	public int getPointRateInfo(Connection con, Orders order) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -449,6 +452,25 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 		
 		return optionName;
+	}
+	
+	
+	/**
+	 * Orders count add update
+	 */
+	public int userCountUpdate(Connection con, Orders order) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "UPDATE users SET ocount =ocount+1 WHERE USER_SEQ = ?";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, order.getUserSeq());
+			ps.executeUpdate();
+
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+		return 0;
+
 	}
 	
 }
