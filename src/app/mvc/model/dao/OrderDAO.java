@@ -18,7 +18,7 @@ public interface OrderDAO {
    *  2) order_item테이블에 insert
    *  3) 결제 기능 wallet테이블 update
    * */
-	int orderInsert(Orders orders,int point, int cash, int use)throws SQLException;
+	int orderInsert(Orders orders,int point, int cash, int use,String id)throws SQLException;
 	
 	/**
 	 * 주문 상세 등록

@@ -21,8 +21,8 @@ public class OrderService {
 		return orderList;
 	}
 	
-	public void orderInsert(Orders orders,int point, int cash, int use) throws SQLException {
-		int result =  orderDAO.orderInsert(orders,point,cash,use);
+	public void orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException {
+		int result =  orderDAO.orderInsert(orders,point,cash,use,id);
 		if (result == 0) throw new SQLException("주문에 실패하였습니다.");
 	}
 	

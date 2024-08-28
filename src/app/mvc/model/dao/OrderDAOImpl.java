@@ -24,7 +24,7 @@ public class OrderDAOImpl implements OrderDAO {
 	UserDAO userDAO = new UserDAOImpl();
 
 	@Override
-	public int orderInsert(Orders order, int point, int cash, int use) throws SQLException {
+	public int orderInsert(Orders order, int point, int cash, int use,String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDERS (ORDER_ID, USER_SEQ, ORDER_DATE, TOTAL_PRICE, STATUS)"
@@ -57,16 +57,16 @@ public class OrderDAOImpl implements OrderDAO {
 					throw new SQLException("지갑 잔액이 부족합니다.");
 
 				if (use > 0) {
-
+					System.out.println(order);
 					order.setTotalPrice(totalPrice - use);
 					chargePoint(con, order, use);
-					
-				} else {
 					
 				}
 				
 				result = this.chargeWallet(con, order);
+				chargeAddPoint(con,order);
 				con.commit();
+				
 			}
 
 		} catch (SQLException e) {
@@ -361,7 +361,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	/**
-	 * point update
+	 * point use update
 	 */
 	public int chargePoint(Connection con, Orders order, int use) throws SQLException {
 		PreparedStatement ps = null;
@@ -378,6 +378,47 @@ public class OrderDAOImpl implements OrderDAO {
 		return 0;
 
 	}
+	
+	/**
+	 * point add update
+	 */
+	public int chargeAddPoint(Connection con, Orders order) throws SQLException {
+		PreparedStatement ps = null;
+		String sql = "UPDATE users SET point =point+? WHERE USER_SEQ = ?";
+		int add = getPointRateInfo(con,order);
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setDouble(1, (order.getTotalPrice()*(add*0.01)));
+			ps.setInt(2, order.getUserSeq());
+			ps.executeUpdate();
+
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+		return 0;
+
+	}
+	
+	public int getPointRateInfo(Connection con, Orders order) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select point_rate from  users join membership using(membership_level)where user_seq=?";
+		int rate=0;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, order.getUserSeq());
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rate =rs.getInt(1);
+			}
+			
+		} finally {
+			DbManager.close(null, ps, null);
+		}
+		return rate;
+
+	}
+	
 
 	
 	/**
