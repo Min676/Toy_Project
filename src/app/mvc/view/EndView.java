@@ -198,28 +198,10 @@ public class EndView {
 		System.out.println("1.주문하기 |  2.삭제  |  9.나가기");
 		switch (sc.nextInt()) {
 		case 1:
-            Orders orders = new Orders(0, 0, null, 0, 0, id);
-            
-            int quantity = 0;
-            List<OrderItem> orderItemList = orders.getOrderItemList();
-            List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
-			
-			 for(OrderItem item : cart.keySet()) {
-				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
-				 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
-				 for(OrderOptionList optionList : item.getOrderOptionList()) {
-					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
-			 	}
-				quantity += qty;
-				item.setOrderOptionList(orderOptionList);
-			 	orderItemList.add(orderItem);
-			 }
-			 
-			orders.setOrderItemList(orderItemList);
-			System.out.println("주문 메뉴 개수 : " + quantity);
-			
-			
 			OrderController oc = new OrderController();
+			
+			Orders orders = oc.orderCartItems(id, cart);
+			
 			Map<Integer, Integer> map = oc.userWalletInfo(id);
 			Iterator<Integer> iter = map.keySet().iterator();
 			int point = iter.next();
@@ -295,6 +277,10 @@ public class EndView {
 
 		} else
 			return 0;
+	}
+	
+	public static void orderProductsQuantity(int quantity) {
+		System.out.println("주문 메뉴 개수 : " + quantity);
 	}
 
 	public static void userPrintSucc() {

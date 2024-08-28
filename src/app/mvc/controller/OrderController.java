@@ -1,7 +1,9 @@
 package app.mvc.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -85,5 +87,15 @@ public class OrderController {
 			e.printStackTrace();
 		}
 		return map;
+	}
+	
+	public Orders orderCartItems(String id, Map<OrderItem, Integer> cart) {
+		Orders orders = null;
+		orders = orderService.orderCartItems(id, cart);
+		return orders;
+	}
+	
+	public static void orderProductsQuantity(int quantity) {
+		EndView.orderProductsQuantity(quantity);
 	}
 }

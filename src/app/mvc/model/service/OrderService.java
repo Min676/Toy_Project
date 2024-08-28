@@ -1,12 +1,16 @@
 package app.mvc.model.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import app.mvc.controller.OrderController;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dao.OrderDAO;
 import app.mvc.model.dao.OrderDAOImpl;
+import app.mvc.model.dto.OrderItem;
+import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
 
 public class OrderService {
@@ -39,6 +43,31 @@ public class OrderService {
 
 	public Map<Integer, Integer> userWalletInfo(String userId) throws SQLException {
 		return orderDAO.selectUserWalletInfo(userId);
+	}
+	
+	public Orders orderCartItems(String id, Map<OrderItem, Integer> cart) {
+		Orders orders = new Orders(0, 0, null, 0, 0, id);
+        
+        int quantity = 0;
+        List<OrderItem> orderItemList = orders.getOrderItemList();
+        List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
+		
+		 for(OrderItem item : cart.keySet()) {
+			 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+			 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
+			 for(OrderOptionList optionList : item.getOrderOptionList()) {
+				 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
+		 	}
+			quantity += qty;
+			item.setOrderOptionList(orderOptionList);
+		 	orderItemList.add(orderItem);
+		 }
+		 
+		orders.setOrderItemList(orderItemList);
+		OrderController.orderProductsQuantity(quantity);
+//		System.out.println("주문 메뉴 개수 : " + quantity);
+		
+		return orders;
 	}
 
 }
