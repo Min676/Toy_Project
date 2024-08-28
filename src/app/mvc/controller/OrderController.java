@@ -55,14 +55,14 @@ public class OrderController {
 		return item;
 	}
 	
-	public OptionInfo getOptionInfo(OrderOptionList orderOptionList) {
-		OptionInfo info = null;
+	public static String getOptionName(int optionId) {
+		String optionName = null;
 		try {
-			info = orderService.getOptionInfo(orderOptionList);
+			optionName = orderService.getOptionName(optionId);
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		}
-		return info;
+		return optionName;
 	}
 	
 	
