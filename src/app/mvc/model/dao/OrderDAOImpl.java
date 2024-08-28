@@ -68,7 +68,11 @@ public class OrderDAOImpl implements OrderDAO {
 				} else {
 					
 				}
-				
+				//updateMembershipLevel(con,user);
+
+				addPoints(con,user,totalPrice);
+
+				System.out.println(11);
 				result = this.chargeWallet(con, order);
 				con.commit();
 			}
@@ -360,6 +364,35 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 		return 0;
 
+	}
+
+		public void addPoints(Connection con, Users user, int totalPrice) throws SQLException {
+			String sql = "UPDATE USERS SET POINT = POINT + ? WHERE USER_SEQ = ?";
+			PreparedStatement ps = null;
+			try {
+				ps = con.prepareStatement(sql);
+				int pointToAdd = (int) (totalPrice * (user.getMembershipLevel() * 0.1));
+				ps.setInt(1, pointToAdd);
+				ps.setInt(2, user.getUserSeq());
+				ps.executeUpdate();
+			} finally {
+				DbManager.close(null, ps, null);
+			}
+		}
+
+	public void updateMembershipLevel(Connection con, Users user) throws SQLException {
+		String sql = "UPDATE USERS SET MEMBERSHIP_LEVEL = MEMBERSHIP_LEVEL + 1 WHERE USER_SEQ = ? AND (SELECT COUNT(*) FROM ORDERS WHERE USER_SEQ = ?) % ? = 0";
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, user.getUserSeq());
+			ps.setInt(2, user.getUserSeq());
+			ps.setInt(3, 10); // 10개 주문마다 레벨업
+			ps.executeUpdate();
+
+		} finally {
+			DbManager.close(null, ps, null);
+		}
 	}
 
 }
