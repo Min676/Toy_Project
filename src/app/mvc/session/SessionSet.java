@@ -45,6 +45,7 @@ public class SessionSet {//싱글톤
 	 * 사용자 제거 - 로그아웃
 	 * */
 	public void remove(Session session) {
+		
 		set.remove(session);
 	}
 	

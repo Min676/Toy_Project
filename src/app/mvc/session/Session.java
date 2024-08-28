@@ -3,6 +3,8 @@ package app.mvc.session;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.mvc.model.dto.OrderItem;
+
 /**
  * 사용자 객체
  * */
@@ -79,6 +81,11 @@ public class Session {
 			return false;
 		}
 		
+	}
+	
+	public void removeItem(OrderItem orderItem) {//cart
+		System.out.println("<<<<<<<<<<<<<<<<<anchor");
+		attributes.remove(orderItem);
 	}
 		
 }

@@ -165,7 +165,7 @@ public class EndView {
 		}
 
 		Scanner sc = new Scanner(System.in);
-		System.out.println("1.주문하기  |  9.나가기");
+		System.out.println("1.주문하기 |  2.삭제  |  9.나가기");
 		switch (sc.nextInt()) {
 		case 1:
             Orders orders = new Orders(0, 0, null, 0, 0, id);
@@ -204,7 +204,24 @@ public class EndView {
 			Session session = ss.get(id);
 			session.removeAttribute("cart");
 			break;
-
+			
+		case 2:
+			System.out.print("삭제할 상품 번호 : ");
+			int num = sc.nextInt();
+			ss = SessionSet.getInstance();
+			session = ss.get(id);
+			
+			for (OrderItem orderItem : cart.keySet()) {
+				int productsId = orderItem.getProductId();
+				if(num == productsId) {
+					System.out.println("anchor>>>>>>");
+					session.removeItem(orderItem);
+				}
+			}
+			
+			
+			
+			
 		case 9:
 			break;
 		}
