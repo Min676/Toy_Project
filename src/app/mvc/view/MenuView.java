@@ -50,7 +50,11 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			// System.out.println(ss.getSet()); // Set객체
 
+<<<<<<< HEAD
 			System.out.println("\n--------------" + userId + "님 로그인 중 --------------");
+=======
+			System.out.println("\n---------- " + userId + "님 로그인 중 ----------");
+>>>>>>> Dev
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
 			int menu = sc.nextInt();
@@ -81,8 +85,8 @@ public class MenuView {
 	}
 
 	public static void printSubMenu(String userId, String userPw) {
-
-		System.out.println("\n1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴   | 9. 나가기");
+		System.out.println("\n---------- " + userId + "님 페이지 ----------");
+		System.out.println("1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴    |  4. 금액 충전   | 9. 나가기");
 
 		int menu = sc.nextInt();
 
@@ -96,9 +100,11 @@ public class MenuView {
 			break;
 		case 3:
 			cancelUser(userId, userPw);
-
 			break;
 		case 4:
+			cashCharge(userId);
+			break;
+		case 9:
 			return;
 		}
 
@@ -326,8 +332,8 @@ public class MenuView {
 	public static void printAdminMenu(String userId) {
 		while (true) {
 			System.out.println(
-					"================================================ADMIN_MENU===================================================");
-			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  | 7.상품 품절 관리");
+					"=============================================ADMIN_MENU===================================================");
+			System.out.println("1.로그아웃 |  2.상품보기 | 3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  | 7.상품 품절 관리");
 
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -483,6 +489,18 @@ public class MenuView {
 			}
 		}
 		return chk;
+	}
+	
+	private static void cashCharge(String userId) {
+		int money=0;
+		int selec =0;
+		System.out.println("--------------------------금액 충전--------------------------");
+		System.out.println("충전 금액 : ");
+		money=sc.nextInt();
+		System.out.print("결제 방식\n \t1.카드\n \t2.현금(-----2% 추가 적립)\n \t3.페이(-----1% 추가 적립)\n 입력:");
+		selec = sc.nextInt();
+		
+		UserController.cashCharge(userId, money, selec);
 	}
 
 }

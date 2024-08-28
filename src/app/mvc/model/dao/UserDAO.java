@@ -37,6 +37,11 @@ public interface UserDAO {
 	 * user_seq 가져오는 메소드
 	 */
 	Users getUserSeq(Connection con, String userId) throws SQLException;
+	
+	/**
+	 * 포인트 충전 메소드
+	 */
+	int cashCharge(String userId, int money)throws SQLException;
 
 	
 

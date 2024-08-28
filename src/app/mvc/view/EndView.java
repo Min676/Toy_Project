@@ -291,5 +291,9 @@ public class EndView {
 
 		return user;
 	}
+	
+	public static void SuccesMessage(String str) {
+		System.out.println(str);
+	}
 
 }

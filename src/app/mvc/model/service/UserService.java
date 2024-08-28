@@ -46,5 +46,15 @@ public class UserService {
 		
 		return user;
 	}
+	public int cashCharge(String userId, int money, int selec) throws NotFoundException, SQLException{
+		if(selec==2) {
+			money+=money*0.02;
+		}else if(selec==3) {
+			money+=money*0.01;
+		}
+		
+		int chk=userDao.cashCharge(userId, money);
+		return chk;
+	}
 
 }
