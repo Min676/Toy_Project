@@ -64,6 +64,7 @@ public class OrderDAOImpl implements OrderDAO {
 				}
 				
 				result = this.chargeWallet(con, order);
+				updateMembershipLevel(con,user);
 				chargeAddPoint(con,order);
 				con.commit();
 				
