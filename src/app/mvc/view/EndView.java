@@ -52,8 +52,10 @@ public class EndView {
 				String size = null;
 				if (orderItem.getSelecSize() == 1) {
 					size = "Tall";
-				} else {
+				} else if (orderItem.getSelecSize() == 2) {
 					size = "Grande";
+				} else {
+					size = "해당없음";
 				}
 				System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 메뉴명 : "
 						+ ProductController.productName(orderItem.getProductId()).getName() + " | 개수 : "

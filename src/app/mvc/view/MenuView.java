@@ -206,6 +206,7 @@ public class MenuView {
 				if (selectSize != 1 && selectSize != 2) {
 					System.out.println("다시 선택해 주세요");
 				} else {
+					orderItem.setSelecSize(selectSize);
 					break;
 				}
 			}
@@ -222,7 +223,6 @@ public class MenuView {
 			System.out.print("옵션 수량 선택 : ");
 			int optionCnt = sc.nextInt();
 
-			orderItem.setSelecSize(selectSize);
 			optionList = new OrderOptionList(0, option, 0, optionCnt);
 			orderItem.getOrderOptionList().add(optionList);
 		}
@@ -241,6 +241,7 @@ public class MenuView {
 				if (selectSize != 1 && selectSize != 2) {
 					System.out.println("다시 선택해 주세요");
 				} else {
+					orderItem.setSelecSize(selectSize);
 					break;
 				}
 			}
