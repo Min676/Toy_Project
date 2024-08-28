@@ -22,6 +22,14 @@ public class Products {
 		this.category_seq = category_seq;
 		this.block = block;
 	}
+	public Products(int product_id, String name, String info, int price, int category_seq) {
+		super();
+		Product_id = product_id;
+		this.name = name;
+		this.info = info;
+		this.price = price;
+		this.category_seq = category_seq;
+	}
 
 	public Products(String name, String info, int price, int category_seq) {
 		this.name = name;

@@ -35,7 +35,7 @@ public class UserService {
 	public static Users login(String userId, String userPwd) throws NotFoundException, SQLException {
 		Users user = userDao.login(userId, userPwd);
 		if (user == null)
-			throw new NotFoundException("유저 정보 못 찾음");
+			throw new NotFoundException("\n해당 유저가 존재하지 않습니다.");
 		if(!userId.equals("admin")) {
 			Session session = new Session(userId);
 

@@ -247,7 +247,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				p = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
+				p = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
 			}
 		} finally {
 			DbManager.close(null, ps, rs);
