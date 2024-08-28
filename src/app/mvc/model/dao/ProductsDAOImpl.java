@@ -24,7 +24,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			rs = ps.executeQuery();
 
 			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
 				list.add(products);
 			}
 		}finally {
@@ -46,7 +46,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			rs = ps.executeQuery();
 
 			if(rs.next()) {
-				products  =  new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				products  =  new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
 
 			}
 		}finally {
@@ -115,7 +115,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			rs = ps.executeQuery();
 
 			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
 				list.add(products);
 			}
 		}finally {
@@ -163,7 +163,7 @@ public class ProductsDAOImpl implements ProductsDAO {
 			rs = ps.executeQuery();
 
 			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
 				list.add(products);
 			}
 		}finally {
@@ -188,12 +188,52 @@ public class ProductsDAOImpl implements ProductsDAO {
 			rs = ps.executeQuery();
 
 			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
 				list.add(products);
 			}
 		}finally {
 			DbManager.close(con, ps, rs);
 		}
 		return list;
+	}
+
+	@Override
+	public int blockChk(int productId) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		int chk=0;
+		try {
+			con = DbManager.getConnection();
+			ps= con.prepareStatement("select block from Products where product_id = ?");
+			ps.setInt(1, productId);
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				chk=rs.getInt(1);
+			}
+		}finally {
+			DbManager.close(con, ps, rs);
+		}
+		return chk;
+	}
+
+	@Override
+	public void productUpdateBlock(int id, int chk) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement("UPDATE products SET block = ? WHERE product_id = ?");
+			
+			ps.setInt(1, chk);
+			ps.setInt(2,id);
+			ps.executeUpdate();
+
+		} finally {
+			DbManager.close(con, ps, null);
+		}
+		
 	}
 }

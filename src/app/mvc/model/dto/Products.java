@@ -6,17 +6,21 @@ public class Products {
 	private String info;
 	private int price;
 	private int category_seq;
+	private int block;
+
+	
 
 	public Products() {
 	}
 
-	public Products(int product_id, String name, String info, int price, int category_seq) {
+	public Products(int product_id, String name, String info, int price, int category_seq, int block) {
 		super();
 		Product_id = product_id;
 		this.name = name;
 		this.info = info;
 		this.price = price;
 		this.category_seq = category_seq;
+		this.block = block;
 	}
 
 	public Products(String name, String info, int price, int category_seq) {
@@ -31,6 +35,14 @@ public class Products {
 		this.name = name;
 		this.info = info;
 		this.price = price;
+	}
+	
+	public int getBlock() {
+		return block;
+	}
+
+	public void setBlock(int block) {
+		this.block = block;
 	}
 
 	public int getProduct_id() {

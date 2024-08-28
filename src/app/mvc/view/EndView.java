@@ -27,7 +27,10 @@ public class EndView {
 	public static void printProductsList(List<Products> list) {
 		System.out.println("-------------상품 -------------");
 		for (Products p : list) {
-			System.out.println(p);
+			if(p.getBlock() == 1)
+				System.out.println(p);
+			else
+				System.out.println("[X]"+p+" [SOLD OUT!!!]");
 		}
 
 		System.out.println();

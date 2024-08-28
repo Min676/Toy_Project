@@ -72,6 +72,15 @@ public class ProductService {
         }
         return list;
     }
+    
+    public int BlockChk(int productId) throws NotFoundException, SQLException{
+    	int chk =productsDAO.blockChk(productId);
+    	return chk;
+    }
+
+	public void productUpdateBlock(int id, int chk) throws NotFoundException, SQLException{
+		productsDAO.productUpdateBlock(id,chk);
+	}
 
 
 }

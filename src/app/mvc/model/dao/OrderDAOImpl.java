@@ -389,6 +389,7 @@ public class OrderDAOImpl implements OrderDAO {
 		int add = getPointRateInfo(con,order);
 		try {
 			ps = con.prepareStatement(sql);
+			System.out.println("anchor>>>>"+order.getTotalPrice()*(add*0.01));
 			ps.setDouble(1, (order.getTotalPrice()*(add*0.01)));
 			ps.setInt(2, order.getUserSeq());
 			ps.executeUpdate();
