@@ -48,4 +48,16 @@ public interface ProductsDAO {
 	 * login User 주문 기반 판매 상품 5건
 	 */
 	List<Products> productSelectUserRec(String userId)throws SQLException;
+	
+	
+	/**
+	 * 제품 block상태 확인
+	 */
+	int blockChk(int productId)throws SQLException;
+	
+	
+	/**
+	 * 제품 block상태 변환
+	 */
+	void productUpdateBlock(int id, int chk)throws SQLException;
 }

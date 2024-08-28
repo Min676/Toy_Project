@@ -17,15 +17,14 @@ public class ProductController {
 	public static void productSelect(String userId) {
 		try {
 			List<Products> list = productService.productSelect();
-			List<Products> list2 = productService.productSelectRec();
 			EndView.printProductsList(list);
-			
+
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } catch (NotFoundException e) {
+		} catch (NotFoundException e) {
 			FailView.errorMessage(e.getMessage());
-        }
-    }
+		}
+	}
 
 	public static void productSelectByProductId(int product_id) {
 		try {
@@ -37,7 +36,7 @@ public class ProductController {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
-	
+
 	public static Products productName(int product_id) {
 		Products products = null;
 		try {
@@ -56,10 +55,10 @@ public class ProductController {
 			EndView.printMessage("제품번호 " + products.getProduct_id() + "가 수정되었습니다!");
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } catch (ModifyException e) {
+		} catch (ModifyException e) {
 			FailView.errorMessage(e.getMessage());
-        }
-    }
+		}
+	}
 
 	public static void productDeleteByProductId(int product_id) {
 		try {
@@ -72,53 +71,76 @@ public class ProductController {
 		}
 	}
 
-	public static void productSelectByCategory(int categorySeq){
+	public static void productSelectByCategory(int categorySeq) {
 		try {
 			List<Products> list = productService.productSelectByCategory(categorySeq);
 			EndView.printProductsList(list);
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
-        } catch (NotFoundException e) {
+		} catch (NotFoundException e) {
 			FailView.errorMessage(e.getMessage());
-        }
-    }
-
-		public static void  productInsert(Products products){
-			try {
-				productService.productInsert(products);
-				EndView.printMessage("제품명 " + products.getName() + "가 등록되었습니다!");
-			} catch (SQLException e) {
-				FailView.errorMessage(e.getMessage());
-			} catch (ModifyException e) {
-				FailView.errorMessage(e.getMessage());
-			}
 		}
-		
-		
-		public static void productSelectByRec(){
-			try {
-				List<Products> list2 = productService.productSelectRec();
-				EndView.printProductsListREC(list2);
-				
-			} catch (SQLException e) {
-				FailView.errorMessage(e.getMessage());
-	        } catch (NotFoundException e) {
-				FailView.errorMessage(e.getMessage());
-	        }
-	    }
-		
-		
-		public static void productSelectUser(String userId) {
-			try {
-				if(!userId.equals("admin")) {
-					List<Products> list3 = productService.productSelectUserRec(userId);
-					EndView.printProductsListUserREC(list3);
-				}
-			} catch (SQLException e) {
-				FailView.errorMessage(e.getMessage());
-	        } catch (NotFoundException e) {
-				FailView.errorMessage(e.getMessage());
-	        }
-	    }
+	}
+
+	public static void productInsert(Products products) {
+		try {
+			productService.productInsert(products);
+			EndView.printMessage("제품명 " + products.getName() + "가 등록되었습니다!");
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (ModifyException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	public static void productSelectByRec() {
+		try {
+			List<Products> list2 = productService.productSelectRec();
+			EndView.printProductsListREC(list2);
+
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (NotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	public static void productSelectUser(String userId) {
+		try {
+			if (!userId.equals("admin")) {
+				List<Products> list3 = productService.productSelectUserRec(userId);
+				EndView.printProductsListUserREC(list3);
+			}
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (NotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+
+	public static int BlockChk(int productId) {
+		int chk = 0;
+		try {
+			chk = productService.BlockChk(productId);
+			if (chk == 0)
+				FailView.errorMessage("<------품절 상품입니다 다음을 기약해주세요 ㅠㅠ------>\n");
+
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (NotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+		return chk;
+	}
+
+	public static void productUpdateBlock(int id, int chk) {
+		try {
+			productService.productUpdateBlock(id,chk);
+		} catch (SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		} catch (NotFoundException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
 
 }

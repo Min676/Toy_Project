@@ -14,7 +14,6 @@ import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.dto.Statisics;
 import app.mvc.model.dto.Users;
-import app.mvc.model.service.ProductService;
 import app.mvc.session.Session;
 import app.mvc.session.SessionSet;
 
@@ -27,7 +26,10 @@ public class EndView {
 	public static void printProductsList(List<Products> list) {
 		System.out.println("-------------상품 -------------");
 		for (Products p : list) {
-			System.out.println(p);
+			if(p.getBlock() == 1)
+				System.out.println(p);
+			else
+				System.out.println("[X]"+p+" [SOLD OUT!!!]");
 		}
 
 		System.out.println();
@@ -185,7 +187,8 @@ public class EndView {
 			 
 			orders.setOrderItemList(orderItemList);
 			System.out.println("주문 메뉴 개수 : " + quantity);
-
+			
+			
 			OrderController oc = new OrderController();
 			Map<Integer, Integer> map = oc.userWalletInfo(id);
 			Iterator<Integer> iter = map.keySet().iterator();
