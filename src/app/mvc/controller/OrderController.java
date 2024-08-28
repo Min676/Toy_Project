@@ -29,9 +29,9 @@ public class OrderController {
 		}
 	}
 	
-	public static void orderInsert (Orders orders,int point, int cash, int use) {
+	public static void orderInsert (Orders orders,int point, int cash, int use,String id) {
 		try {
-			orderService.orderInsert(orders,point,cash,use);
+			orderService.orderInsert(orders,point,cash,use,id);
 		} catch (Exception e) {
 			FailView.errorMessage(e.getMessage());
 		}

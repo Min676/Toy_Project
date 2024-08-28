@@ -170,96 +170,98 @@ public class EndView {
 		System.out.println("1.주문하기  |  9.나가기");
 		switch (sc.nextInt()) {
 		case 1:
-			
-			 Orders orders = new Orders(0, 0, null, 0, 0, id);
-			 
-			 List<OrderItem> orderItemList = orders.getOrderItemList();
-			 List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
 
-			 for(OrderItem item : cart.keySet()) {
-				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
-				 OrderItem orderItem = new OrderItem(0, 0, item.getProductId() , qty, item.getSelecSize());
-				 for(OrderOptionList optionList : item.getOrderOptionList()) {
-					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
-			 	}
+			Orders orders = new Orders(0, 0, null, 0, 0, id);
+
+			List<OrderItem> orderItemList = orders.getOrderItemList();
+			List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
+
+			for (OrderItem item : cart.keySet()) {
+				int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+				OrderItem orderItem = new OrderItem(0, 0, item.getProductId(), qty, item.getSelecSize());
+				for (OrderOptionList optionList : item.getOrderOptionList()) {
+					orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
+				}
 				item.setOrderOptionList(orderOptionList);
-			 	orderItemList.add(orderItem);
-			 }
-			 for(OrderItem item : cart.keySet()) {
-				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
-				 orderItemList.add(item);
-			 }
-			 
-			 
-			 orders.setOrderItemList(orderItemList);
-			 System.out.println("orderItemList 개수 : " + orderItemList.size());
-			 OrderController oc = new OrderController();
-			 Map<Integer, Integer> map = oc.userWalletInfo(id);
-	         Iterator<Integer> iter = map.keySet().iterator();
-	         int point = iter.next();
-	         int cash = map.get(point);
+				orderItemList.add(orderItem);
+			}
+			for (OrderItem item : cart.keySet()) {
+				int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
+				orderItemList.add(item);
+			}
 
-	         int use = isPointUse(point);
-			 
-			 OrderController.orderInsert(orders, point, cash, use);// 주문 + 주문상세
-			 
-			 //장바구니비우기
-			 SessionSet ss = SessionSet.getInstance();
-			 Session session = ss.get(id);
-			 session.removeAttribute("cart");
+			orders.setOrderItemList(orderItemList);
+			System.out.println("orderItemList 개수 : " + orderItemList.size());
+			
+			OrderController oc = new OrderController();
+			Map<Integer, Integer> map = oc.userWalletInfo(id);
+			Iterator<Integer> iter = map.keySet().iterator();
+			int point = iter.next();
+			int cash = map.get(point);
+
+			int use = isPointUse(point);
+
+			OrderController.orderInsert(orders, point, cash, use, id);// 주문 + 주문상세
+
+			// 장바구니비우기
+			SessionSet ss = SessionSet.getInstance();
+			Session session = ss.get(id);
+			session.removeAttribute("cart");
 			break;
 
 		case 9:
 			break;
 		}
-		
+
 	}
+
 	public static int isPointUse(int point) {
-	      int money = 0;
-	      System.out.print("포인트를 사용하시겠습니까?(1.사용O | 2.사용x) : ");
-	      int answer = sc.nextInt();
+		int money = 0;
+		System.out.print("포인트를 사용하시겠습니까?(1.사용O | 2.사용x) : ");
+		int answer = sc.nextInt();
 
-	      if (answer == 1) {
-	         System.out.println("사용 금액을 입력해주세요 ");
-	         System.out.println("현재 포인트 잔액 : " + point);
-	         System.out.print("사용 금액 : ");
-	         while (true) {
-	            money = sc.nextInt();
-	            if (money <= point) {
-	               System.out.println(money + "원 해당 금액 만큼 사용하겠습니다");
-	               break;
-	            } else
-	               System.out.println("입력 금액이 Point보다 큽니다. ");
-	         }
+		if (answer == 1) {
+			System.out.println("사용 금액을 입력해주세요 ");
+			System.out.println("현재 포인트 잔액 : " + point);
+			System.out.print("사용 금액 : ");
+			while (true) {
+				money = sc.nextInt();
+				if (money <= point) {
+					System.out.println(money + "원 해당 금액 만큼 사용하겠습니다");
+					break;
+				} else
+					System.out.println("입력 금액이 Point보다 큽니다. ");
+			}
 
-	         return money;
-	         
-	      } else
-	         return 0;
-	   }
-	
+			return money;
+
+		} else
+			return 0;
+	}
+
 	public static void userPrintSucc() {
-		
+
 		System.out.println("성공적으로 회원가입이 완료되었습니다.");
-		
+
 	}
+
 	public static void userinfoSucc() {
-		
+
 		System.out.println("성공적으로 수정이 완료되었습니다.");
-		
+
 	}
-	
+
 	public static void userDelSucc() {
-		
+
 		System.out.println("성공적으로 회원탈퇴가 완료되었습니다.");
-		
+
 	}
+
 	public static Users userSelectAll(Users user) {
 		System.out.println("---------------유저정보--------------");
 		System.out.println(user);
-		
+
 		return user;
 	}
-	
-	
+
 }
