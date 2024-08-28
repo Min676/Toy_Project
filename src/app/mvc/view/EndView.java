@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import app.mvc.controller.OrderController;
+import app.mvc.controller.ProductController;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
@@ -41,26 +42,23 @@ public class EndView {
 	 */
 	public static void printOrderByUserId(List<Orders> orderList) {
 		System.out.println("====================주문 목록====================");
-		for (Orders order : orderList) {
-			System.out.println(order.getOrderId() + " | " + order.getOrderDate() + " | " + order.getTotalPrice());
-
-			for (OrderItem orderItem : order.getOrderItemList()) {
-				String size = null;
-				if (orderItem.getSelecSize() == 1) {
-					size = "Tall";
-				} else {
-					size = "Grande";
-				}
-				System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 상품번호 : " + orderItem.getProductId()
-						+ " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + size);
-				for (OrderOptionList optionList : orderItem.getOrderOptionList()) {
-					// System.out.println(" ▶ 주문옵션 : " + optionList.getOiId() + " | 옵션 수량 : " +
-					// optionList.getSelecCnt() + " | 옵션메뉴 : " + OrderController.getOptionInfo(
-					// optionList);
-				}
-			}
-			System.out.println();
-		}
+	   for(Orders order : orderList) {
+		   System.out.println(order.getOrderId()+ " | " + order.getOrderDate() +" | " + order.getTotalPrice());
+		   
+		   for(OrderItem orderItem : order.getOrderItemList()) {
+			   String size = null;
+			   if(orderItem.getSelecSize() == 1) {
+				   size = "Tall";
+			   } else {
+				   size = "Grande";
+			   }
+			   System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 메뉴명 : " + ProductController.productName(orderItem.getProductId()).getName() + " | 개수 : " + orderItem.getQuantity() + " | 사이즈 : " + size);
+			   for(OrderOptionList optionList : orderItem.getOrderOptionList()) {
+				   System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(optionList.getOiId()) + " | 옵션 수량 : " + optionList.getSelecCnt());
+			   }
+		   }
+		   System.out.println();
+	   }
 	}
 
 	public static void printTotalMessage(Statisics stat) {
@@ -146,24 +144,19 @@ public class EndView {
 
 		System.out.println();
 	}
-
-	public static void printViewCart(String id, Map<OrderItem, Integer> cart) {
-		ProductService productService = new ProductService();
-		System.out.println("장바구니내용....");
-
-		for (OrderItem orderItem : cart.keySet()) {
-			int productsId = orderItem.getProductId();// 상품번호
-			Products products = null;
-			try {
-				products = productService.productSelectByProductId(productsId);
-			} catch (Exception e) {
-				FailView.errorMessage("장바구니에 들어있는 상품 조회 실패");
-			}
-			String name = products.getName();// 상품이름
-			int price = products.getPrice();// 상품가격
-
-			int quantity = cart.get(orderItem);// key에 해당하는 value즉 수량
-			System.out.println(productsId + " : " + name + " : " + price + " \t " + quantity);
+	
+	
+	public static void printViewCart(String id , Map<OrderItem,Integer> cart) {
+		System.out.println("===========================장바구니===========================");
+		
+		for(OrderItem orderItem: cart.keySet()) {
+			int productsId = orderItem.getProductId();//상품번호
+			Products products = ProductController.productName(orderItem.getProductId());
+			String name = products.getName();//상품이름
+			int price = products.getPrice();//상품가격
+			
+			int quantity = cart.get(orderItem);//key에 해당하는 value즉 수량 
+			System.out.println("상품번호 : " + productsId+" | 상품명 : "+name+"\t | 가격 : "+price+" \t| 수량 : "+quantity);
 		}
 
 		Scanner sc = new Scanner(System.in);
@@ -173,6 +166,7 @@ public class EndView {
 			
 			 Orders orders = new Orders(0, 0, null, 0, 0, id);
 			 
+			 int quantity = 0;
 			 List<OrderItem> orderItemList = orders.getOrderItemList();
 			 List<OrderOptionList> orderOptionList = new ArrayList<OrderOptionList>();
 
@@ -188,18 +182,19 @@ public class EndView {
 			 for(OrderItem item : cart.keySet()) {
 				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
 				 orderItemList.add(item);
+				 quantity += qty;
 			 }
 			 
 			 
 			 orders.setOrderItemList(orderItemList);
-			 System.out.println("orderItemList 개수 : " + orderItemList.size());
-			 OrderController oc = new OrderController();
-			 Map<Integer, Integer> map = oc.userWalletInfo(id);
-	         Iterator<Integer> iter = map.keySet().iterator();
-	         int point = iter.next();
-	         int cash = map.get(point);
+			System.out.println("주문 메뉴 개수 : " + quantity);
+			OrderController oc = new OrderController();
+			Map<Integer, Integer> map = oc.userWalletInfo(id);
+	        Iterator<Integer> iter = map.keySet().iterator();
+	        int point = iter.next();
+	        int cash = map.get(point);
 
-	         int use = isPointUse(point);
+	        int use = isPointUse(point);
 			 
 			 OrderController.orderInsert(orders, point, cash, use);// 주문 + 주문상세
 			 

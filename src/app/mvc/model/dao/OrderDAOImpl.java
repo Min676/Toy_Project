@@ -49,11 +49,7 @@ public class OrderDAOImpl implements OrderDAO {
 			} else { // 주문상세 등록
 				this.orderItemInsert(con, order);
 
-				/*
-				 * for (int i : resultTwo) { if(i != 1) { con.rollback(); throw new
-				 * SQLException("주문 상세 등록 실패"); } }
-				 */
-
+				
 				// wallet 업데이트
 
 				Wallet wallet = this.checkWallet(con, order);
@@ -142,7 +138,6 @@ public class OrderDAOImpl implements OrderDAO {
 
 			for (OrderOptionList option : orderItem.getOrderOptionList()) {
 				ps.setInt(1, option.getOiId());
-				ps.setInt(2, orderItem.getOrderItemId());
 				ps.setInt(2, option.getSelecCnt());
 
 				ps.addBatch();
@@ -179,7 +174,7 @@ public class OrderDAOImpl implements OrderDAO {
 				Orders orders = new Orders(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
 						userId);
 
-				List<OrderItem> orderItemList = this.selectOrderItem(orders.getOrderId());
+				List<OrderItem> orderItemList = this.selectOrderItem(orders.getOrderId(), con);
 				orders.setOrderItemList(orderItemList);
 
 				list.add(orders);
@@ -190,24 +185,23 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return list;
 	}
-
-	public List<OrderItem> selectOrderItem(int order_id) throws SQLException {
-		Connection con = null;
+	
+	public List<OrderItem> selectOrderItem (int order_id, Connection con) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<OrderItem> list = new ArrayList<>();
+		List<OrderItem> list = new ArrayList<OrderItem>();
 		String sql = "select * from orders_item where order_id = ?";
 
 		try {
-			con = DbManager.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, order_id);
 			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				OrderItem orderItem = new OrderItem(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4),
-						rs.getInt(5));
-
+			
+			while(rs.next()) {
+				OrderItem orderItem = new OrderItem (rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+				
+				List<OrderOptionList> orderOptionList = this.selectOrderOptionList(orderItem.getOrderItemId(), con);
+				orderItem.setOrderOptionList(orderOptionList);
 				list.add(orderItem);
 			}
 		} finally {
@@ -216,7 +210,30 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return list;
 	}
-
+	
+	public List<OrderOptionList> selectOrderOptionList(int orderItemId, Connection con) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<OrderOptionList> list = new ArrayList<OrderOptionList>();
+		String sql = "select * from order_option_list where order_item_id = ?";
+		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, orderItemId);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				OrderOptionList orderOptionList = new OrderOptionList (rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4));
+				
+				list.add(orderOptionList);
+			}
+		} finally {
+			DbManager.close(null, ps, rs);
+		}
+		
+		return list;
+	}
+	
 	public int getTotalPrice(Orders orders) throws SQLException {
 		List<OrderItem> orderItemList = orders.getOrderItemList();
 		List<OrderOptionList> orderOptionList = null;
@@ -362,4 +379,35 @@ public class OrderDAOImpl implements OrderDAO {
 
 	}
 
+	
+	/**
+	 * 옵션 이름 가져오기
+	 */
+	public String getOptionName(int optionId) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String optionName = null;
+		OptionInfo optionInfo = null;
+		
+		String sql = "SELECT * FROM OPTION_INFO WHERE OPTION_ID = ?";
+		
+		try {
+			con = DbManager.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, optionId);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				optionInfo = new OptionInfo(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+				optionName = optionInfo.getOptionName();
+			}
+			
+		} finally {
+			DbManager.close(con, ps, rs);
+		}
+		
+		return optionName;
+	}
+	
 }

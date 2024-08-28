@@ -26,10 +26,10 @@ public class OrderService {
 		if (result == 0) throw new SQLException("주문에 실패하였습니다.");
 	}
 	
-	public OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException {
-		OptionInfo info = orderDAO.getOptionInfo(orderOptionList);
-		if (info == null) throw new SQLException("옵션 정보를 가져오는데 실패하였습니다.");
-		return info;
+	public String getOptionName(int optionId) throws SQLException {
+		String optionName = orderDAO.getOptionName(optionId);
+		if (optionName == null) throw new SQLException("옵션 정보를 가져오는데 실패하였습니다.");
+		return optionName;
 	}
 
 	public Map<Integer, Integer> userWalletInfo(String userId) throws SQLException {
