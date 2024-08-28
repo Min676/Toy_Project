@@ -22,7 +22,7 @@ public class MenuView {
 	public static void menu() {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			// System.out.println(ss.getSet());
+			//System.out.println(ss.getSet());
 
 			MenuView.printMenu();
 			int menu = sc.nextInt();
@@ -52,12 +52,12 @@ public class MenuView {
 	public static void printUserMenu(String userId, String userPw) {
 		while (true) {
 			SessionSet ss = SessionSet.getInstance();
-			// System.out.println(ss.getSet()); // Set객체
+			//System.out.println(ss.getSet()); // Set객체
 
 			System.out.println("----------" + userId + "님 로그인 중 ----------");
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
-			int menu =sc.nextInt();
+			int menu = sc.nextInt();
 
 			switch (menu) {
 			case 1:
@@ -85,20 +85,22 @@ public class MenuView {
 	}
 
 	public static void printSubMenu(String userId, String userPw) {
-		System.out.println("1. 정보확인   |	 2.수정  |  3. 탈퇴   | 9. 나가기");
+
+		System.out.println("1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴   | 9. 나가기");
 		
 		int menu = sc.nextInt();
-		 
+
 		switch (menu) {
 		case 1:
 			UserController.infoUser(userId, userPw);
 			break;
 
 		case 2:
-			UserController.changeInfoUser(userId, userPw);
+			changeInfoUser(userId, userPw);
 			break;
 		case 3:
-			UserController.cancleUser(userId, userPw);
+			cancelUser(userId, userPw);
+			
 			break;
 		case 4:
 			return;
@@ -141,20 +143,26 @@ public class MenuView {
 	}
 
 	/**
-	 * 회원 정보 수정
-	 * */
-	public static void changeInfoUser(String userId, String userPw) {
 
-		UserController.changeInfoUser(userId, userPw);
+	 * 회원 비밀번호 수정
+	 * */
+
+	public static void changeInfoUser(String userId, String userPw) {
+		
+		System.out.println("새로운 비밀번호 : ");
+		sc.nextLine();
+		String newpw = sc.nextLine();
+		
+		UserController.changeInfoUser(userId, userPw, newpw);
 	}
 
 	/**
 	 * 회원 탈퇴
-	 */
-	public static void cancleUser(String userId, String userPw) {
-
-		UserController.cancleUser(userId, userPw);
-
+	 * */
+	public static void cancelUser(String userId, String userPw) {
+		
+		UserController.cancelUser(userId, userPw);
+		
 	}
 
 	/**
@@ -175,14 +183,6 @@ public class MenuView {
 		int productsId = sc.nextInt();
 		System.out.print("상품 개수 : ");
 		int goodsCnt =sc.nextInt();
-//		int selectSize;
-//		while (true) {
-//			System.out.print("사이즈 | Tall은 1, Grande는 2를 선택해주세요 : ");
-//			selectSize =sc.nextInt();
-//			if(selectSize != 1 && selectSize != 2 ) {
-//				System.out.println("다시 선택해 주세요");
-//			} else { break;}
-//		}
 			
 		Orders order = new Orders(0, 0, null, 0, 0, userId);
 		OrderItem orderItem = new OrderItem(0, 0, productsId, goodsCnt, 0);
@@ -191,8 +191,8 @@ public class MenuView {
 		orderItem = OrderController.selectOption(productsId, orderItem);
 		if(orderItem != null)
 		CartController.putCart(userId, productsId, goodsCnt, orderItem.getSelecSize(), orderItem);
+
 	}
-	
 	
 	// 옵션 선택 메뉴 띄워주기
 		public static OrderItem printSelectCoffeeOption(OrderItem orderItem) {
@@ -282,8 +282,9 @@ public class MenuView {
 	 */
 	public static void printProduct(String userId) {
 		while (true) {
-			System.out.println("============================================ 상품 보기 =====================================================   ");
-			if(!userId.equals("admin"))
+			System.out.println(
+					"============================================ 상품 보기 =====================================================   ");
+			if (!userId.equals("admin"))
 				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  4.나의 주문 추천  |  5.돌아가기");
 			else
 				System.out.println("1.상품 전체 보기 |  2.카테고별로 보기  |  3.판매순으로 보기  |  5.돌아가기");
@@ -295,14 +296,14 @@ public class MenuView {
 			case 2:
 				System.out.println("카테고리를 선택해주세요 || 1. 커피 2. 음료 3. 디저트 ");
 				int categoryNum = sc.nextInt();
-				
+
 				ProductController.productSelectByCategory(categoryNum);
 				break;
 			case 3:
 				ProductController.productSelectByRec();// 판매순
-				break;	
+				break;
 			case 4:
-				if(!userId.equals("admin"))
+				if (!userId.equals("admin"))
 					ProductController.productSelectUser(userId);// 나의 주문 추천
 				break;
 			case 5:
@@ -321,7 +322,8 @@ public class MenuView {
 
 	public static void printAdminMenu(String userId) {
 		while (true) {
-			System.out.println("============================================ADMIN_MENU============================================");
+			System.out.println(
+					"============================================ADMIN_MENU============================================");
 			System.out.println("1.로그아웃 |  2.상품보기  |  3.상품 등록 | 4.상품 수정 | 5.상품 삭제 | 6. 통계  ");
 			int menu = sc.nextInt();
 			switch (menu) {
@@ -350,7 +352,8 @@ public class MenuView {
 
 	public static void totalMenu(String userId) {
 		while (true) {
-			System.out.println("============================================통계============================================");
+			System.out.println(
+					"============================================통계============================================");
 			System.out.println("1.전체 통계 |  2.카테고리별 통계 |  3.일별 통계  | 4. 월별 통계  | 5. top10 메뉴  | 6. 메뉴 돌아가기");
 			int menu = sc.nextInt();
 			switch (menu) {

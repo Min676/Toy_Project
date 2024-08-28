@@ -2,6 +2,7 @@ package app.mvc.model.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import app.mvc.model.dao.OrderDAO;
 import app.mvc.model.dao.OrderDAOImpl;
@@ -20,8 +21,8 @@ public class OrderService {
 		return orderList;
 	}
 	
-	public void orderInsert(Orders orders) throws SQLException {
-		int result =  orderDAO.orderInsert(orders);
+	public void orderInsert(Orders orders,int point, int cash, int use) throws SQLException {
+		int result =  orderDAO.orderInsert(orders,point,cash,use);
 		if (result == 0) throw new SQLException("주문에 실패하였습니다.");
 	}
 	
@@ -29,6 +30,10 @@ public class OrderService {
 		String optionName = orderDAO.getOptionName(optionId);
 		if (optionName == null) throw new SQLException("옵션 정보를 가져오는데 실패하였습니다.");
 		return optionName;
+	}
+
+	public Map<Integer, Integer> userWalletInfo(String userId) throws SQLException {
+		return orderDAO.selectUserWalletInfo(userId);
 	}
 
 }

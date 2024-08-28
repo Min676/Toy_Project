@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import app.mvc.model.dto.Users;
-import app.mvc.session.Session;
-import app.mvc.session.SessionSet;
 import app.mvc.util.DbManager;
-import app.mvc.view.MenuView;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -41,9 +38,6 @@ public class UserDAOImpl implements UserDAO {
 	       
 	        result = ps.executeUpdate(); //저장
 	        
-	        if (result > 0) { // 저장이 성공했을 때
-                System.out.println("회원 가입이 성공적으로 완료되었습니다.");
-            }
 	        
     }finally {
     	DbManager.close(con, ps, rs); //자원반환
@@ -118,7 +112,7 @@ public class UserDAOImpl implements UserDAO {
 		  Users user=null;
 		 try {
 		   con = DbManager.getConnection(); //db연결
-		   ps= con.prepareStatement("select * from USERS where user_id= ? and pw=?"); //sql문 입력
+		   ps= con.prepareStatement("select * from USERS U JOIN WALLET W ON U.USER_SEQ = W.USER_SEQ WHERE U.USER_ID like ? AND U.PW = ?"); //sql문 입력
 		   ps.setString(1, id); //id 입력받음
 		   ps.setString(2, pw); //pw 입력받음
 		   
@@ -133,15 +127,11 @@ public class UserDAOImpl implements UserDAO {
 	                rs.getString("pw"), 
 	                rs.getInt("point"),
 	                rs.getInt("membership_level"),
-	                rs.getInt("ocount")
+	                rs.getInt("ocount"),
+	                rs.getInt("wallet_seq"),
+	                rs.getInt("cash")
 	            );
-
-	            // 사용자 정보를 출력
-	            System.out.println("회원 정보: " + user.toString() + "\n");
-	        } else {
-	            System.out.println("회원 정보 없음.");
-	        }
-
+		   }
 		   
     }finally {
     	DbManager.close(con, ps, rs);
@@ -155,26 +145,26 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 수정
 	 * */
 	@Override
-	public int changeInfoUser(String userId, String pw) throws SQLException {
+	public int changeInfoUser(String userId, String currentPwd, String newPwd) throws SQLException {
 	    Connection con = null;
 	    PreparedStatement ps = null;
+	   
 	    int result = 0;
 	    
 	    try {
 	        con = DbManager.getConnection();  // 데이터베이스 연결 설정
 	        
-	        String sql = "UPDATE USERS SET pw = ? WHERE user_id = ?";  // SQL 업데이트 쿼리
-	        ps = con.prepareStatement(sql);  // PreparedStatement 객체 생성
-	        ps.setString(1, pw);  // 첫 번째 파라미터에 새 비밀번호 설정
-	        ps.setString(2, userId);  // 두 번째 파라미터에 userId 설정
+	     
+	            // 두 번째 쿼리: 비밀번호를 업데이트함
+	            String updateSql = "UPDATE users SET pw = ? WHERE user_seq = ?";
+	           
+	            ps = con.prepareStatement(updateSql);
+	            ps.setString(1, newPwd);  // 새 비밀번호 설정
+	            ps.setInt(2,this.getUserSeq(con, userId).getUserSeq());  // user_seq 설정
+
+	            result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
 	        
-	        result = ps.executeUpdate();  // 쿼리 실행 및 영향받은 행 수 반환
 	        
-	        if (result > 0) {  // 업데이트된 행이 있는 경우
-	            System.out.println("회원정보가 성공적으로 수정되었습니다.");  // 성공 메시지 출력
-	        } else {  // 업데이트된 행이 없는 경우
-	            System.out.println("일치하는 사용자 정보가 없습니다.");  // 실패 메시지 출력
-	        }
 	    } finally {
 	        DbManager.close(con, ps, null);  // 리소스 해제
 	    }
@@ -185,7 +175,7 @@ public class UserDAOImpl implements UserDAO {
 	 * 회원정보 삭제
 	 * */
 	   @Override
-	    public int cancleUser(String userId, String pw) throws SQLException {
+	    public int cancelUser(String userId, String pw) throws SQLException {
 		   
 	        Connection con = null;
 	        PreparedStatement psDeleteUser = null;
@@ -198,7 +188,7 @@ public class UserDAOImpl implements UserDAO {
 	        String confirmation = scanner.nextLine().trim().toLowerCase();
 
 	        if (!confirmation.equals("y")) {
-	            System.out.println("회원 탈퇴가 취소되었습니다.");
+	            
 	            return 0;
 	        }
 
@@ -213,13 +203,7 @@ public class UserDAOImpl implements UserDAO {
 
 	            result = psDeleteUser.executeUpdate();
 
-	            if (result > 0) {  // 삭제된 행이 있는 경우
-	                System.out.println("회원에서 탈퇴 되었습니다.");
-	                
-	               
-	            } else {  // 삭제된 행이 없는 경우
-	                System.out.println("일치하는 사용자 정보가 없습니다.");
-	            }
+	           
 	        } finally {
 	            DbManager.close(con, psDeleteUser, null);  // 리소스 해제
 	        }
@@ -252,5 +236,6 @@ public class UserDAOImpl implements UserDAO {
 		}
 		return user;
 	}
+	
 
 }

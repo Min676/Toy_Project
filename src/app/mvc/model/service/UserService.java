@@ -12,23 +12,24 @@ import app.mvc.session.SessionSet;
 public class UserService {
 	static UserDAO userDao = new UserDAOImpl();
 
-	public void insertUser(Users user) throws SQLException {
-		userDao.insertUser(user);
+	public int insertUser(Users user) throws SQLException {
+		return	userDao.insertUser(user);
 
 	}
 	public Users infoUser(String id , String pw) throws SQLException {
 		
-		return userDao.infoUser(id, pw);
+		return userDao.infoUser(id, pw); 
+	
+    }
+	
+	
+	public int changeInfoUser(String id ,String currentPw, String newpwd) throws SQLException{
 		
-		
+		return	userDao.changeInfoUser(id, currentPw, newpwd);
 	}
-	public void changeInfoUser(String id , String pw) throws SQLException{
+	public int cencleUser(String id , String pw) throws SQLException{
 		
-		userDao.cancleUser(id, pw);
-	}
-	public void cencleUser(String id , String pw) throws SQLException{
-		
-		userDao.cancleUser(id, pw);
+		return	userDao.cancelUser(id, pw);
 	}
 
 	public static Users login(String userId, String userPwd) throws NotFoundException, SQLException {

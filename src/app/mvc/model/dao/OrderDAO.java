@@ -3,6 +3,7 @@ package app.mvc.model.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
@@ -17,7 +18,7 @@ public interface OrderDAO {
    *  2) order_item테이블에 insert
    *  3) 결제 기능 wallet테이블 update
    * */
-	int orderInsert(Orders order)throws SQLException;
+	int orderInsert(Orders orders,int point, int cash, int use)throws SQLException;
 	
 	/**
 	 * 주문 상세 등록
@@ -59,6 +60,14 @@ public interface OrderDAO {
 	/**
 	 * 옵션 이름 가져오기
 	 */
+	OptionInfo getOptionInfo(OrderOptionList orderOptionList) throws SQLException;
+	
+	/**
+	 * 유저 지갑 정보
+	 */
+	Map<Integer, Integer> selectUserWalletInfo(String userId)throws SQLException; 
+	
+	
 	public String getOptionName(int optionId) throws SQLException;
 	
 }
