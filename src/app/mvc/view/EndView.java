@@ -176,17 +176,12 @@ public class EndView {
 				 for(OrderOptionList optionList : item.getOrderOptionList()) {
 					 	orderOptionList.add(new OrderOptionList(0, 0, optionList.getOiId(), optionList.getSelecCnt()));
 			 	}
+				quantity += qty;
 				item.setOrderOptionList(orderOptionList);
 			 	orderItemList.add(orderItem);
 			 }
-			 for(OrderItem item : cart.keySet()) {
-				 int qty = cart.get(item); // map에서 key=Products에 해당하는 value=수량 조회
-				 orderItemList.add(item);
-				 quantity += qty;
-			 }
 			 
-			 
-			 orders.setOrderItemList(orderItemList);
+			orders.setOrderItemList(orderItemList);
 			System.out.println("주문 메뉴 개수 : " + quantity);
 			OrderController oc = new OrderController();
 			Map<Integer, Integer> map = oc.userWalletInfo(id);
