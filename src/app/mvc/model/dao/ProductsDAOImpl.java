@@ -14,20 +14,21 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public List<Products> productSelect() throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		List<Products> list = new ArrayList<>();
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select * from Products order by PRODUCT_ID");
+			ps = con.prepareStatement("select * from Products order by PRODUCT_ID");
 			rs = ps.executeQuery();
 
-			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
+			while (rs.next()) {
+				Products products = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+						rs.getInt(5), rs.getInt(6));
 				list.add(products);
 			}
-		}finally {
+		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		return list;
@@ -35,21 +36,22 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public Products productSelectByProductId(int product_id) throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		Products products =null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Products products = null;
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select * from products where product_id=?");
+			ps = con.prepareStatement("select * from products where product_id=?");
 			ps.setInt(1, product_id);
 			rs = ps.executeQuery();
 
-			if(rs.next()) {
-				products  =  new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
+			if (rs.next()) {
+				products = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),
+						rs.getInt(6));
 
 			}
-		}finally {
+		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		return products;
@@ -104,21 +106,22 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public List<Products> productSelectByCategory(int categorySeq) throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		List<Products> list = new ArrayList<>();
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select * from Products where CATEGORY_SEQ = ?");
+			ps = con.prepareStatement("select * from Products where CATEGORY_SEQ = ?");
 			ps.setInt(1, categorySeq);
 			rs = ps.executeQuery();
 
-			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
+			while (rs.next()) {
+				Products products = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+						rs.getInt(5), rs.getInt(6));
 				list.add(products);
 			}
-		}finally {
+		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		return list;
@@ -151,22 +154,23 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public List<Products> productSelectRec() throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		List<Products> list = new ArrayList<>();
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select * from products where products.name in "
+			ps = con.prepareStatement("select * from products where products.name in "
 					+ "(select name from (select name, count(*) cnt from orders join orders_item using(order_id)"
 					+ "join products using(product_id)GROUP BY name order by cnt desc) where ROWNUM <= 10)");
 			rs = ps.executeQuery();
 
-			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
+			while (rs.next()) {
+				Products products = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+						rs.getInt(5), rs.getInt(6));
 				list.add(products);
 			}
-		}finally {
+		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		return list;
@@ -174,24 +178,25 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public List<Products> productSelectUserRec(String userId) throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		List<Products> list = new ArrayList<>();
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select * from products where product_id in (select product_id from"
+			ps = con.prepareStatement("select * from products where product_id in (select product_id from"
 					+ "(select product_id,user_id,p.name, count(*) cnt from orders join orders_item using(order_id)"
 					+ "join products p using(product_id) join users using(user_seq)"
 					+ "GROUP BY p.name, user_id,product_id having user_id like ? order by cnt desc) where ROWNUM <= 5)");
 			ps.setString(1, userId);
 			rs = ps.executeQuery();
 
-			while(rs.next()) {
-				Products products  = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5),rs.getInt(6));
+			while (rs.next()) {
+				Products products = new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+						rs.getInt(5), rs.getInt(6));
 				list.add(products);
 			}
-		}finally {
+		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		return list;
@@ -199,20 +204,26 @@ public class ProductsDAOImpl implements ProductsDAO {
 
 	@Override
 	public int blockChk(int productId) throws SQLException {
-		Connection con=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		int chk=0;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int chk = 0;
 		try {
 			con = DbManager.getConnection();
-			ps= con.prepareStatement("select block from Products where product_id = ?");
-			ps.setInt(1, productId);
-			rs = ps.executeQuery();
+			Products p = productSelectByProductId(productId);
+			if (p != null) {
+				ps = con.prepareStatement("select block from Products where product_id = ?");
+				ps.setInt(1, productId);
+				rs = ps.executeQuery();
 
-			while(rs.next()) {
-				chk=rs.getInt(1);
+				while (rs.next()) {
+					chk = rs.getInt(1);
+				}
+			}else {
+				chk=-1;
 			}
-		}finally {
+
+		} finally {
 			DbManager.close(con, ps, rs);
 		}
 		return chk;
@@ -226,14 +237,14 @@ public class ProductsDAOImpl implements ProductsDAO {
 		try {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement("UPDATE products SET block = ? WHERE product_id = ?");
-			
+
 			ps.setInt(1, chk);
-			ps.setInt(2,id);
+			ps.setInt(2, id);
 			ps.executeUpdate();
 
 		} finally {
 			DbManager.close(con, ps, null);
 		}
-		
+
 	}
 }

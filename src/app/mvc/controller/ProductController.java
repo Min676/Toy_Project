@@ -124,7 +124,8 @@ public class ProductController {
 			chk = productService.BlockChk(productId);
 			if (chk == 0)
 				FailView.errorMessage("<------품절 상품입니다 다음을 기약해주세요 ㅠㅠ------>\n");
-
+			else if(chk ==-1)
+				FailView.errorMessage("<------등록되지 않은 상품입니다.------>\n");
 		} catch (SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		} catch (NotFoundException e) {
