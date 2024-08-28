@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import app.mvc.model.dto.OptionInfo;
+import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
 import app.mvc.model.dto.Orders;
@@ -24,7 +24,7 @@ public class OrderController {
 		try {
 			List<Orders> orderList = orderService.selectOrdersByUserId(userId);
 			EndView.printOrderByUserId(orderList);
-		} catch (SQLException e) {
+		} catch (NotFoundException | SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
@@ -32,7 +32,7 @@ public class OrderController {
 	public static void orderInsert (Orders orders,int point, int cash, int use,String id) {
 		try {
 			orderService.orderInsert(orders,point,cash,use,id);
-		} catch (Exception e) {
+		} catch (NotFoundException | SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		}
 	}
