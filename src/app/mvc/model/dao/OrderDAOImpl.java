@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
@@ -26,7 +27,7 @@ public class OrderDAOImpl implements OrderDAO {
 	UserDAO userDAO = new UserDAOImpl();
 
 	@Override
-	public int orderInsert(Orders order, int point, int cash, int use, String id) throws SQLException {
+	public int orderInsert(Orders order, int point, int cash, int use,String id) throws SQLException, NotFoundException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDERS (ORDER_ID, USER_SEQ, ORDER_DATE, TOTAL_PRICE, STATUS)"
@@ -108,14 +109,14 @@ public class OrderDAOImpl implements OrderDAO {
 				re = ps.executeUpdate();
 				if (re != 1) {
 					con.rollback();
-					throw new SQLException("주문 상세 등록 실패");
+					throw new SQLException("주문 상세 등록에 실패하였습니다.");
 				}
 
 				result = this.orderOptionInsert(con, item);
 				for (int i : result) {
 					if (i != 1) {
 						con.rollback();
-						throw new SQLException("주문 옵션 항목 등록 실패");
+						throw new SQLException("주문 옵션 항목 등록에 실패하였습니다.");
 					}
 				}
 
@@ -157,7 +158,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 	// 사용자별 주문내역보기
 	@Override
-	public List<Orders> selectOrdersByUserId(String userId) throws SQLException {
+	public List<Orders> selectOrdersByUserId(String userId) throws NotFoundException, SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -184,6 +185,12 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 
 		return list;
+	}
+	
+	@Override
+	public Orders selectRecentOrdersByUserId(String userId) throws NotFoundException, SQLException {
+		
+		return null;
 	}
 
 	// 주문 상세 보기
@@ -241,7 +248,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	// 총 구매금액
-	public int getTotalPrice(Orders orders) throws SQLException {
+	public int getTotalPrice(Orders orders) throws SQLException, NotFoundException {
 		List<OrderItem> orderItemList = orders.getOrderItemList();
 		List<OrderOptionList> orderOptionList = null;
 		OptionInfo optionInfo = null;
@@ -250,7 +257,7 @@ public class OrderDAOImpl implements OrderDAO {
 			Products products = productsDAO.productSelectByProductId(item.getProductId()); // 상품정보 검색
 
 			if (products == null)
-				throw new SQLException();
+				throw new NotFoundException("상품 정보를 찾지 못하였습니다.");
 
 			for (OrderOptionList option : item.getOrderOptionList()) {
 				optionInfo = this.getOptionInfo(option);

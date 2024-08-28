@@ -50,7 +50,8 @@ public class MenuView {
 			SessionSet ss = SessionSet.getInstance();
 			System.out.println(ss.getSet()); // Set객체
 
-			System.out.println("\n----------" + userId + "님 로그인 중 ----------");
+			System.out.println("\n--------------" + userId + "님 로그인 중 --------------");
+
 			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
 			int menu = sc.nextInt();
@@ -81,8 +82,8 @@ public class MenuView {
 	}
 
 	public static void printSubMenu(String userId, String userPw) {
-
-		System.out.println("\n1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴    |  4. 금액 충전   | 9. 나가기");
+		System.out.println("\n---------- " + userId + "님 페이지 ----------");
+		System.out.println("1. 정보확인   |	 2.비밀번호 수정  |  3. 탈퇴    |  4. 금액 충전   | 9. 나가기");
 
 		int menu = sc.nextInt();
 

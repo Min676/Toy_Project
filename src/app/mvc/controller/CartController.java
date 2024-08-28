@@ -51,7 +51,7 @@ public class CartController {
 			EndView.printMessage("장바구니에 담았습니다");
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			FailView.errorMessage(e.getMessage());
 		}
 		
 	}

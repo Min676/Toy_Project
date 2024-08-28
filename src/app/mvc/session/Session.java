@@ -83,9 +83,22 @@ public class Session {
 		
 	}
 	
-	public void removeItem(OrderItem orderItem) {//cart
-		System.out.println("<<<<<<<<<<<<<<<<<anchor");
-		attributes.remove(orderItem);
+	public void removeItem(OrderItem orderItem) {
+	    Map<OrderItem, Integer> cart = (Map<OrderItem, Integer>) attributes.get("cart");
+	    
+	    if (cart != null) {
+	    	if(orderItem.getQuantity()>1) {
+	    		OrderItem order = new OrderItem(orderItem.getOrderItemId(),orderItem.getOrderId(),orderItem.getProductId(),
+	    				orderItem.getQuantity()-1,orderItem.getSelecSize());
+	    	}
+	        cart.remove(orderItem);
+	        cart.put(orderItem, null);
+	    }
+	    
+	    if (cart == null || cart.isEmpty()) {
+	        removeAttribute("cart");
+	    }
+	    
 	}
 		
 }

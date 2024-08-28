@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import app.mvc.controller.CartController;
 import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
 import app.mvc.model.dto.OrderItem;
@@ -64,6 +65,33 @@ public class EndView {
 			}
 			System.out.println();
 		}
+	}
+	
+	/**
+	 * 마지막 주문 상품 보기
+	 */
+	public static void printRecentOrderByUserId(Orders order) {
+		System.out.println("====================주문 목록====================");
+
+			System.out.println(order.getOrderId() + " | " + order.getOrderDate() + " | " + order.getTotalPrice());
+
+			for (OrderItem orderItem : order.getOrderItemList()) {
+				String size = null;
+				if (orderItem.getSelecSize() == 1) {
+					size = "Tall";
+				} else {
+					size = "Grande";
+				}
+				System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 메뉴명 : "
+						+ ProductController.productName(orderItem.getProductId()).getName() + " | 개수 : "
+						+ orderItem.getQuantity() + " | 사이즈 : " + size);
+				for (OrderOptionList optionList : orderItem.getOrderOptionList()) {
+					System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(optionList.getOiId())
+							+ " | 옵션 수량 : " + optionList.getSelecCnt());
+				}
+			}
+			System.out.println();
+		
 	}
 
 	public static void printTotalMessage(Statisics stat) {
@@ -196,32 +224,47 @@ public class EndView {
 			int cash = map.get(point);
 
 			int use = isPointUse(point);
-
-			OrderController.orderInsert(orders, point, cash, use,id);// 주문 + 주문상세
+			
+			int result = OrderController.orderInsert(orders, point, cash, use,id);// 주문 + 주문상세
+			
 
 			// 장바구니비우기
 			SessionSet ss = SessionSet.getInstance();
 			Session session = ss.get(id);
 			session.removeAttribute("cart");
+			if(result == 1) {
+				System.out.println("주문 완료되었습니다!^^");
+			}
 			break;
 			
+
 		case 2:
-			System.out.print("삭제할 상품 번호 : ");
-			int num = sc.nextInt();
-			ss = SessionSet.getInstance();
-			session = ss.get(id);
-			
-			for (OrderItem orderItem : cart.keySet()) {
-				int productsId = orderItem.getProductId();
-				if(num == productsId) {
-					System.out.println("anchor>>>>>>");
-					session.removeItem(orderItem);
-				}
-			}
-			
-			
-			
-			
+		    System.out.print("삭제할 상품 번호 : ");
+		    int num = sc.nextInt(); // 삭제할 상품 번호 입력 받음
+		    ss = SessionSet.getInstance();
+		    session = ss.get(id);
+		    
+		    Map<OrderItem, Integer> cart1 = (Map<OrderItem, Integer>) session.getAttribute("cart");
+		    
+		    if (cart1 != null) {
+		        OrderItem itemToRemove = null;
+		        
+		        for (OrderItem orderItem : cart1.keySet()) {
+		            int productsId = orderItem.getProductId();
+		            if (num == productsId) {
+		                itemToRemove = orderItem;
+		                break;
+		            }
+		        }
+		        
+		        if (itemToRemove != null) {
+		            session.removeItem(itemToRemove);
+		        } else {
+		            System.out.println("해당 상품을 찾을 수 없습니다.");
+		        }
+		    }
+		    break;
+							
 		case 9:
 			break;
 		}
