@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import app.mvc.controller.CartController;
 import app.mvc.controller.OrderController;
 import app.mvc.controller.ProductController;
 import app.mvc.model.dto.OrderItem;
@@ -231,10 +232,11 @@ public class EndView {
 			SessionSet ss = SessionSet.getInstance();
 			Session session = ss.get(id);
 			session.removeAttribute("cart");
-			if(result == 1)
-			System.out.println("주문 완료되었습니다!^^");
+			if(result == 1) {
+				System.out.println("주문 완료되었습니다!^^");
+			}
 			break;
-
+			
 		case 9:
 			break;
 		}

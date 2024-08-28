@@ -79,4 +79,9 @@ public interface OrderDAO {
 	 */
 	public List<OrderOptionList> selectOrderOptionList(int orderItemId, Connection con) throws SQLException;
 	
+	/**
+	 * 사용자 최근 주문내역 출력
+	 */
+	public Orders selectRecentOrdersByUserId(String userId) throws NotFoundException, SQLException;
+	
 }

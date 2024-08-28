@@ -186,6 +186,12 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return list;
 	}
+	
+	@Override
+	public Orders selectRecentOrdersByUserId(String userId) throws NotFoundException, SQLException {
+		
+		return null;
+	}
 
 	// 주문 상세 보기
 	@Override

@@ -41,7 +41,7 @@ public class OrderController {
 	public static int orderInsert (Orders orders,int point, int cash, int use,String id) {
 		int result = 0;
 		try {
-			orderService.orderInsert(orders,point,cash,use,id);
+			result = orderService.orderInsert(orders,point,cash,use,id);
 		} catch (NotFoundException | SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		}
