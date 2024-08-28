@@ -20,9 +20,15 @@ public class OrderService {
 		return orderList;
 	}
 	
-	public void orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException, NotFoundException {
+	public Orders selectRecentOrdersByUserId(String userId) throws NotFoundException, SQLException {
+		
+		return null;
+	}
+	
+	public int orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException, NotFoundException {
 		int result =  orderDAO.orderInsert(orders,point,cash,use,id);
 		if (result == 0) throw new SQLException("주문에 실패하였습니다.");
+		return result;
 	}
 	
 	public String getOptionName(int optionId) throws SQLException {

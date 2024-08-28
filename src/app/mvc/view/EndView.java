@@ -65,6 +65,33 @@ public class EndView {
 			System.out.println();
 		}
 	}
+	
+	/**
+	 * 마지막 주문 상품 보기
+	 */
+	public static void printRecentOrderByUserId(Orders order) {
+		System.out.println("====================주문 목록====================");
+
+			System.out.println(order.getOrderId() + " | " + order.getOrderDate() + " | " + order.getTotalPrice());
+
+			for (OrderItem orderItem : order.getOrderItemList()) {
+				String size = null;
+				if (orderItem.getSelecSize() == 1) {
+					size = "Tall";
+				} else {
+					size = "Grande";
+				}
+				System.out.println("  ▶ 주문번호 : " + orderItem.getOrderId() + " | 메뉴명 : "
+						+ ProductController.productName(orderItem.getProductId()).getName() + " | 개수 : "
+						+ orderItem.getQuantity() + " | 사이즈 : " + size);
+				for (OrderOptionList optionList : orderItem.getOrderOptionList()) {
+					System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(optionList.getOiId())
+							+ " | 옵션 수량 : " + optionList.getSelecCnt());
+				}
+			}
+			System.out.println();
+		
+	}
 
 	public static void printTotalMessage(Statisics stat) {
 		int seq = 1;
@@ -196,13 +223,16 @@ public class EndView {
 			int cash = map.get(point);
 
 			int use = isPointUse(point);
-
-			OrderController.orderInsert(orders, point, cash, use,id);// 주문 + 주문상세
+			
+			int result = OrderController.orderInsert(orders, point, cash, use,id);// 주문 + 주문상세
+			
 
 			// 장바구니비우기
 			SessionSet ss = SessionSet.getInstance();
 			Session session = ss.get(id);
 			session.removeAttribute("cart");
+			if(result == 1)
+			System.out.println("주문 완료되었습니다!^^");
 			break;
 
 		case 9:

@@ -29,12 +29,23 @@ public class OrderController {
 		}
 	}
 	
-	public static void orderInsert (Orders orders,int point, int cash, int use,String id) {
+	public void selectRecentOrdersByUserId(String userId){
+		try {
+			Orders order = orderService.selectRecentOrdersByUserId(userId);
+			EndView.printRecentOrderByUserId(order);
+		} catch (NotFoundException | SQLException e) {
+			FailView.errorMessage(e.getMessage());
+		}
+	}
+	
+	public static int orderInsert (Orders orders,int point, int cash, int use,String id) {
+		int result = 0;
 		try {
 			orderService.orderInsert(orders,point,cash,use,id);
 		} catch (NotFoundException | SQLException e) {
 			FailView.errorMessage(e.getMessage());
 		}
+		return result;
 	}
 	
 	public static OrderItem selectOption(int Product_id, OrderItem orderItem) {
