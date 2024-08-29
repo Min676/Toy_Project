@@ -92,7 +92,9 @@ public class OrderController {
 	public Orders orderCartItems(String id, Map<OrderItem, Integer> cart) {
 		Orders orders = null;
 		orders = orderService.orderCartItems(id, cart);
-		return orders;
+		if(orders != null)
+			return orders;
+		return null;
 	}
 	
 	public static void orderProductsQuantity(int quantity) {
