@@ -44,5 +44,9 @@ public interface UserDAO {
 	int cashCharge(String userId, int money)throws SQLException;
 
 	
+	/**
+	 * 잔액 리턴 메소드
+	 */
+	int selecCash(String Id)throws SQLException;
 
 }	 

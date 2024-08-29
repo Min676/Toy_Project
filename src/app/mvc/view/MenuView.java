@@ -493,12 +493,14 @@ public class MenuView {
 		int money=0;
 		int selec =0;
 		System.out.println("--------------------------금액 충전--------------------------");
+		System.out.println("\n["+userId+"님의 현재 잔액 : "+UserController.selecCash(userId)+" ]\n");
 		System.out.println("충전 금액 : ");
 		money=sc.nextInt();
 		System.out.print("결제 방식\n \t1.카드\n \t2.현금(-----2% 추가 적립)\n \t3.페이(-----1% 추가 적립)\n 입력:");
 		selec = sc.nextInt();
 		
 		UserController.cashCharge(userId, money, selec);
+		System.out.println("["+userId+"님의 충전 후 잔액 : "+UserController.selecCash(userId)+" ]");
 	}
 
 }
