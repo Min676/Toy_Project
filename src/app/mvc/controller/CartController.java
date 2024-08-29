@@ -28,14 +28,12 @@ public class CartController {
 	}
 	
 	public static void putCart(String id, int productId, int quantity, int size, OrderItem orderItem) {
-		
 		try {
 			cartService.putCart(id, productId, quantity, size, orderItem);
 			
 		} catch (SQLException | NotFoundException e) {
 			FailView.errorMessage(e.getMessage());
 		}
-		
 	}
 	
 	public static void viewCart(String id) {

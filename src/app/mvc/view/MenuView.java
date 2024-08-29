@@ -52,7 +52,7 @@ public class MenuView {
 
 			System.out.println("\n--------------" + userId + "님 로그인 중 --------------");
 
-			System.out.println(" 1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
+			System.out.println("1.로그아웃 |  2.상품보기  |  3.주문할 상품 선택  | 4. 주문내역보기  |  5.장바구니 |  6.회원정보");
 
 			int menu = sc.nextInt();
 

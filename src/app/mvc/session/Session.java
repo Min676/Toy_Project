@@ -85,6 +85,7 @@ public class Session {
 				
 				OrderItem order = new OrderItem(orderItem.getOrderItemId(), orderItem.getOrderId(),
 						orderItem.getProductId(), orderItem.getQuantity() - 1, orderItem.getSelecSize());
+				order.setOrderOptionList(orderItem.getOrderOptionList());
 				cart.put(order, orderItem.getQuantity()-1);
 			}
 			cart.remove(orderItem);

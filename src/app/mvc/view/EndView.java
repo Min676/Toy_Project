@@ -192,6 +192,10 @@ public class EndView {
 				int quantity = cart.get(orderItem);// key에 해당하는 value즉 수량
 				System.out.println(
 						"상품번호 : " + productsId + " | 상품명 : " + name + "\t | 가격 : " + price + " \t| 수량 : " + quantity);
+							for(OrderOptionList orderOptionList : orderItem.getOrderOptionList()) {
+								System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(orderOptionList.getOiId())
+								+ " | 옵션 수량 : " + orderOptionList.getSelecCnt());
+							}
 			}
 
 			Scanner sc = new Scanner(System.in);
