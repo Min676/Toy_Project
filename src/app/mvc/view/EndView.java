@@ -192,10 +192,10 @@ public class EndView {
 				int quantity = cart.get(orderItem);// key에 해당하는 value즉 수량
 				System.out.println(
 						"상품번호 : " + productsId + " | 상품명 : " + name + "\t | 가격 : " + price + " \t| 수량 : " + quantity);
-							for(OrderOptionList orderOptionList : orderItem.getOrderOptionList()) {
-								System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(orderOptionList.getOiId())
-								+ " | 옵션 수량 : " + orderOptionList.getSelecCnt());
-							}
+				for (OrderOptionList orderOptionList : orderItem.getOrderOptionList()) {
+					System.out.println("      ▶ 주문옵션 : " + OrderController.getOptionName(orderOptionList.getOiId())
+							+ " | 옵션 수량 : " + orderOptionList.getSelecCnt());
+				}
 			}
 
 			Scanner sc = new Scanner(System.in);
@@ -203,9 +203,9 @@ public class EndView {
 			switch (sc.nextInt()) {
 			case 1:
 				OrderController oc = new OrderController();
-				
+
 				Orders orders = oc.orderCartItems(id, cart);
-				
+
 				Map<Integer, Integer> map = oc.userWalletInfo(id);
 				Iterator<Integer> iter = map.keySet().iterator();
 				int point = iter.next();
@@ -261,28 +261,33 @@ public class EndView {
 
 	public static int isPointUse(int point) {
 		int money = 0;
-		System.out.print("포인트를 사용하시겠습니까?(1.사용O | 2.사용x) : ");
-		int answer = sc.nextInt();
+		
+		while (true) {
+			System.out.print("포인트를 사용하시겠습니까?(1.사용O | 2.사용x) : ");
+			int answer = sc.nextInt();
+			if (answer == 1) {
+				System.out.println("사용 금액을 입력해주세요 ");
+				System.out.println("현재 포인트 잔액 : " + point);
+				System.out.print("사용 금액 : ");
+				while (true) {
+					money = sc.nextInt();
+					if (money <= point) {
+						System.out.println(money + "원 해당 금액 만큼 사용하겠습니다");
+						break;
+					} else
+						System.out.println("입력 금액이 Point보다 큽니다. ");
+				}
 
-		if (answer == 1) {
-			System.out.println("사용 금액을 입력해주세요 ");
-			System.out.println("현재 포인트 잔액 : " + point);
-			System.out.print("사용 금액 : ");
-			while (true) {
-				money = sc.nextInt();
-				if (money <= point) {
-					System.out.println(money + "원 해당 금액 만큼 사용하겠습니다");
-					break;
-				} else
-					System.out.println("입력 금액이 Point보다 큽니다. ");
+				return money;
+
+			} else if (answer == 2) {
+				return 0;
+			} else {
+				System.out.println("잘못된 입력");
 			}
-
-			return money;
-
-		} else
-			return 0;
+		}
 	}
-	
+
 	public static void orderProductsQuantity(int quantity) {
 		System.out.println("주문 메뉴 개수 : " + quantity);
 	}

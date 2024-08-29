@@ -484,6 +484,8 @@ public class MenuView {
 			else if (chk == 2) {
 				chk = 0;
 				break;
+			}else {
+				System.out.println("잘못된 입력");
 			}
 		}
 		return chk;
