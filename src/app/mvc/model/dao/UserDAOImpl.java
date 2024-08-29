@@ -27,14 +27,8 @@ public class UserDAOImpl implements UserDAO {
 		}
 
 		try {
-			String sql = "insert into USERS (user_seq, user_id, name, pw, point, MEMBERSHIP_LEVEL,OCOUNT) values (USER_SEQ.NEXTVAL,?,?,?,10000 ,1,0) "; // insert
-																																						// into
-																																						// 로
-																																						// 테이블에
-																																						// 회원가입정보를
-																																						// 입력
-																																						// 하는
-																																						// 지역변수
+			String sql = "insert into USERS (user_seq, user_id, name, pw, point, MEMBERSHIP_LEVEL,OCOUNT) values (USER_SEQ.NEXTVAL,?,?,?,10000 ,1,0) "; 																																		
+																																			
 			con = DbManager.getConnection(); // db에 연결
 			ps = con.prepareStatement(sql);
 			ps.setString(1, user.getUserId()); // 회원가입 유저 id 인풋
@@ -117,7 +111,7 @@ public class UserDAOImpl implements UserDAO {
 			con = DbManager.getConnection(); // db연결
 			ps = con.prepareStatement(
 					"select * from USERS U JOIN WALLET W ON U.USER_SEQ = W.USER_SEQ WHERE U.USER_ID like ? AND U.PW = ?"); // sql문
-																															// 입력
+																													
 			ps.setString(1, id); // id 입력받음
 			ps.setString(2, pw); // pw 입력받음
 
