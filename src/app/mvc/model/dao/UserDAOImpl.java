@@ -240,7 +240,7 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			con = DbManager.getConnection(); 
 			seq=findSeq(userId);
-
+			
 			ps = con.prepareStatement("UPDATE wallet SET cash  = cash+? WHERE user_seq = ?");
 			ps.setInt(1, money); 
 			ps.setInt(2, seq);
@@ -263,6 +263,30 @@ public class UserDAOImpl implements UserDAO {
 			con = DbManager.getConnection();
 			ps = con.prepareStatement("SELECT user_seq FROM USERS WHERE USER_ID = ?");
 			ps.setString(1, id);
+
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				req = rs.getInt(1);
+			}
+		} finally {
+			DbManager.close(con, ps, rs);
+		}
+		return req;
+	}
+	
+	@Override
+	public int selecCash(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int req = 0;
+		int seq=0;
+
+		try {
+			con = DbManager.getConnection();
+			seq=findSeq(id);
+			ps = con.prepareStatement("SELECT cash FROM wallet WHERE user_seq = ?");
+			ps.setInt(1, seq);
 
 			rs = ps.executeQuery();
 			if (rs.next()) {

@@ -116,5 +116,16 @@ public class UserController {
 		return chk;
 	}
 	
+	public static int selecCash(String userId){
+		int chk=0;
+		try {
+			chk = userService.selecCash(userId);
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return chk;
+	}
 
 }

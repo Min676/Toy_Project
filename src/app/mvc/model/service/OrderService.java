@@ -65,9 +65,7 @@ public class OrderService {
 		 
 		orders.setOrderItemList(orderItemList);
 		OrderController.orderProductsQuantity(quantity);
-//		System.out.println("주문 메뉴 개수 : " + quantity);
 		
 		return orders;
 	}
-
 }
