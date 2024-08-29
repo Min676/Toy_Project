@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import app.mvc.exception.NoCashException;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
@@ -19,7 +20,7 @@ public interface OrderDAO {
    *  2) order_item테이블에 insert
    *  3) 결제 기능 wallet테이블 update
    * */
-	int orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException, NotFoundException;
+	int orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException, NotFoundException,NoCashException;
 	
 	/**
 	 * 주문 상세 등록

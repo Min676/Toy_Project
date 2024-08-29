@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import app.mvc.controller.OrderController;
+import app.mvc.exception.NoCashException;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dao.OrderDAO;
 import app.mvc.model.dao.OrderDAOImpl;
@@ -29,7 +30,7 @@ public class OrderService {
 		return null;
 	}
 	
-	public int orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException, NotFoundException {
+	public int orderInsert(Orders orders,int point, int cash, int use,String id) throws SQLException, NotFoundException, NoCashException {
 		int result =  orderDAO.orderInsert(orders,point,cash,use,id);
 		if (result == 0) throw new SQLException("주문에 실패하였습니다.");
 		return result;

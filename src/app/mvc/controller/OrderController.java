@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import app.mvc.exception.NoCashException;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.OrderItem;
 import app.mvc.model.dto.OrderOptionList;
@@ -14,6 +15,7 @@ import app.mvc.model.dto.Orders;
 import app.mvc.model.dto.Products;
 import app.mvc.model.service.OrderService;
 import app.mvc.model.service.ProductService;
+import app.mvc.model.service.UserService;
 import app.mvc.view.EndView;
 import app.mvc.view.FailView;
 import app.mvc.view.MenuView;
@@ -46,6 +48,9 @@ public class OrderController {
 			result = orderService.orderInsert(orders,point,cash,use,id);
 		} catch (NotFoundException | SQLException e) {
 			FailView.errorMessage(e.getMessage());
+		} catch(NoCashException n) {
+			FailView.errorMessage(n.getMessage());
+			MenuView.cashCharge(id);
 		}
 		return result;
 	}
