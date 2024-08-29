@@ -118,23 +118,23 @@ public class Users {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(" 회원 번호 =\t");
+		builder.append(" 회원 번호 = \t");
 		builder.append(userSeq);
-		builder.append("\n 회원 ID =\t");
+		builder.append("\n 회원 ID = \t");
 		builder.append(userId);
-		builder.append("\n 회원 이름 =\t");
+		builder.append("\n 회원 이름 = \t");
 		builder.append(name);
-		builder.append("\n 회원 비밀번호=\t");
+		builder.append("\n 회원 비밀번호= \t");
 		builder.append(pw);
-		builder.append("\n 포인트 잔액 =\t");
+		builder.append("\n 포인트 잔액 = \t");
 		builder.append(point);
-		builder.append("\n 멤버쉽 레벨 =\t");
+		builder.append("\n 멤버쉽 레벨 = \t");
 		builder.append(membershipLevel);
-		builder.append("\n 멤버쉽 카운트=\t");
+		builder.append("\n 멤버쉽 카운트 = \t");
 		builder.append(ocount);
-		builder.append("\n 지갑 번호 =\t");
+		builder.append("\n 지갑 번호 = \t");
 		builder.append(walletseq);
-		builder.append("\n 지갑 잔액 =\t");
+		builder.append("\n 지갑 잔액 = \t");
 		builder.append(cash);
 		
 		return builder.toString();
