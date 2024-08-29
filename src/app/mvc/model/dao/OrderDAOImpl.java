@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import app.mvc.exception.NoCashException;
 import app.mvc.exception.NotFoundException;
 import app.mvc.model.dto.OptionInfo;
 import app.mvc.model.dto.OrderItem;
@@ -27,7 +28,7 @@ public class OrderDAOImpl implements OrderDAO {
 	UserDAO userDAO = new UserDAOImpl();
 
 	@Override
-	public int orderInsert(Orders order, int point, int cash, int use,String id) throws SQLException, NotFoundException{
+	public int orderInsert(Orders order, int point, int cash, int use,String id) throws SQLException, NotFoundException, NoCashException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO ORDERS (ORDER_ID, USER_SEQ, ORDER_DATE, TOTAL_PRICE, STATUS)"
@@ -55,9 +56,9 @@ public class OrderDAOImpl implements OrderDAO {
 				// wallet 업데이트
 
 				Wallet wallet = this.checkWallet(con, order);
-				if (order.getTotalPrice() > wallet.getCash())
-					throw new SQLException("지갑 잔액이 부족합니다.");
-
+				if (order.getTotalPrice() > wallet.getCash()) {
+					throw new NoCashException("지갑 잔액이 부족합니다.");
+				}
 				if (use > 0) {
 					order.setTotalPrice(totalPrice - use);
 					chargePoint(con, order, use);
@@ -81,7 +82,13 @@ public class OrderDAOImpl implements OrderDAO {
 				con.rollback();
 			}
 			throw e;
-		} finally {
+		} catch(NoCashException n) {
+			if (con != null) {
+				con.rollback();
+			}
+			throw n;
+		}
+		finally {
 
 			DbManager.close(con, ps, null);
 		}

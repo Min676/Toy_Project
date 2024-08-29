@@ -489,7 +489,7 @@ public class MenuView {
 		return chk;
 	}
 	
-	private static void cashCharge(String userId) {
+	public static void cashCharge(String userId) {
 		int money=0;
 		int selec =0;
 		System.out.println("--------------------------금액 충전--------------------------");
