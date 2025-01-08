@@ -41,14 +41,14 @@ Kosta 286기 1차 미니 프로젝트 (Java Mini Project)
 
 
 ## 📈 Project Results  
-<img src = "https://github.com/user-attachments/assets/c5de457e-f106-42ff-baf3-93503c4cc7f5" width = "500" height = "300" />
-<img src = "https://github.com/user-attachments/assets/ea7ea8a1-306d-419c-8661-6b2873315cc9" width = "500" height = "230" />
-<img src = "https://github.com/user-attachments/assets/78be1852-238e-4e41-b7d8-46e5f56e0154" width = "500" height = "300" />
+<img src = "https://github.com/user-attachments/assets/c5de457e-f106-42ff-baf3-93503c4cc7f5" width = "500" />
+<img src = "https://github.com/user-attachments/assets/ea7ea8a1-306d-419c-8661-6b2873315cc9" width = "500" />
+<img src = "https://github.com/user-attachments/assets/78be1852-238e-4e41-b7d8-46e5f56e0154" width = "500" />
 
 ## 📊 Project Artifacts
 
 ### ERD (Entity-Relationship Diagram)
-![커피 키오스크 제어 ERD](https://github.com/user-attachments/assets/70358a9b-5f76-4bfb-96a6-9414f1cb99a1)
+<img src = "https://github.com/user-attachments/assets/c9d97b2d-34b3-4f2f-a983-888f120b6d6c" width = "400" />
 
 ### Flow Chart
-![커피 키오스크 순서도상부](https://github.com/user-attachments/assets/86414c12-0966-440e-b99d-bdb87addce33)
+<img src = "https://github.com/user-attachments/assets/b7b4d8f3-3ce5-41b0-96ff-76364b1d3ace" width = "400" />
